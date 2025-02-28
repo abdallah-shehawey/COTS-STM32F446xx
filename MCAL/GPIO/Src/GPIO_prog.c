@@ -53,7 +53,7 @@ ErrorState_t GPIO_enumPinInit(const PinConfig_t *PinConfig)
         (PinConfig->PullType <= PULL_DOWN) &&
         (PinConfig->AlternateFunction <= AF15))
     {
-      /* Configure pin as input mode */
+      /* Configure pin mode (Input/Output/Alternate Function/Analog) */
       (GPIO_Port[PinConfig->Port]->MODER) &= ~(MODER_MASK << ((PinConfig->PinNum) * MODER_PIN_ACCESS));
       (GPIO_Port[PinConfig->Port]->MODER) |= (PinConfig->Mode << ((PinConfig->PinNum) * MODER_PIN_ACCESS));
       //_______________________________________________________________________________________________________________//
@@ -78,6 +78,81 @@ ErrorState_t GPIO_enumPinInit(const PinConfig_t *PinConfig)
         {
           GPIO_Port[PinConfig->Port]->AFR[(PinConfig->PinNum) / AFR_PIN_SHIFT] &= ~(AFR_MASK << (((PinConfig->PinNum) % 8u) * AFR_PIN_ACCESS));
           GPIO_Port[PinConfig->Port]->AFR[(PinConfig->PinNum) / AFR_PIN_SHIFT] |= (PinConfig->AlternateFunction << (((PinConfig->PinNum) % 8u) * AFR_PIN_ACCESS));
+        }
+      }
+    }
+    else
+    {
+      Local_u8ErrorState = NOK;
+    }
+  }
+  else
+  {
+    Local_u8ErrorState = NULL_POINTER;
+  }
+  return Local_u8ErrorState;
+}
+
+/*=================================================================================================================*/
+/**
+ * @brief  Initializes GPIO port half configuration (8 pins)
+ * @param  PortHalfConfig[in]: Pointer to port half configuration structure containing:
+ *                      - Port: Selected GPIO port (PORTA to PORTH)
+ *                      - PortHalf: Port half selection (PORT_FIRST_HALF for pins 0-7, PORT_SECOND_HALF for pins 8-15)
+ *                      - Mode: Port mode (INPUT, OUTPUT)
+ *                      - Otype: Output type (PUSH_PULL, OPEN_DRAIN)
+ *                      - Speed: Output speed (LOW_SPEED, MEDIUM_SPEED, HIGH_SPEED, VERY_HIGH_SPEED)
+ *                      - PullType: Pull-up/Pull-down configuration (NO_PULL, PULL_UP, PULL_DOWN)
+ * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
+ */
+ErrorState_t GPIO_enumPortHalfInit(const GPIO_PortHalfConfig_t *PortHalfConfig)
+{
+  ErrorState_t Local_u8ErrorState = OK;
+  uint8_t Local_u8Counter;
+  uint8_t Local_u8StartPin;
+  uint8_t Local_u8EndPin;
+
+  if (PortHalfConfig != NULL)
+  { /* Check if port and configuration parameters are valid */
+    if ((PortHalfConfig->Port <= PORTH) &&
+        (PortHalfConfig->Mode <= OUTPUT) &&
+        (PortHalfConfig->Otype <= OPEN_DRAIN) &&
+        (PortHalfConfig->Speed <= VERY_HIGH_SPEED) &&
+        (PortHalfConfig->PullType <= PULL_DOWN))
+    {
+      /* Determine start and end pins based on port half selection */
+      if(PortHalfConfig->PortHalf == PORT_FIRST_HALF)
+      {
+        Local_u8StartPin = 0;
+        Local_u8EndPin = 7;
+      }
+      else
+      {
+        Local_u8StartPin = 8;
+        Local_u8EndPin = 15;
+      }
+
+      /* Configure the 8 pins */
+      for(Local_u8Counter = Local_u8StartPin; Local_u8Counter <= Local_u8EndPin; Local_u8Counter++)
+      {
+        /* Set pin mode */
+        GPIO_Port[PortHalfConfig->Port]->MODER &= ~(MODER_MASK << (Local_u8Counter * MODER_PIN_ACCESS));
+        GPIO_Port[PortHalfConfig->Port]->MODER |= (PortHalfConfig->Mode << (Local_u8Counter * MODER_PIN_ACCESS));
+
+        /* Set pull type */
+        GPIO_Port[PortHalfConfig->Port]->PUPDR &= ~(PUPDR_MASK << (Local_u8Counter * PUPDR_PIN_ACCESS));
+        GPIO_Port[PortHalfConfig->Port]->PUPDR |= (PortHalfConfig->PullType << (Local_u8Counter * PUPDR_PIN_ACCESS));
+
+        /* Configure output settings if output or alternate function mode */
+        if (PortHalfConfig->Mode == OUTPUT)
+        {
+          /* Set output type */
+          GPIO_Port[PortHalfConfig->Port]->OTYPER &= ~(OTYPER_MASK << Local_u8Counter);
+          GPIO_Port[PortHalfConfig->Port]->OTYPER |= (PortHalfConfig->Otype << Local_u8Counter);
+
+          /* Set output speed */
+          GPIO_Port[PortHalfConfig->Port]->OSPEEDR &= ~(OSPEEDR_MASK << (Local_u8Counter * OSPEEDR_PIN_ACCESS));
+          GPIO_Port[PortHalfConfig->Port]->OSPEEDR |= (PortHalfConfig->Speed << (Local_u8Counter * OSPEEDR_PIN_ACCESS));
         }
       }
     }
@@ -120,7 +195,7 @@ ErrorState_t GPIO_enumWritePinVal(Port_t Port, Pin_t PinNum, PinValue_t PinVal)
       /*GPIO_Port[Port]->ODR &= ~(1u << PinNum);*/
       break;
     default:
-    Local_u8ErrorState = NOK;
+      Local_u8ErrorState = NOK;
       break;
     }
   }

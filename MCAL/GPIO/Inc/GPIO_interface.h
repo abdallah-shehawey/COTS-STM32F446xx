@@ -121,6 +121,22 @@ typedef struct
   AlternateFunction_t AlternateFunction; /* Alternate Function (if in AF mode) */
 } PinConfig_t;
 
+typedef enum
+{
+  PORT_FIRST_HALF = 0,    /* Alternative name for Pins 0-7 */
+  PORT_SECOND_HALF    /* Alternative name for Pins 8-15 */
+}PortHalf_t;
+
+typedef struct
+{
+  Port_t Port; /* GPIO Port Selection */
+  PortHalf_t PortHalf; /* GPIO Port Value Select between PORT_HIGH, PORT_LOW*/
+  Mode_t Mode; /* GPIO Mode Select between Input, Output*/
+  OutputType_t Otype; /* GPIO Output Type Select between Push-Pull, Open-Drain*/
+  OutputSpeed_t Speed; /* GPIO Output Speed Select between Low, Medium, High, Very High*/
+  PullUpDown_t PullType; /* GPIO Pull-up/Pull-down Configuration Select between No Pull, Pull-up, Pull-down*/
+} GPIO_PortHalfConfig_t;
+
 /************************** Function Prototypes **************************/
 /**
  * @fn     GPIO_enumPinInit
@@ -129,6 +145,13 @@ typedef struct
  * @retval GPIO_ErrorState: GPIO_OK if successful, GPIO_NOK if error
  */
 ErrorState_t GPIO_enumPinInit(const PinConfig_t *PinConfig);
+
+/**
+ * @brief  Initializes GPIO port configuration
+ * @param  GPIO_PortHalfConfig_t[in]: Pointer to port configuration structure
+ * @retval GPIO_ErrorState: GPIO_OK if successful, GPIO_NOK if error
+ */
+ErrorState_t GPIO_enumPortHalfInit(const GPIO_PortHalfConfig_t *PortHalfConfig);
 
 /**
  * @brief  Write a value to a GPIO pin
