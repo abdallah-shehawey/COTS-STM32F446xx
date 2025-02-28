@@ -15,170 +15,240 @@
 #define GPIO_INTERFACE_H_
 
 /************************** Port Definitions **************************/
+/********************************
+ * @port_t enum:
+ * @brief: GPIO port selection
+ * @param: PORTA, PORTB, PORTC, PORTD, PORTE, PORTF, PORTG, PORTH
+ * @return: GPIO port selection
+ */
 typedef enum
 {
-  PORTA = 0, /* GPIO Port A */
-  PORTB,     /* GPIO Port B */
-  PORTC,     /* GPIO Port C */
-  PORTD,     /* GPIO Port D */
-  PORTE,     /* GPIO Port E */
-  PORTF,     /* GPIO Port F */
-  PORTG,     /* GPIO Port G */
-  PORTH      /* GPIO Port H */
-} Port_t;
+  GPIO_PORTA = 0, /* GPIO Port A */
+  GPIO_PORTB,     /* GPIO Port B */
+  GPIO_PORTC,     /* GPIO Port C */
+  GPIO_PORTD,     /* GPIO Port D */
+  GPIO_PORTE,     /* GPIO Port E */
+  GPIO_PORTF,     /* GPIO Port F */
+  GPIO_PORTG,     /* GPIO Port G */
+  GPIO_PORTH      /* GPIO Port H */
+} GPIO_Port_t;
 
 /************************** Pin Definitions **************************/
+/********************************
+ * @pin_t enum:
+ * @brief: GPIO pin selection
+ * @param: PIN0, PIN1, PIN2, PIN3, PIN4, PIN5, PIN6, PIN7, PIN8, PIN9, PIN10, PIN11, PIN12, PIN13, PIN14, PIN15
+ * @return: GPIO pin selection
+ */
 typedef enum
 {
-  PIN0 = 0, /* GPIO Pin 0 */
-  PIN1,     /* GPIO Pin 1 */
-  PIN2,     /* GPIO Pin 2 */
-  PIN3,     /* GPIO Pin 3 */
-  PIN4,     /* GPIO Pin 4 */
-  PIN5,     /* GPIO Pin 5 */
-  PIN6,     /* GPIO Pin 6 */
-  PIN7,     /* GPIO Pin 7 */
-  PIN8,     /* GPIO Pin 8 */
-  PIN9,     /* GPIO Pin 9 */
-  PIN10,    /* GPIO Pin 10 */
-  PIN11,    /* GPIO Pin 11 */
-  PIN12,    /* GPIO Pin 12 */
-  PIN13,    /* GPIO Pin 13 */
-  PIN14,    /* GPIO Pin 14 */
-  PIN15     /* GPIO Pin 15 */
-} Pin_t;
+  GPIO_PIN0 = 0, /* GPIO Pin 0 */
+  GPIO_PIN1,     /* GPIO Pin 1 */
+  GPIO_PIN2,     /* GPIO Pin 2 */
+  GPIO_PIN3,     /* GPIO Pin 3 */
+  GPIO_PIN4,     /* GPIO Pin 4 */
+  GPIO_PIN5,     /* GPIO Pin 5 */
+  GPIO_PIN6,     /* GPIO Pin 6 */
+  GPIO_PIN7,     /* GPIO Pin 7 */
+  GPIO_PIN8,     /* GPIO Pin 8 */
+  GPIO_PIN9,     /* GPIO Pin 9 */
+  GPIO_PIN10,    /* GPIO Pin 10 */
+  GPIO_PIN11,    /* GPIO Pin 11 */
+  GPIO_PIN12,    /* GPIO Pin 12 */
+  GPIO_PIN13,    /* GPIO Pin 13 */
+  GPIO_PIN14,    /* GPIO Pin 14 */
+  GPIO_PIN15     /* GPIO Pin 15 */
+} GPIO_Pin_t;
 
 /************************** Mode Definitions **************************/
+/********************************
+ * @Mode_t enum:
+ * @brief: GPIO mode selection
+ * @param: INPUT, OUTPUT, ALTFN, ANALOG
+ * @return: GPIO mode selection
+ */
 typedef enum
 {
-  INPUT = 0, /* Input Mode */
-  OUTPUT,    /* Output Mode */
-  ALTFN,     /* Alternate Function Mode */
-  ANALOG     /* Analog Mode */
-} Mode_t;
+  GPIO_INPUT = 0, /* Input Mode */
+  GPIO_OUTPUT,    /* Output Mode */
+  GPIO_ALTFN,     /* Alternate Function Mode */
+  GPIO_ANALOG     /* Analog Mode */
+} GPIO_Mode_t;
 
 /************************** Output Type Definitions **************************/
+/********************************
+ * @OutputType_t enum:
+ * @brief: GPIO output type selection
+ * @param: PUSH_PULL, OPEN_DRAIN
+ * @return: GPIO output type selection
+ */
 typedef enum
 {
-  PUSH_PULL = 0, /* Push-Pull Output Type */
-  OPEN_DRAIN     /* Open-Drain Output Type */
-} OutputType_t;
+  GPIO_PUSH_PULL = 0, /* Push-Pull Output Type */
+  GPIO_OPEN_DRAIN     /* Open-Drain Output Type */
+} GPIO_OutputType_t;
 
 /************************** Output Speed Definitions **************************/
+/********************************
+ * @OutputSpeed_t enum:
+ * @brief: GPIO output speed selection
+ * @param: LOW_SPEED, MEDIUM_SPEED, HIGH_SPEED, VERY_HIGH_SPEED
+ * @return: GPIO output speed selection
+ */
 typedef enum
 {
-  LOW_SPEED = 0,  /* Low Speed */
-  MEDIUM_SPEED,   /* Medium Speed */
-  HIGH_SPEED,     /* High Speed */
-  VERY_HIGH_SPEED /* Very High Speed */
-} OutputSpeed_t;
+  GPIO_LOW_SPEED = 0,  /* Low Speed */
+  GPIO_MEDIUM_SPEED,   /* Medium Speed */
+  GPIO_HIGH_SPEED,     /* High Speed */
+  GPIO_VERY_HIGH_SPEED /* Very High Speed */
+} GPIO_OutputSpeed_t;
 
 /************************** Pull-up/Pull-down Definitions **************************/
+/********************************
+ * @PullUpDown_t enum:
+ * @brief: GPIO pull-up/pull-down selection
+ * @param: NO_PULL, PULL_UP, PULL_DOWN
+ * @return: GPIO pull-up/pull-down selection
+ */
 typedef enum
 {
-  NO_PULL = 0, /* No Pull-up or Pull-down */
-  PULL_UP,     /* Pull-up */
-  PULL_DOWN    /* Pull-down */
-} PullUpDown_t;
+  GPIO_NO_PULL = 0, /* No Pull-up or Pull-down */
+  GPIO_PULL_UP,     /* Pull-up */
+  GPIO_PULL_DOWN    /* Pull-down */
+} GPIO_PullUpDown_t;
 
 /************************** Alternate Function Definitions **************************/
+/********************************
+ * @AlternateFunction_t enum:
+ * @brief: GPIO alternate function selection
+ * @param: AF0, AF1, AF2, AF3, AF4, AF5, AF6, AF7, AF8, AF9, AF10, AF11, AF12, AF13, AF14, AF15
+ * @return: GPIO alternate function selection
+ */
 typedef enum
 {
-  AF0 = 0, /* Alternate Function 0 */
-  AF1,     /* Alternate Function 1 */
-  AF2,     /* Alternate Function 2 */
-  AF3,     /* Alternate Function 3 */
-  AF4,     /* Alternate Function 4 */
-  AF5,     /* Alternate Function 5 */
-  AF6,     /* Alternate Function 6 */
-  AF7,     /* Alternate Function 7 */
-  AF8,     /* Alternate Function 8 */
-  AF9,     /* Alternate Function 9 */
-  AF10,    /* Alternate Function 10 */
-  AF11,    /* Alternate Function 11 */
-  AF12,    /* Alternate Function 12 */
-  AF13,    /* Alternate Function 13 */
-  AF14,    /* Alternate Function 14 */
-  AF15     /* Alternate Function 15 */
-} AlternateFunction_t;
+  GPIO_AF0 = 0, /* Alternate Function 0 */
+  GPIO_AF1,     /* Alternate Function 1 */
+  GPIO_AF2,     /* Alternate Function 2 */
+  GPIO_AF3,     /* Alternate Function 3 */
+  GPIO_AF4,     /* Alternate Function 4 */
+  GPIO_AF5,     /* Alternate Function 5 */
+  GPIO_AF6,     /* Alternate Function 6 */
+  GPIO_AF7,     /* Alternate Function 7 */
+  GPIO_AF8,     /* Alternate Function 8 */
+  GPIO_AF9,     /* Alternate Function 9 */
+  GPIO_AF10,    /* Alternate Function 10 */
+  GPIO_AF11,    /* Alternate Function 11 */
+  GPIO_AF12,    /* Alternate Function 12 */
+  GPIO_AF13,    /* Alternate Function 13 */
+  GPIO_AF14,    /* Alternate Function 14 */
+  GPIO_AF15     /* Alternate Function 15 */
+} GPIO_AlternateFunction_t;
 
 /************************** Pin Value Definitions **************************/
+/********************************
+ * @PinValue_t enum:
+ * @brief: GPIO pin value selection
+ * @param: PIN_LOW, PIN_HIGH
+ * @return: GPIO pin value selection
+ */
 typedef enum
 {
-  PIN_LOW = 0, /* Pin Low Value */
-  PIN_HIGH     /* Pin High Value */
-} PinValue_t;
+  GPIO_PIN_LOW = 0, /* Pin Low Value */
+  GPIO_PIN_HIGH     /* Pin High Value */
+} GPIO_PinValue_t;
 
 /************************** Pin Configuration Structure **************************/
+/********************************
+ * @PinConfig_t struct:
+ * @brief: GPIO pin configuration structure
+ * @param: Port, PinNum, Mode, Otype, Speed, PullType, AlternateFunction
+ * @return: GPIO pin configuration structure
+ */
 typedef struct
 {
-  Port_t Port;                           /* GPIO Port Selection */
-  Pin_t PinNum;                          /* GPIO Pin Number */
-  Mode_t Mode;                           /* GPIO Mode */
-  OutputType_t Otype;                    /* Output Type (if configured as output) */
-  OutputSpeed_t Speed;                   /* Output Speed (if configured as output) */
-  PullUpDown_t PullType;                 /* Pull-up/Pull-down Configuration */
-  AlternateFunction_t AlternateFunction; /* Alternate Function (if in AF mode) */
-} PinConfig_t;
+  GPIO_Port_t Port;                           /* GPIO Port Selection */
+  GPIO_Pin_t PinNum;                          /* GPIO Pin Number */
+  GPIO_Mode_t Mode;                           /* GPIO Mode */
+  GPIO_OutputType_t Otype;                    /* Output Type (if configured as output) */
+  GPIO_OutputSpeed_t Speed;                   /* Output Speed (if configured as output) */
+  GPIO_PullUpDown_t PullType;                 /* Pull-up/Pull-down Configuration */
+  GPIO_AlternateFunction_t AlternateFunction; /* Alternate Function (if in AF mode) */
+} GPIO_PinConfig_t;
 
 /************************** Port Half Definitions **************************/
+/********************************
+ * @PortHalf_t enum:
+ * @brief: GPIO port half selection
+ * @param: PORT_FIRST_HALF, PORT_SECOND_HALF
+ * @return: GPIO port half selection
+ */
 typedef enum
 {
   PORT_FIRST_HALF = 0, /* Pins 0-7 of the GPIO Port */
   PORT_SECOND_HALF     /* Pins 8-15 of the GPIO Port */
-} PortHalf_t;
+} GPIO_PortHalf_t;
 
 /************************** Port Half Configuration Structure **************************/
+/********************************
+ * @GPIO_PortHalfConfig_t struct:
+ * @brief: GPIO port half configuration structure
+ * @param: Port, PortHalf, Mode, Otype, Speed, PullType
+ * @return: GPIO port half configuration structure
+ */
 typedef struct
 {
-  Port_t Port;           /* GPIO Port Selection (PORTA to PORTH) */
-  PortHalf_t PortHalf;   /* GPIO Port Half Selection (PORT_FIRST_HALF or PORT_SECOND_HALF) */
-  Mode_t Mode;           /* GPIO Mode Selection (INPUT, OUTPUT, etc.) */
-  OutputType_t Otype;    /* GPIO Output Type Selection (PUSH_PULL or OPEN_DRAIN) */
-  OutputSpeed_t Speed;   /* GPIO Output Speed Selection (LOW_SPEED to VERY_HIGH_SPEED) */
-  PullUpDown_t PullType; /* GPIO Pull Configuration (NO_PULL, PULL_UP or PULL_DOWN) */
+  GPIO_Port_t Port;           /* GPIO Port Selection (PORTA to PORTH) */
+  GPIO_PortHalf_t PortHalf;   /* GPIO Port Half Selection (PORT_FIRST_HALF or PORT_SECOND_HALF) */
+  GPIO_Mode_t Mode;           /* GPIO Mode Selection (INPUT, OUTPUT, etc.) */
+  GPIO_OutputType_t Otype;    /* GPIO Output Type Selection (PUSH_PULL or OPEN_DRAIN) */
+  GPIO_OutputSpeed_t Speed;   /* GPIO Output Speed Selection (LOW_SPEED to VERY_HIGH_SPEED) */
+  GPIO_PullUpDown_t PullType; /* GPIO Pull Configuration (NO_PULL, PULL_UP or PULL_DOWN) */
 } GPIO_PortHalfConfig_t;
 
 /************************** Function Prototypes **************************/
-/**
+/********************************
  * @fn     GPIO_enumPinInit
- * @brief  Initializes GPIO pin configuration
- * @param  PinConfig[in]: Pointer to pin configuration structure
+ * @brief : Initializes GPIO pin configuration
+ * @param : PinConfig[in]: Pointer to pin configuration structure
  * @retval GPIO_ErrorState: GPIO_OK if successful, GPIO_NOK if error
  */
-ErrorState_t GPIO_enumPinInit(const PinConfig_t *PinConfig);
+ErrorState_t GPIO_enumPinInit(const GPIO_PinConfig_t *PinConfig);
 
 /**
- * @brief  Initializes GPIO port configuration
- * @param  GPIO_PortHalfConfig_t[in]: Pointer to port configuration structure
+ * @fn     GPIO_enumPortHalfInit
+ * @brief : Initializes GPIO port configuration
+ * @param : GPIO_PortHalfConfig_t[in]: Pointer to port configuration structure
  * @retval GPIO_ErrorState: GPIO_OK if successful, GPIO_NOK if error
  */
 ErrorState_t GPIO_enumPortHalfInit(const GPIO_PortHalfConfig_t *PortHalfConfig);
 
 /**
- * @brief  Write a value to a GPIO pin
- * @param  Port: GPIO port (PORTA to PORTH)
- * @param  PinNum: Pin number (PIN0 to PIN15)
- * @param  PinVal: Value to write (PIN_LOW or PIN_HIGH)
+ * @fn     GPIO_enumWritePinVal
+ * @brief : Write a value to a GPIO pin
+ * @param : Port: GPIO port (PORTA to PORTH)
+ * @param : PinNum: Pin number (PIN0 to PIN15)
+ * @param : PinVal: Value to write (PIN_LOW or PIN_HIGH)
  * @retval GPIO_ErrorState: GPIO_OK if successful, GPIO_NOK if error
  */
-ErrorState_t GPIO_enumWritePinVal(Port_t Port, Pin_t PinNum, PinValue_t PinVal);
+ErrorState_t GPIO_enumWritePinVal(GPIO_Port_t Port, GPIO_Pin_t PinNum, GPIO_PinValue_t PinVal);
 
 /**
- * @brief  Read the current value of a GPIO pin
- * @param  Port: GPIO port (PORTA to PORTH)
- * @param  PinNum: Pin number (PIN0 to PIN15)
- * @param  PinVal: Pointer to store the read value
+ * @fn     GPIO_enumReadPinVal
+ * @brief : Read the current value of a GPIO pin
+ * @param : Port: GPIO port (PORTA to PORTH)
+ * @param : PinNum: Pin number (PIN0 to PIN15)
+ * @param : PinVal: Pointer to store the read value
  * @retval GPIO_ErrorState: GPIO_OK if successful, GPIO_NOK if error
  */
-ErrorState_t GPIO_enumReadPinVal(Port_t Port, Pin_t PinNum, PinValue_t *PinVal);
+ErrorState_t GPIO_enumReadPinVal(GPIO_Port_t Port, GPIO_Pin_t PinNum, GPIO_PinValue_t *PinVal);
 
 /**
- * @brief  Toggle the current value of a GPIO pin
- * @param  Port: GPIO port (PORTA to PORTH)
- * @param  PinNum: Pin number (PIN0 to PIN15)
+ * @fn     GPIO_enumTogPinVal
+ * @brief : Toggle the current value of a GPIO pin
+ * @param : Port: GPIO port (PORTA to PORTH)
+ * @param : PinNum: Pin number (PIN0 to PIN15)
  * @retval GPIO_ErrorState: GPIO_OK if successful, GPIO_NOK if error
  */
-ErrorState_t GPIO_enumTogPinVal(Port_t Port, Pin_t PinNum);
+ErrorState_t GPIO_enumTogPinVal(GPIO_Port_t Port, GPIO_Pin_t PinNum);
 
 #endif /* GPIO_INTERFACE_H_ */
