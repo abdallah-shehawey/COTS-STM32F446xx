@@ -124,18 +124,18 @@ typedef struct
 /************************** Port Half Definitions **************************/
 typedef enum
 {
-  PORT_FIRST_HALF = 0,    /* Pins 0-7 of the GPIO Port */
-  PORT_SECOND_HALF        /* Pins 8-15 of the GPIO Port */
-}PortHalf_t;
+  PORT_FIRST_HALF = 0, /* Pins 0-7 of the GPIO Port */
+  PORT_SECOND_HALF     /* Pins 8-15 of the GPIO Port */
+} PortHalf_t;
 
 /************************** Port Half Configuration Structure **************************/
 typedef struct
 {
-  Port_t Port;            /* GPIO Port Selection (PORTA to PORTH) */
-  PortHalf_t PortHalf;    /* GPIO Port Half Selection (PORT_FIRST_HALF or PORT_SECOND_HALF) */
-  Mode_t Mode;            /* GPIO Mode Selection (INPUT, OUTPUT, etc.) */
-  OutputType_t Otype;     /* GPIO Output Type Selection (PUSH_PULL or OPEN_DRAIN) */
-  OutputSpeed_t Speed;    /* GPIO Output Speed Selection (LOW_SPEED to VERY_HIGH_SPEED) */
+  Port_t Port;           /* GPIO Port Selection (PORTA to PORTH) */
+  PortHalf_t PortHalf;   /* GPIO Port Half Selection (PORT_FIRST_HALF or PORT_SECOND_HALF) */
+  Mode_t Mode;           /* GPIO Mode Selection (INPUT, OUTPUT, etc.) */
+  OutputType_t Otype;    /* GPIO Output Type Selection (PUSH_PULL or OPEN_DRAIN) */
+  OutputSpeed_t Speed;   /* GPIO Output Speed Selection (LOW_SPEED to VERY_HIGH_SPEED) */
   PullUpDown_t PullType; /* GPIO Pull Configuration (NO_PULL, PULL_UP or PULL_DOWN) */
 } GPIO_PortHalfConfig_t;
 

@@ -121,7 +121,7 @@ ErrorState_t GPIO_enumPortHalfInit(const GPIO_PortHalfConfig_t *PortHalfConfig)
         (PortHalfConfig->PullType <= PULL_DOWN))
     {
       /* Determine start and end pins based on port half selection */
-      if(PortHalfConfig->PortHalf == PORT_FIRST_HALF)
+      if (PortHalfConfig->PortHalf == PORT_FIRST_HALF)
       {
         Local_u8StartPin = 0;
         Local_u8EndPin = 7;
@@ -133,7 +133,7 @@ ErrorState_t GPIO_enumPortHalfInit(const GPIO_PortHalfConfig_t *PortHalfConfig)
       }
 
       /* Configure the 8 pins */
-      for(Local_u8Counter = Local_u8StartPin; Local_u8Counter <= Local_u8EndPin; Local_u8Counter++)
+      for (Local_u8Counter = Local_u8StartPin; Local_u8Counter <= Local_u8EndPin; Local_u8Counter++)
       {
         /* Set pin mode */
         GPIO_Port[PortHalfConfig->Port]->MODER &= ~(MODER_MASK << (Local_u8Counter * MODER_PIN_ACCESS));
