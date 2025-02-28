@@ -22,8 +22,8 @@
 #include "STD_MACROS.h"
 
 #include "RCC_config.h"
-#include "RCC_interface.h"
-#include "RCC_private.h"
+#include "../Inc/RCC_interface.h"
+#include "../Inc/RCC_private.h"
 
 /*******************************************************************************
  *                                Global Variables                               *
@@ -453,7 +453,7 @@ ErrorState_t RCC_enumAHPPerSts(uint8_t Copy_u8Bus, uint8_t Copy_u8AHPPer, uint8_
 
     switch (Copy_u8Bus)
     {
-    case AHB1:
+    case RCC_AHB1:
       /* Configure AHB1 peripheral clock */
       if (Copy_u8Status == RCC_PER_ON)
       {
@@ -464,7 +464,7 @@ ErrorState_t RCC_enumAHPPerSts(uint8_t Copy_u8Bus, uint8_t Copy_u8AHPPer, uint8_
         CLR_BIT(MRCC->AHP1ENR, Copy_u8AHPPer);
       }
       break;
-    case AHB2:
+    case RCC_AHB2:
       /* Configure AHB2 peripheral clock */
       if (Copy_u8Status == RCC_PER_ON)
       {
@@ -475,7 +475,7 @@ ErrorState_t RCC_enumAHPPerSts(uint8_t Copy_u8Bus, uint8_t Copy_u8AHPPer, uint8_
         CLR_BIT(MRCC->AHP2ENR, Copy_u8AHPPer);
       }
       break;
-    case AHB3:
+    case RCC_AHB3:
       /* Configure AHB3 peripheral clock */
       if (Copy_u8Status == RCC_PER_ON)
       {
@@ -521,7 +521,7 @@ ErrorState_t RCC_enumABPPerSts(uint8_t Copy_u8Bus, uint8_t Copy_u8AHPPer, uint8_
     RCC_u8State = BUSY;
     switch (Copy_u8Bus)
     {
-    case APB1:
+    case RCC_APB1:
       if (Copy_u8Status == RCC_PER_ON)
       {
         SET_BIT(MRCC->APB1ENR, Copy_u8AHPPer);
@@ -534,7 +534,7 @@ ErrorState_t RCC_enumABPPerSts(uint8_t Copy_u8Bus, uint8_t Copy_u8AHPPer, uint8_
       {
       }
       break;
-    case APB2:
+    case RCC_APB2:
       if (Copy_u8Status == RCC_PER_ON)
       {
         SET_BIT(MRCC->APB2ENR, Copy_u8AHPPer);

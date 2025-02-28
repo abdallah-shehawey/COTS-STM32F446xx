@@ -27,11 +27,11 @@
  */
 typedef enum
 {
-  AHB1, /* Advanced High-performance Bus 1 */
-  AHB2, /* Advanced High-performance Bus 2 */
-  AHB3, /* Advanced High-performance Bus 3 */
-  APB1, /* Advanced Peripheral Bus 1 */
-  APB2  /* Advanced Peripheral Bus 2 */
+  RCC_AHB1, /* Advanced High-performance Bus 1 */
+  RCC_AHB2, /* Advanced High-performance Bus 2 */
+  RCC_AHB3, /* Advanced High-performance Bus 3 */
+  RCC_APB1, /* Advanced Peripheral Bus 1 */
+  RCC_APB2  /* Advanced Peripheral Bus 2 */
 } RCC_uC_BUS_t;
 
 /********************************
