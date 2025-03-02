@@ -1,10 +1,14 @@
-/*
- *<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<     CLCD_program.c     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
- *
- *  Author : Abdallah Abdelmoemen Shehawey
- *  Layer  : HAL
- *  SWC    : CLCD
- *
+/**
+ **===========================================================================**
+ **<<<<<<<<<<<<<<<<<<<<<<<<<<    CLCD_program.c    >>>>>>>>>>>>>>>>>>>>>>>>>>>>**
+ **                                                                           **
+ **                  Author : Abdallah Abdelmoemen Shehawey                   **
+ **                  Layer  : MCAL                                            **
+ **                  CPU    : Cortex-M4                                       **
+ **                  MCU    : F446xx                                          **
+ **                  SWC    : CLCD                                            **
+ **                                                                           **
+ **===========================================================================**
  */
 
 #include <SYSTIC_interface.h>
@@ -18,6 +22,14 @@
 #include "CLCD_config.h"
 #include "CLCD_private.h"
 #include "CLCD_extrachar.h"
+
+/********************************
+ * @file    CLCD_prog.c
+ * @author  Abdallah Abdelmoemen Shehawey
+ * @brief   Character LCD (CLCD) Implementation File
+ * @details This file contains the implementations for Character LCD control functions
+ *          Supports both 4-bit and 8-bit modes of operation
+ ********************************/
 
 /*___________________________________________________________________________________________________________________*/
 /*
@@ -42,11 +54,19 @@
 
 /*___________________________________________________________________________________________________________________*/
 
-/*------------------------------------------------------------------------------------------------------------------------------------------------------
- *         	                                      This Function Apply initialization sequence for LCD module
- *                                              *-------------------------------------------------------------*
- * Parameters : nothing
- * return     : nothing
+/*******************************************************************************
+ *                           Function Implementations                            *
+ *******************************************************************************/
+
+/**
+ * @fn    CLCD_vInit
+ * @brief Initialize LCD with configured settings
+ * @details This function:
+ *          1. Initializes GPIO pins for control and data
+ *          2. Waits for LCD power-up (>30ms)
+ *          3. Configures 4-bit or 8-bit mode
+ *          4. Sets up display parameters (cursor, lines, etc)
+ * @note  Must be called before using any other LCD functions
  */
 void CLCD_vInit(void)
 {
@@ -117,7 +137,14 @@ void CLCD_vInit(void)
 #endif
 }
 
-/* Helper function to initialize a single GPIO pin */
+/**
+ * @fn    CLCD_InitPin
+ * @brief Initialize a single GPIO pin for LCD interface
+ * @param Port: GPIO port to initialize
+ * @param Pin: GPIO pin number to initialize
+ * @return ErrorState_t: OK if successful, error code otherwise
+ * @note  Private helper function
+ */
 static ErrorState_t CLCD_InitPin(GPIO_Port_t Port, GPIO_Pin_t Pin)
 {
   GPIO_PinConfig_t PinConfig = {
@@ -131,7 +158,14 @@ static ErrorState_t CLCD_InitPin(GPIO_Port_t Port, GPIO_Pin_t Pin)
   return GPIO_enumPinInit(&PinConfig);
 }
 
-/* Helper function to initialize 8 consecutive GPIO pins */
+/**
+ * @fn    CLCD_InitPort8Bits
+ * @brief Initialize 8 consecutive GPIO pins for LCD data bus
+ * @param Port: GPIO port to initialize
+ * @param StartPin: First pin number of the 8-bit group
+ * @return ErrorState_t: OK if successful, error code otherwise
+ * @note  Private helper function for 8-bit mode
+ */
 static ErrorState_t CLCD_InitPort8Bits(GPIO_Port_t Port, GPIO_Pin_t StartPin)
 {
   GPIO_8BinsConfig_t PortConfig = {
@@ -146,12 +180,15 @@ static ErrorState_t CLCD_InitPort8Bits(GPIO_Port_t Port, GPIO_Pin_t StartPin)
 }
 /*___________________________________________________________________________________________________________________*/
 
-/*
- *         	                                      This Function send data to the port which is defined in config.h
- *                                            *------------------------------------------------------------------------*
- * Parameters :
- *		=> Copy_u8Data --> Data that you want to display (for every location )
- * return     : nothing
+/**
+ * @fn    CLCD_vSendData
+ * @brief Send data byte to LCD
+ * @details This function:
+ *          1. Sets RS=1 for data mode
+ *          2. Sets RW=0 for write mode
+ *          3. Sends data in either 8-bit or 4-bit mode
+ *          4. Generates enable pulse
+ * @param Copy_u8Data: Character or custom pattern to display
  */
 void CLCD_vSendData(uint8_t Copy_u8Data)
 {
@@ -177,12 +214,15 @@ void CLCD_vSendData(uint8_t Copy_u8Data)
 
 /*___________________________________________________________________________________________________________________*/
 
-/*------------------------------------------------------------------------------------------------------------------------------------------------------
- *         	                                       This Function Interface to send the configuration commands to the LCD Driver
- *                                                *------------------------------------------------------------------------*
- * Parameters :
- *		=> Copy_u8Command --> Command number
- * return     : nothing
+/**
+ * @fn    CLCD_vSendCommand
+ * @brief Send command byte to LCD
+ * @details This function:
+ *          1. Sets RS=0 for command mode
+ *          2. Sets RW=0 for write mode
+ *          3. Sends command in either 8-bit or 4-bit mode
+ *          4. Generates enable pulse
+ * @param Copy_u8Command: Command code to execute
  */
 void CLCD_vSendCommand(uint8_t Copy_u8Command)
 {
@@ -208,13 +248,16 @@ void CLCD_vSendCommand(uint8_t Copy_u8Command)
 
 /*___________________________________________________________________________________________________________________*/
 
-/*------------------------------------------------------------------------------------------------------------------------------------------------------
- *         	                                      This Function send a pulse (falling edge ) to Enable Pin
- *                                             *-------------------------------------------------------------*
- * Parameters : nothing
- * return     : nothing
+/**
+ * @fn    CLCD_vSendFallingEdge
+ * @brief Generate enable pulse for LCD
+ * @details This function:
+ *          1. Sets E=1
+ *          2. Waits 1ms
+ *          3. Sets E=0
+ *          4. Waits 1ms
+ * @note  Private helper function
  */
-
 static void CLCD_vSendFallingEdge(void)
 {
   GPIO_enumWritePinVal(CLCD_CONTROL_PORT, CLCD_EN, GPIO_PIN_HIGH);
@@ -225,11 +268,10 @@ static void CLCD_vSendFallingEdge(void)
 
 /*___________________________________________________________________________________________________________________*/
 
-/*------------------------------------------------------------------------------------------------------------------------------------------------------
- *         	                                     This Function clear LCD
- *                                    *-----------------------------------------------*
- * Parameters : nothing
- * return     : nothing
+/**
+ * @fn    CLCD_vClearScreen
+ * @brief Clear LCD display and return cursor home
+ * @details Sends clear display command and waits >1.53ms for execution
  */
 void CLCD_vClearScreen(void)
 {
@@ -239,14 +281,13 @@ void CLCD_vClearScreen(void)
 
 /*___________________________________________________________________________________________________________________*/
 
-/*------------------------------------------------------------------------------------------------------------------------------------------------------
- *         	                                      This Function send string to the port which is defined in config.h
- *                                            *------------------------------------------------------------------------*
- * Parameters :
- *		=> Copy_u8ptrString  --> Pointer to the string
- * return     : nothing
+/**
+ * @fn    CLCD_vSendString
+ * @brief Display string on LCD
+ * @details Sends each character of string to LCD
+ * @param Copy_u8PrtStrign: Pointer to null-terminated string
+ * @note  Handles strings up to LCD display capacity
  */
-
 void CLCD_vSendString(const uint8_t *Copy_u8PrtStrign)
 {
   uint8_t LOC_u8Iterator = 0;
@@ -259,14 +300,13 @@ void CLCD_vSendString(const uint8_t *Copy_u8PrtStrign)
 
 /*___________________________________________________________________________________________________________________*/
 
-/*------------------------------------------------------------------------------------------------------------------------------------------------------
- *         	                                      This Function send  integer number to the port which is defined in config.h
- *                                                *----------------------------------------------------------------------------*
- * Parameters :
- *		=> Copy_s32Number  --> Number that you want to display
- * return     : nothing
+/**
+ * @fn    CLCD_vSendIntNumber
+ * @brief Display integer number on LCD
+ * @details Converts integer to string and displays it
+ * @param Copy_s32Number: Integer number to display
+ * @note  Handles positive and negative numbers
  */
-
 void CLCD_vSendIntNumber(int32_t Copy_s32Number)
 {
 
@@ -296,14 +336,13 @@ void CLCD_vSendIntNumber(int32_t Copy_s32Number)
   }
 }
 
-/*------------------------------------------------------------------------------------------------------------------------------------------------------
- *         	                                      This Function send  floating number to the port which is defined in config.h
- *                                                *----------------------------------------------------------------------------*
- * Parameters :
- *		=> Copy_f64Number  --> Number that you want to display
- * return     : nothing
+/**
+ * @fn    CLCD_vSendFloatNumber
+ * @brief Display floating point number on LCD
+ * @details Converts float to string with decimal places
+ * @param Copy_f64Number: Float number to display
+ * @note  Displays up to 6 decimal places
  */
-
 void CLCD_vSendFloatNumber(double Copy_f64Number)
 {
   CLCD_vSendIntNumber((int32_t)Copy_f64Number);
@@ -333,6 +372,14 @@ void CLCD_vSendFloatNumber(double Copy_f64Number)
  *		xxxxxxx  ===> refers to AC ( Address Counter 7Bits / DDRAM Locations 128Location )
  */
 
+/**
+ * @fn    CLCD_vSetPosition
+ * @brief Set cursor to specific position
+ * @details Calculates DDRAM address and sends cursor command
+ * @param Copy_u8ROW: Row number (1-4)
+ * @param Copy_u8Col: Column number (1-20)
+ * @note  Row and column numbers start from 1
+ */
 void CLCD_vSetPosition(uint8_t Copy_u8ROW, uint8_t Copy_u8Col)
 {
   uint8_t LOC_u8Data;
@@ -362,18 +409,14 @@ void CLCD_vSetPosition(uint8_t Copy_u8ROW, uint8_t Copy_u8Col)
   _delay_ms(1);
 }
 
-/*------------------------------------------------------------------------------------------------------------------------------------------------------
- *         	                                      This Function send extra char
- *                                                *----------------------------------*
- * Parameters :
- *      => Copy_u8Row --> row number    (CLCD_ROW_1 or CLCD_ROW_2  )
- *		=> Copy_u8Col --> column number (CLCD_COL_1 ... CLCD_COL_16)
- * return     : nothing
- *
- * Hint       :-
- *	    Address Counter can refer to CGRAM and DDRAM
+/**
+ * @fn    CLCD_vSendExtraChar
+ * @brief Display custom character from CGRAM
+ * @details Retrieves custom pattern from CGRAM and displays it
+ * @param Copy_u8Row: Row position (1-4)
+ * @param Copy_u8Col: Column position (1-20)
+ * @note  Custom characters must be previously stored in CGRAM
  */
-
 void CLCD_vSendExtraChar(uint8_t Copy_u8Row, uint8_t Copy_u8Col)
 {
 
@@ -401,11 +444,10 @@ void CLCD_vSendExtraChar(uint8_t Copy_u8Row, uint8_t Copy_u8Col)
 
 /*___________________________________________________________________________________________________________________*/
 
-/*------------------------------------------------------------------------------------------------------------------------------------------------------
- *         	                                      This Function shift the entire display to the right cursor follows the display shift
- *                                                *------------------------------------------------------------------------------------*
- * Parameters : nothing
- * return     : nothing
+/**
+ * @fn    CLCD_voidShiftDisplayRight
+ * @brief Shift entire display content right
+ * @details Sends shift display command
  */
 void CLCD_voidShiftDisplayRight(void)
 {
@@ -413,11 +455,10 @@ void CLCD_voidShiftDisplayRight(void)
   _delay_ms(1);
 }
 
-/*------------------------------------------------------------------------------------------------------------------------------------------------------
- *         	                                      This Function shift the entire display to the left cursor follows the display shift
- *                                                *-----------------------------------------------------------------------------------*
- * Parameters : nothing
- * return     : nothing
+/**
+ * @fn    CLCD_voidShiftDisplayLeft
+ * @brief Shift entire display content left
+ * @details Sends shift display command
  */
 void CLCD_voidShiftDisplayLeft(void)
 {
@@ -426,6 +467,12 @@ void CLCD_voidShiftDisplayLeft(void)
 }
 
 /* Delay Functions Implementation */
+/**
+ * @fn    _delay_us
+ * @brief Generate microsecond delay
+ * @param us: Number of microseconds to delay
+ * @note  Private helper function using SYSTICK timer
+ */
 static void _delay_us(uint32_t us)
 {
   /* Calculate number of cycles needed
@@ -445,6 +492,12 @@ static void _delay_us(uint32_t us)
   }
 }
 
+/**
+ * @fn    _delay_ms
+ * @brief Generate millisecond delay
+ * @param ms: Number of milliseconds to delay
+ * @note  Private helper function using SYSTICK timer
+ */
 static void _delay_ms(uint32_t ms)
 {
   while (ms--)
