@@ -31,14 +31,27 @@
 
 #define RCC_BASEADDR   0x40023800UL
 
+#define SYSTIC_BASEADDR 0XE000E010UL
+
 /**************************************         AHB2 Peripheral Base Adresses          ******************************************/
 /**************************************         AHB3 Peripheral Base Adresses          ******************************************/
 /**************************************         APB1 Peripheral Base Adresses          ******************************************/
 /**************************************         APB2 Peripheral Base Adresses          ******************************************/
 /**************************************         APB3 Peripheral Base Adresses          ******************************************/
 
-/**************************************       GPIO Register Definition Structure       ******************************************/
-typedef struct
+/**************************************         SYSTIC Peripheral Definitions       *********************************************/
+
+typedef struct {
+  volatile uint32_t CTRL;
+  volatile uint32_t LOAD;
+  volatile uint32_t VAL ;
+  volatile uint32_t CALIB;
+} SYSTIC_RegDef_t;
+
+#define MSYSTIC ((SYSTIC_RegDef_t *)SYSTIC_BASEADDR)
+
+    /**************************************       GPIO Register Definition Structure       ******************************************/
+    typedef struct
 {
   volatile uint32_t MODER;   /* GPIO PORT mode register              */
   volatile uint32_t OTYPER;  /* GPIO PORT output type register       */

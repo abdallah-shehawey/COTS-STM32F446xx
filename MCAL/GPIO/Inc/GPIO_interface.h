@@ -190,20 +190,37 @@ typedef enum
 
 /************************** Port Half Configuration Structure **************************/
 /********************************
- * @GPIO_PortHalfConfig_t struct:
- * @brief: GPIO port half configuration structure
- * @param: Port, PortHalf, Mode, Otype, Speed, PullType
- * @return: GPIO port half configuration structure
+ * @GPIO_Port8BitsConfig_t struct:
+ * @brief: GPIO port 8-bits configuration structure
+ * @param: Port, StartPin, Mode, Otype, Speed, PullType
+ * @return: GPIO port 8-bits configuration structure
  */
 typedef struct
 {
   GPIO_Port_t Port;           /* GPIO Port Selection (PORTA to PORTH) */
-  GPIO_PortHalf_t PortHalf;   /* GPIO Port Half Selection (PORT_FIRST_HALF or PORT_SECOND_HALF) */
+  GPIO_Pin_t StartPin;        /* Starting Pin Number (PIN0 to PIN12) */
   GPIO_Mode_t Mode;           /* GPIO Mode Selection (INPUT, OUTPUT, etc.) */
   GPIO_OutputType_t Otype;    /* GPIO Output Type Selection (PUSH_PULL or OPEN_DRAIN) */
   GPIO_OutputSpeed_t Speed;   /* GPIO Output Speed Selection (LOW_SPEED to VERY_HIGH_SPEED) */
   GPIO_PullUpDown_t PullType; /* GPIO Pull Configuration (NO_PULL, PULL_UP or PULL_DOWN) */
-} GPIO_PortHalfConfig_t;
+} GPIO_8BinsConfig_t;
+
+/************************** Port 4-Bits Configuration Structure **************************/
+/********************************
+ * @GPIO_Port4BitsConfig_t struct:
+ * @brief: GPIO port 4-bits configuration structure
+ * @param: Port, StartPin, Mode, Otype, Speed, PullType
+ * @return: GPIO port 4-bits configuration structure
+ */
+typedef struct
+{
+  GPIO_Port_t Port;           /* GPIO Port Selection (PORTA to PORTH) */
+  GPIO_Pin_t StartPin;        /* Starting Pin Number (PIN0 to PIN12) */
+  GPIO_Mode_t Mode;           /* GPIO Mode Selection (INPUT, OUTPUT) */
+  GPIO_OutputType_t Otype;    /* GPIO Output Type Selection (PUSH_PULL or OPEN_DRAIN) */
+  GPIO_OutputSpeed_t Speed;   /* GPIO Output Speed Selection (LOW_SPEED to VERY_HIGH_SPEED) */
+  GPIO_PullUpDown_t PullType; /* GPIO Pull Configuration (NO_PULL, PULL_UP or PULL_DOWN) */
+} GPIO_4BinsConfig_t;
 
 /************************** Function Prototypes **************************/
 /********************************
@@ -220,7 +237,28 @@ ErrorState_t GPIO_enumPinInit(const GPIO_PinConfig_t *PinConfig);
  * @param : GPIO_PortHalfConfig_t[in]: Pointer to port configuration structure
  * @retval GPIO_ErrorState: GPIO_OK if successful, GPIO_NOK if error
  */
-ErrorState_t GPIO_enumPortHalfInit(const GPIO_PortHalfConfig_t *PortHalfConfig);
+ErrorState_t GPIO_enumPort8BitsInit(const GPIO_8BinsConfig_t *GPIO_8BinsConfig);
+
+/**
+ * @fn     GPIO_enumWrite8BitsVal
+ * @brief : Write 8 bits directly to ODR register starting from specified pin
+ * @param : Port: GPIO port index (PORTA to PORTH)
+ * @param : StartPin: Starting pin number (PIN0 to PIN8)
+ * @param : Value: 8-bit value to write (0x00 to 0xFF)
+ * @retval ErrorState_t: OK if write successful, NOK if invalid parameters
+ */
+ErrorState_t GPIO_enumWrite8BitsVal(GPIO_Port_t Port, GPIO_Pin_t StartPin, uint8_t Value);
+
+/**
+ * @fn     GPIO_enumWrite4BitsVal
+ * @brief : Write 4 bits directly to ODR register starting from specified pin
+ * @param : Port: GPIO port index (PORTA to PORTH)
+ * @param : StartPin: Starting pin number (PIN0 to PIN12)
+ * @param : Value: 4-bit value to write (0x0 to 0xF)
+ * @retval ErrorState_t: OK if write successful, NOK if invalid parameters
+ */
+ErrorState_t GPIO_enumWrite4BitsVal(GPIO_Port_t Port, GPIO_Pin_t StartPin, uint8_t Value);
+
 
 /**
  * @fn     GPIO_enumWritePinVal
@@ -250,5 +288,13 @@ ErrorState_t GPIO_enumReadPinVal(GPIO_Port_t Port, GPIO_Pin_t PinNum, GPIO_PinVa
  * @retval GPIO_ErrorState: GPIO_OK if successful, GPIO_NOK if error
  */
 ErrorState_t GPIO_enumTogPinVal(GPIO_Port_t Port, GPIO_Pin_t PinNum);
+
+/**
+ * @fn     GPIO_enumPort4BitsInit
+ * @brief : Initializes GPIO port 4-bit configuration
+ * @param : GPIO_4BinsConfig[in]: Pointer to port 4-bit configuration structure
+ * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
+ */
+ErrorState_t GPIO_enumPort4BitsInit(const GPIO_4BinsConfig_t *GPIO_4BinsConfig);
 
 #endif /* GPIO_INTERFACE_H_ */

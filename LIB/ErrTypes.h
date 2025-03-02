@@ -8,12 +8,12 @@
 
 #define NULL    0
 
-#define ENABLE  1
-#define DISABLE 0
+#define ENABLE  1u
+#define DISABLE 0u
 
 /* Func States  */
-#define IDLE 0
-#define BUSY 1
+#define IDLE 0u
+#define BUSY 1u
 
 
 typedef enum
