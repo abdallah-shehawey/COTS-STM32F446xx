@@ -1,18 +1,18 @@
 /**
  **===========================================================================**
- **<<<<<<<<<<<<<<<<<<<<<<<<<<    BCD_To_SSD_interface.h    >>>>>>>>>>>>>>>>>>**
+ **<<<<<<<<<<<<<<<<<<<<<<<<<<    BSSD_interface.h      >>>>>>>>>>>>>>>>>>>>>>>**
  **                                                                           **
  **                  Author : Abdallah Abdelmoemen Shehawey                   **
  **                  Layer  : HAL                                             **
  **                  CPU    : Cortex-M4                                       **
  **                  MCU    : F446xx                                          **
- **                  SWC    : BCD_To_SSD                                      **
+ **                  SWC    : BSSD                                            **
  **                                                                           **
  **===========================================================================**
  */
 
-#ifndef BCD_To_SSD_INTERFACE_H_
-#define BCD_To_SSD_INTERFACE_H_
+#ifndef BSSD_INTERFACE_H_
+#define BSSD_INTERFACE_H_
 
 #include <stdint.h>
 
@@ -36,4 +36,4 @@ void SSD_vDisplayNumber(const SSD_Config_t *Config, uint8_t Copy_u8Number);
 void SSD_vEnable(const SSD_Config_t *Config);
 void SSD_vDisable(const SSD_Config_t *Config);
 
-#endif /* BCD_To_SSD_INTERFACE_H_ */
+#endif /* BSSD_INTERFACE_H_ */

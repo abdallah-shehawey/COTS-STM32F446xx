@@ -1,6 +1,6 @@
 /**
  **===========================================================================**
- **<<<<<<<<<<<<<<<<<<<<<<<<<<    DCMOTOR_program.c    >>>>>>>>>>>>>>>>>>>>>**
+ **<<<<<<<<<<<<<<<<<<<<<<<<<<    DCM_program.c    >>>>>>>>>>>>>>>>>>>>>**
  **                                                                           **
  **                  Author : Abdallah Abdelmoemen Shehawey                   **
  **                  Layer  : HAL                                            **
@@ -12,13 +12,11 @@
  */
 #include <stdint.h>
 
-#include "GPIO_interface.h"
-#include "ErrTYPES.h"
+#include "../../MCAL/GPIO/Inc/GPIO_interface.h"
+#include "ErrTypes.h"
 #include "STD_MACROS.h"
 
-// #include "PORT_INTERFACE.h"
-
-#include "DCMOTOR_INTERFACE.h"
+#include "../Inc/DCM_interface.h"
 
 ErrorState_t DCMOTOR_Init(const DCMOTOR_Config_t *DCMOTOR_Config)
 {

@@ -1,12 +1,12 @@
 /**
  **===========================================================================**
- **<<<<<<<<<<<<<<<<<<<<<<<<<<    BCD_To_SSD_program.c    >>>>>>>>>>>>>>>>>>>>>**
+ **<<<<<<<<<<<<<<<<<<<<<<<<<<    BSSD_program.c    >>>>>>>>>>>>>>>>>>>>>**
  **                                                                           **
  **                  Author : Abdallah Abdelmoemen Shehawey                   **
  **                  Layer  : HAL                                             **
  **                  CPU    : Cortex-M4                                       **
  **                  MCU    : F446xx                                          **
- **                  SWC    : BCD_To_SSD                                      **
+ **                  SWC    : BSSD                                            **
  **                                                                           **
  **===========================================================================**
  */
@@ -16,9 +16,9 @@
 
 #include "GPIO_interface.h"
 
-#include "BCD_To_SSD_interface.h"
-#include "BCD_To_SSD_config.h"
-#include "BCD_To_SSD_private.h"
+#include "../Inc/BSSD_interface.h"
+#include "../Inc/BSSD_config.h"
+#include "../Inc/BSSD_private.h"
 
 /*___________________________________________________________________________________________________________________*/
 
