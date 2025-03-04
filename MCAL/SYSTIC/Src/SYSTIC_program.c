@@ -15,121 +15,232 @@
 #include "STM32F446xx.h"
 #include "ErrTypes.h"
 
-#include "SYSTIC_interface.h"
-#include "SYSTIC_private.h"
-#include "SYSTIC_config.h"
-
-/**
- * @brief Global variable to store the overflow time to systic
- * @note This variable is used to calculate the number of ticks required for a delay
- */
-static float Global_u32SysticOverflow = 0;
+#include "../Inc/SYSTIC_interface.h"
+#include "../Inc/SYSTIC_private.h"
+#include "../Inc/SYSTIC_config.h"
 
 /*=================================================================================================================*/
 /**
  * @fn SYSTIC_vInit
- * @brief Initialize the SysTick timer
- * @details This function configures:
- *          1. Clock source (AHB or AHB/8)
- *          2. Calculates overflow time based on clock source
- *          3. Configures interrupt state (Enabled/Disabled)
+ * @brief Initialize and configure the SysTick timer
+ * @details This function performs the following configurations:
+ *          1. Sets up the clock source based on SYSTIC_CLKSOURCE configuration
+ *             - AHB clock: Maximum precision but higher power consumption
+ *             - AHB/8: Lower precision but more power efficient
+ *          2. Configures the interrupt state based on SYSTIC_TICKINT
+ *             - Enabled: Timer will generate exceptions
+ *             - Disabled: Polling mode operation
+ *
+ * @note This function must be called before using any other SYSTIC functions
+ * @warning Ensure system clock is properly configured before calling this function
  */
 void SYSTIC_vInit(void)
 {
-  /**
-   * @brief Configure clock source and calculate overflow time
-   */
+  /* Configure clock source */
 #if SYSTIC_CLKSOURCE == CLK_SOURCE_AHB
-  /* Use processor clock (AHB) */
+  /* Use processor clock (AHB) for maximum precision */
   MSYSTIC->CTRL |= (1u << SYSTIC_CTRL_CLKSOURCE);
-  Global_u32SysticOverflow = (SYSTIC_MAX_NO_OF_TICKS + 1) * (1.0f / SYSTEM_CLOCK);
+
 #elif SYSTIC_CLKSOURCE == CLK_SOURCE_AHB_DIV8
-  /* Use processor clock divided by 8 */
+  /* Use processor clock divided by 8 for power efficiency */
   MSYSTIC->CTRL &= (~(1u << SYSTIC_CTRL_CLKSOURCE));
-  Global_u32SysticOverflow = (SYSTIC_MAX_NO_OF_TICKS + 1) * (8.0f / SYSTEM_CLOCK);
+
 #else
-#error "Invalid SYSTIC Clock Source"
+#error "Invalid SYSTIC Clock Source Configuration"
 #endif
 
-  /**
-   * @brief Configure interrupt state
-   */
+  /* Configure interrupt generation */
 #if SYSTIC_TICKINT == ENABLE
   /* Enable SysTick exception generation */
   MSYSTIC->CTRL |= (1u << SYSTIC_CTRL_TICKINT);
 #elif SYSTIC_TICKINT == DISABLE
-  /* Disable SysTick exception generation */
+  /* Disable SysTick exception generation (polling mode) */
   MSYSTIC->CTRL &= (~(1u << SYSTIC_CTRL_TICKINT));
 #else
-#error "Invalid SYSTIC Interrupt Enable"
+#error "Invalid SYSTIC Interrupt Configuration"
 #endif
 }
 
+/*=================================================================================================================*/
 /**
  * @fn SYSTIC_vDisable
  * @brief Disable the SysTick timer
- * @details This function disables the SysTick timer by clearing the ENABLE bit
+ * @details Stops the timer by clearing the ENABLE bit in the CTRL register
+ *          This function is used internally by delay functions
  */
-void SYSTIC_vDisable(void)
+static void SYSTIC_vDisable(void)
 {
   MSYSTIC->CTRL &= (~(1u << SYSTIC_CTRL_ENABLE));
 }
 
 /*=================================================================================================================*/
 /**
- * @fn SYSTIC_vDelayMs
- * @brief Create a delay in milliseconds using polling method
- * @param Copy_u32MsTime Delay duration in milliseconds
- * @details Function operation:
- *          1. Calculates required number of ticks based on requested time
- *          2. Loads the value and starts the timer
- *          3. Waits for the COUNTFLAG to be set (polling)
+ * @fn SYSTIC_vEnable
+ * @brief Enable the SysTick timer
+ *
+ * @details Starts the timer by setting the ENABLE bit in the CTRL register
+ *          This function is used internally by delay functions
  */
-void SYSTIC_vDelayMs(uint32_t Copy_u32MsTime)
+static void SYSTIC_vEnable(void)
 {
-  uint32_t Local_u32Ticks = 0;
-  float Local_f32CountOverflow = 0;
-
-  /* Calculate required ticks for millisecond delay */
-  Local_f32CountOverflow = (float)(Copy_u32MsTime / (Global_u32SysticOverflow * 1000.0f));
-  Local_u32Ticks = (uint32_t)(Local_f32CountOverflow * SYSTIC_MAX_NO_OF_TICKS);
-
-  /* Configure and start timer */
-  MSYSTIC->LOAD = Local_u32Ticks;
-  MSYSTIC->VAL = 0;
   MSYSTIC->CTRL |= (1u << SYSTIC_CTRL_ENABLE);
+}
 
-  /* Wait until counting is complete */
+/*=================================================================================================================*/
+/**
+ * @fn SYSTIC_vWait
+ * @brief Wait for the SysTick timer to complete counting
+ *
+ * @details Polls the COUNTFLAG bit in the CTRL register until it is set,
+ *          indicating that the counter has reached zero
+ */
+static void SYSTIC_vWait(void)
+{
   while ((MSYSTIC->CTRL & (1u << SYSTIC_CTRL_COUNTFLAG)) == 0)
     ;
 }
 
 /*=================================================================================================================*/
 /**
+ * @fn SYSTIC_vDelayMs
+ * @brief Generate a precise millisecond delay
+ *
+ * @param[in] Copy_u32MsTime Delay duration in milliseconds
+ *
+ * @details This function:
+ *          1. Calculates the number of ticks needed based on clock configuration
+ *          2. Handles delays longer than maximum counter value (24-bit) by
+ *             breaking them into multiple shorter delays
+ *          3. Uses polling method to wait for completion
+ *
+ * @note The actual delay might be slightly longer than requested due to:
+ *       - Function call overhead
+ *       - Context switching (if interrupts are enabled)
+ *       - Clock frequency rounding
+ *
+ * @warning For very long delays, consider using a timer or RTC instead
+ */
+void SYSTIC_vDelayMs(uint32_t Copy_u32MsTime)
+{
+  /* Calculate tick time based on clock source */
+#if SYSTIC_CLKSOURCE == CLK_SOURCE_AHB_DIV8
+  float Local_f32TickTimeInMs = 1.0 / (SYSTEM_CLOCK_IN_KHZ / 8.0);
+#elif SYSTIC_CLKSOURCE == CLK_SOURCE_AHB
+  float Local_f32TickTimeInMs = 1.0 / SYSTEM_CLOCK_IN_KHZ;
+#endif
+
+  /* Calculate required number of ticks */
+  uint32_t Local_u32NoOfTicks = Copy_u32MsTime / Local_f32TickTimeInMs;
+
+  /* Check if delay fits in single counter cycle */
+  if (Local_u32NoOfTicks <= SYSTIC_MAX_NO_OF_TICKS)
+  {
+    /* Single cycle delay */
+    MSYSTIC->VAL = 0;                   /* Clear current value */
+    MSYSTIC->LOAD = Local_u32NoOfTicks; /* Load delay value */
+    SYSTIC_vEnable();                   /* Start timer */
+    SYSTIC_vWait();                     /* Wait for completion */
+    SYSTIC_vDisable();                  /* Stop timer */
+  }
+  else
+  {
+    /* Handle long delays by breaking into multiple cycles */
+    while (Local_u32NoOfTicks > 0)
+    {
+      if (Local_u32NoOfTicks > SYSTIC_MAX_NO_OF_TICKS)
+      {
+        /* Load maximum possible value */
+        Local_u32NoOfTicks -= SYSTIC_MAX_NO_OF_TICKS;
+        MSYSTIC->VAL = 0;
+        MSYSTIC->LOAD = SYSTIC_MAX_NO_OF_TICKS;
+        SYSTIC_vEnable();
+        SYSTIC_vWait();
+        SYSTIC_vDisable();
+      }
+      else
+      {
+        /* Load remaining ticks */
+        MSYSTIC->VAL = 0;
+        MSYSTIC->LOAD = Local_u32NoOfTicks;
+        SYSTIC_vEnable();
+        SYSTIC_vWait();
+        SYSTIC_vDisable();
+        break;
+      }
+    }
+  }
+}
+
+/*=================================================================================================================*/
+/**
  * @fn SYSTIC_vDelayUs
- * @brief Create a delay in microseconds using polling method
- * @param Copy_u32UsTime Delay duration in microseconds
- * @details Function operation:
- *          1. Calculates required number of ticks based on requested time
- *          2. Loads the value and starts the timer
- *          3. Waits for the COUNTFLAG to be set (polling)
+ * @brief Generate a precise microsecond delay
+ *
+ * @param[in] Copy_u32UsTime Delay duration in microseconds
+ *
+ * @details This function:
+ *          1. Calculates the number of ticks needed based on clock configuration
+ *          2. Handles delays longer than maximum counter value (24-bit) by
+ *             breaking them into multiple shorter delays
+ *          3. Uses polling method to wait for completion
+ *
+ * @note The actual delay might be slightly longer than requested due to:
+ *       - Function call overhead
+ *       - Context switching (if interrupts are enabled)
+ *       - Clock frequency rounding
+ *
+ * @warning For very short delays (<10µs), the actual delay may be longer
+ *          than requested due to function call overhead
  */
 void SYSTIC_vDelayUs(uint32_t Copy_u32UsTime)
 {
-  uint32_t Local_u32Ticks = 0;
-  float Local_f32CountOverflow = 0;
+  /* Calculate tick time based on clock source */
+#if SYSTIC_CLKSOURCE == CLK_SOURCE_AHB_DIV8
+  float Local_f32TickTimeInUs = 1.0 / (SYSTEM_CLOCK_IN_MHZ / 8.0);
+#elif SYSTIC_CLKSOURCE == CLK_SOURCE_AHB
+  float Local_f32TickTimeInUs = 1.0 / SYSTEM_CLOCK_IN_MHZ;
+#endif
 
-  /* Calculate required ticks for microsecond delay */
-  Local_f32CountOverflow = (float)(Copy_u32UsTime / (Global_u32SysticOverflow * 1000000.0f));
-  Local_u32Ticks = (uint32_t)(Local_f32CountOverflow * SYSTIC_MAX_NO_OF_TICKS);
+  /* Calculate required number of ticks */
+  uint32_t Local_u32NoOfTicks = Copy_u32UsTime / Local_f32TickTimeInUs;
 
-  /* Configure and start timer */
-  MSYSTIC->LOAD = Local_u32Ticks;
-  MSYSTIC->VAL = 0;
-  MSYSTIC->CTRL |= (1u << SYSTIC_CTRL_ENABLE);
-
-  /* Wait until counting is complete */
-  while ((MSYSTIC->CTRL & (1u << SYSTIC_CTRL_COUNTFLAG)) == 0)
-    ;
+  /* Check if delay fits in single counter cycle */
+  if (Local_u32NoOfTicks <= SYSTIC_MAX_NO_OF_TICKS)
+  {
+    /* Single cycle delay */
+    MSYSTIC->VAL = 0;                   /* Clear current value */
+    MSYSTIC->LOAD = Local_u32NoOfTicks; /* Load delay value */
+    SYSTIC_vEnable();                   /* Start timer */
+    SYSTIC_vWait();                     /* Wait for completion */
+    SYSTIC_vDisable();                  /* Stop timer */
+  }
+  else
+  {
+    /* Handle long delays by breaking into multiple cycles */
+    while (Local_u32NoOfTicks > 0)
+    {
+      if (Local_u32NoOfTicks > SYSTIC_MAX_NO_OF_TICKS)
+      {
+        /* Load maximum possible value */
+        Local_u32NoOfTicks -= SYSTIC_MAX_NO_OF_TICKS;
+        MSYSTIC->VAL = 0;
+        MSYSTIC->LOAD = SYSTIC_MAX_NO_OF_TICKS;
+        SYSTIC_vEnable();
+        SYSTIC_vWait();
+        SYSTIC_vDisable();
+      }
+      else
+      {
+        /* Load remaining ticks */
+        MSYSTIC->VAL = 0;
+        MSYSTIC->LOAD = Local_u32NoOfTicks;
+        SYSTIC_vEnable();
+        SYSTIC_vWait();
+        SYSTIC_vDisable();
+        break;
+      }
+    }
+  }
 }
+
 /*=================================================================================================================*/
