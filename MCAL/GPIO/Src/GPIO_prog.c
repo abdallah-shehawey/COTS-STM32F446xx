@@ -14,9 +14,9 @@
 #include <stdint.h>
 #include "STM32F446xx.h"
 
-#include "GPIO_interface.h"
-#include "GPIO_private.h"
-#include "GPIO_config.h"
+#include "../Inc/GPIO_interface.h"
+#include "../Inc/GPIO_private.h"
+#include "../Inc/GPIO_config.h"
 
 #include "STD_MACROS.h"
 #include "ErrTypes.h"
@@ -267,10 +267,25 @@ ErrorState_t GPIO_enumWrite8BitsVal(GPIO_Port_t Port, GPIO_Pin_t StartPin, uint8
 
   if ((Port <= GPIO_PORTH) && (StartPin <= GPIO_PIN8) && (Value <= 0xFF))
   {
-    // Clear the 8 bits
-    GPIO_Port[Port]->ODR &= ~(0xFF << StartPin);
-    // Write the new value
-    GPIO_Port[Port]->ODR |= (Value << StartPin);
+    /* Use BSRR register for atomic access */
+    uint32_t bsrr_value = 0;
+    
+    /* Set up reset bits (high 16 bits) to clear existing values */
+    for(uint8_t i = 0; i < 8; i++) {
+      if(!(Value & (1 << i))) {
+        bsrr_value |= (1U << (StartPin + i + 16));
+      }
+    }
+    
+    /* Set up set bits (low 16 bits) for new values */
+    for(uint8_t i = 0; i < 8; i++) {
+      if(Value & (1 << i)) {
+        bsrr_value |= (1U << (StartPin + i));
+      }
+    }
+    
+    /* Write to BSRR in one atomic operation */
+    GPIO_Port[Port]->BSRR = bsrr_value;
   }
   else
   {
