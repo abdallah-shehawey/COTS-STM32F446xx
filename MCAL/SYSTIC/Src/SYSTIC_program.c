@@ -124,9 +124,9 @@ void SYSTIC_vDelayMs(uint32_t Copy_u32MsTime)
 {
   /* Calculate tick time based on clock source */
 #if SYSTIC_CLKSOURCE == CLK_SOURCE_AHB_DIV8
-  float Local_f32TickTimeInMs = 1.0 / (SYSTEM_CLOCK_IN_KHZ / 8.0);
+  double Local_f32TickTimeInMs = 1.0 / (SYSTEM_CLOCK_IN_KHZ / 8.0);
 #elif SYSTIC_CLKSOURCE == CLK_SOURCE_AHB
-  float Local_f32TickTimeInMs = 1.0 / SYSTEM_CLOCK_IN_KHZ;
+  double Local_f32TickTimeInMs = 1.0 / SYSTEM_CLOCK_IN_KHZ;
 #endif
 
   /* Calculate required number of ticks */
@@ -196,9 +196,9 @@ void SYSTIC_vDelayUs(uint32_t Copy_u32UsTime)
 {
   /* Calculate tick time based on clock source */
 #if SYSTIC_CLKSOURCE == CLK_SOURCE_AHB_DIV8
-  float Local_f32TickTimeInUs = 1.0 / (SYSTEM_CLOCK_IN_MHZ / 8.0);
+  double Local_f32TickTimeInUs = 1.0 / (SYSTEM_CLOCK_IN_MHZ / 8.0);
 #elif SYSTIC_CLKSOURCE == CLK_SOURCE_AHB
-  float Local_f32TickTimeInUs = 1.0 / SYSTEM_CLOCK_IN_MHZ;
+  double Local_f32TickTimeInUs = 1.0 / SYSTEM_CLOCK_IN_MHZ;
 #endif
 
   /* Calculate required number of ticks */

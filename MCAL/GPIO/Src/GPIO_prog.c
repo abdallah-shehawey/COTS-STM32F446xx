@@ -14,12 +14,12 @@
 #include <stdint.h>
 #include "STM32F446xx.h"
 
+#include "STD_MACROS.h"
+#include "ErrTypes.h"
+
 #include "../Inc/GPIO_interface.h"
 #include "../Inc/GPIO_private.h"
 #include "../Inc/GPIO_config.h"
-
-#include "STD_MACROS.h"
-#include "ErrTypes.h"
 
 /* Array of GPIO port register definitions for easy access */
 static GPIO_REGDEF_t *GPIO_Port[GPIO_PORT_COUNT] = {MGPIOA, MGPIOB, MGPIOC, MGPIOD, MGPIOE, MGPIOF, MGPIOG, MGPIOH};
@@ -45,13 +45,13 @@ ErrorState_t GPIO_enumPinInit(const GPIO_PinConfig_t *PinConfig)
   if (PinConfig != NULL)
   {
     /* Check if port and pin numbers are valid */
-    if ((PinConfig->Port <= GPIO_PORTH) &&
-        (PinConfig->PinNum <= GPIO_PIN15) &&
-        (PinConfig->Mode <= GPIO_ANALOG) &&
-        (PinConfig->Otype <= GPIO_OPEN_DRAIN) &&
-        (PinConfig->Speed <= GPIO_VERY_HIGH_SPEED) &&
-        (PinConfig->PullType <= GPIO_PULL_DOWN) &&
-        (PinConfig->AlternateFunction <= GPIO_AF15))
+    if ((PinConfig->Port              <=   GPIO_PORTH          ) &&
+        (PinConfig->PinNum            <=   GPIO_PIN15          ) &&
+        (PinConfig->Mode              <=   GPIO_ANALOG         ) &&
+        (PinConfig->Otype             <=   GPIO_OPEN_DRAIN     ) &&
+        (PinConfig->Speed             <=   GPIO_VERY_HIGH_SPEED) &&
+        (PinConfig->PullType          <=   GPIO_PULL_DOWN      ) &&
+        (PinConfig->AlternateFunction <=   GPIO_AF15           ))
     {
       /* Configure pin mode (Input/Output/Alternate Function/Analog) */
       (GPIO_Port[PinConfig->Port]->MODER) &= ~(MODER_MASK << ((PinConfig->PinNum) * MODER_PIN_ACCESS));

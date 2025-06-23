@@ -16,8 +16,14 @@
 
 /**************************************         Various Memories Base Adresses          ******************************************/
 #define FLASH_BASEADDR 0x08000000UL
-#define SRAM_BASEADDR  0x20000000UL
-#define ROM_BASEADDR   0x1FFF0000UL
+#define SRAM_BASEADDR 0x20000000UL
+#define ROM_BASEADDR 0x1FFF0000UL
+
+/**************************************         NVIC Base Adresses          ******************************************/
+#define NVIC_BASEADDR 0XE000E100UL
+
+/**************************************         SCB Base Adresses          ******************************************/
+#define SCB_BASEADDR 0XE000ED00UL
 
 /**************************************         AHB1 Peripheral Base Adresses          ******************************************/
 #define GPIOA_BASEADDR 0X40020000UL
@@ -29,7 +35,7 @@
 #define GPIOG_BASEADDR 0X40021800UL
 #define GPIOH_BASEADDR 0X40021C00UL
 
-#define RCC_BASEADDR   0x40023800UL
+#define RCC_BASEADDR 0x40023800UL
 
 #define SYSTIC_BASEADDR 0XE000E010UL
 
@@ -41,17 +47,18 @@
 
 /**************************************         SYSTIC Peripheral Definitions       *********************************************/
 
-typedef struct {
+typedef struct
+{
   volatile uint32_t CTRL;
   volatile uint32_t LOAD;
-  volatile uint32_t VAL ;
+  volatile uint32_t VAL;
   volatile uint32_t CALIB;
 } SYSTIC_RegDef_t;
 
 #define MSYSTIC ((SYSTIC_RegDef_t *)SYSTIC_BASEADDR)
 
-    /**************************************       GPIO Register Definition Structure       ******************************************/
-    typedef struct
+/**************************************       GPIO Register Definition Structure       ******************************************/
+typedef struct
 {
   volatile uint32_t MODER;   /* GPIO PORT mode register              */
   volatile uint32_t OTYPER;  /* GPIO PORT output type register       */
@@ -103,6 +110,26 @@ typedef struct
   volatile uint32_t DCKCFGR2;     /* RCC dedicated clocks configuration register 2 (DCKCFGR2)                   */
 } RCC_RegDef_t;
 
+/**************************************         NVIC Peripheral Definitions       *********************************************/
+typedef struct
+{
+  volatile uint32_t ISER[8];        /* Interrupt Set Enable Register */
+  volatile uint32_t RESERVED1[24];
+  volatile uint32_t ICER[8];        /* Interrupt Clear Enable Register */
+  volatile uint32_t RESERVED2[24];
+  volatile uint32_t ISPR[8];        /* Interrupt Set Pending Register */
+  volatile uint32_t RESERVED3[24];
+  volatile uint32_t ICPR[8];        /* Interrupt Clear Pending Register */
+  volatile uint32_t RESERVED4[24];
+  volatile uint32_t IABR[8];        /* Interrupt Active Bit Register */
+  volatile uint32_t RESERVED5[56];
+  volatile uint8_t  IPR[240];        /* Interrupt Priority Register */
+  volatile uint32_t RESERVED6[580];
+  volatile uint32_t STIR;           /* Software Trigger Interrupt Register */
+} NVIC_RegDef_t;
+
+#define MNVIC ((NVIC_RegDef_t *)NVIC_BASEADDR)
+
 /**************************************         GPIO Peripheral Definitions       ******************************************/
 
 #define MGPIOA ((GPIO_REGDEF_t *)GPIOA_BASEADDR)
@@ -117,5 +144,31 @@ typedef struct
 /**************************************         RCC Peripheral Definitions       *********************************************/
 
 #define MRCC ((RCC_RegDef_t *)RCC_BASEADDR)
+
+/**************************************         SCB Peripheral Definitions       *********************************************/
+
+typedef struct
+{
+  uint32_t CPUID;
+  uint32_t ICSR;
+  uint32_t VTOR;
+  uint32_t AIRCR;
+  uint32_t SCR;
+  uint32_t CCR;
+  uint32_t SHPR1;
+  uint32_t SHPR2;
+  uint32_t SHPR3;
+  uint32_t SHCSR;
+  uint8_t  CFSR;
+  uint8_t  BFSR;
+  uint16_t UFSR;
+  uint32_t HFSR;
+  uint32_t DFSR;
+  uint32_t MMAR;
+  uint32_t BFAR;
+  uint32_t AFSR;
+} SCB_RegDef_t;
+
+#define MSCB ((SCB_RegDef_t *)SCB_BASEADDR)
 
 #endif /* STM32F446xx_H */
