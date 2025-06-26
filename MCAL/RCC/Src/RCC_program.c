@@ -512,7 +512,7 @@ ErrorState_t RCC_enumAHPPerSts(uint8_t Copy_u8Bus, uint8_t Copy_u8AHPPer, uint8_
  *         - Controls bits in APB1ENR and APB2ENR registers
  *         - Enables/disables clock for specific peripherals on APB buses
  */
-ErrorState_t RCC_enumABPPerSts(uint8_t Copy_u8Bus, uint8_t Copy_u8AHPPer, uint8_t Copy_u8Status)
+ErrorState_t RCC_enumABPPerSts(uint8_t Copy_u8Bus, uint8_t Copy_u8ABPPer, uint8_t Copy_u8Status)
 {
   ErrorState_t Local_u8ErrorState = OK;
 
@@ -524,11 +524,11 @@ ErrorState_t RCC_enumABPPerSts(uint8_t Copy_u8Bus, uint8_t Copy_u8AHPPer, uint8_
     case RCC_APB1:
       if (Copy_u8Status == RCC_PER_ON)
       {
-        SET_BIT(MRCC->APB1ENR, Copy_u8AHPPer);
+        SET_BIT(MRCC->APB1ENR, Copy_u8ABPPer);
       }
       else if (Copy_u8Status == RCC_PER_OFF)
       {
-        CLR_BIT(MRCC->APB1ENR, Copy_u8AHPPer);
+        CLR_BIT(MRCC->APB1ENR, Copy_u8ABPPer);
       }
       else
       {
@@ -537,11 +537,11 @@ ErrorState_t RCC_enumABPPerSts(uint8_t Copy_u8Bus, uint8_t Copy_u8AHPPer, uint8_
     case RCC_APB2:
       if (Copy_u8Status == RCC_PER_ON)
       {
-        SET_BIT(MRCC->APB2ENR, Copy_u8AHPPer);
+        SET_BIT(MRCC->APB2ENR, Copy_u8ABPPer);
       }
       else if (Copy_u8Status == RCC_PER_OFF)
       {
-        CLR_BIT(MRCC->APB2ENR, Copy_u8AHPPer);
+        CLR_BIT(MRCC->APB2ENR, Copy_u8ABPPer);
       }
       else
       {

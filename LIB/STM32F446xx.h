@@ -43,6 +43,10 @@
 /**************************************         AHB3 Peripheral Base Adresses          ******************************************/
 /**************************************         APB1 Peripheral Base Adresses          ******************************************/
 /**************************************         APB2 Peripheral Base Adresses          ******************************************/
+
+#define SYSCFG_BASEADDR 0X40013800UL
+#define EXTI_BASEADDR   0X40013C00UL
+
 /**************************************         APB3 Peripheral Base Adresses          ******************************************/
 
 /**************************************         SYSTIC Peripheral Definitions       *********************************************/
@@ -170,5 +174,34 @@ typedef struct
 } SCB_RegDef_t;
 
 #define MSCB ((SCB_RegDef_t *)SCB_BASEADDR)
+
+
+/**************************************         SYSCFG Peripheral Definitions       *********************************************/
+
+typedef struct
+{
+  uint32_t MEMRMP;
+  uint32_t PMC;
+  uint32_t EXTICR[4];
+  uint32_t Reserved1[2];
+  uint32_t CMPCR;
+  uint32_t Reserved2[2];
+  uint32_t CFGR;
+} SYSCFG_RegDef_t;
+
+#define MSYSCFG ((SYSCFG_RegDef_t *)SYSCFG_BASEADDR)
+
+/**************************************         EXTI Peripheral Definitions       *********************************************/
+typedef struct
+{
+  uint32_t IMR;
+  uint32_t EMR;
+  uint32_t RTSR;
+  uint32_t FTSR;
+  uint32_t SWIER;
+  uint32_t PR;
+} EXTI_RegDef_t;
+
+#define MEXTI ((EXTI_RegDef_t *)EXTI_BASEADDR)
 
 #endif /* STM32F446xx_H */

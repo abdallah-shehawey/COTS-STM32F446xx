@@ -88,21 +88,21 @@ typedef enum
  */
 typedef enum
 {
-  RCC_TIM1EN,      /* Timer 1 Enable */
+  RCC_TIM1EN = 0,  /* Timer 1 Enable */
   RCC_TIM8EN,      /* Timer 8 Enable */
-  RCC_USART1,  /* USART1 Enable */
+  RCC_USART1 = 4,  /* USART1 Enable */
   RCC_USART6,      /* USART6 Enable */
-  RCC_ADC1EN,  /* ADC1 Enable */
+  RCC_ADC1EN = 8,  /* ADC1 Enable */
   RCC_ADC2EN,      /* ADC2 Enable */
   RCC_ADC3EN,      /* ADC3 Enable */
   RCC_SDIOEN,      /* SDIO Enable */
   RCC_SPI1EN,      /* SPI1 Enable */
   RCC_SPI4EN,      /* SPI4 Enable */
   RCC_SYSCFGEN,    /* System Configuration Enable */
-  RCC_TIM9EN, /* Timer 9 Enable */
+  RCC_TIM9EN = 16, /* Timer 9 Enable */
   RCC_TIM10EN,     /* Timer 10 Enable */
   RCC_TIM11EN,     /* Timer 11 Enable */
-  RCC_SAI1EN, /* SAI1 Enable */
+  RCC_SAI1EN = 22, /* SAI1 Enable */
   RCC_SAI2EN,      /* SAI2 Enable */
 } RCC_APB2_BUS_t;
 
