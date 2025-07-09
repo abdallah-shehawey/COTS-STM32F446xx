@@ -12,7 +12,7 @@
  */
 
 /*******************************************************************************
- *                                Includes                                       *
+ *                                Includes                                     *
  *******************************************************************************/
 
 #include <stdint.h>
@@ -41,8 +41,8 @@ static uint8_t RCC_u8State = IDLE;
  *         It handles enabling/disabling of HSI, HSE, and PLL clocks with timeout protection
  * @param  Copy_u8CLK: Clock source to control (HSI_CLK, HSE_CLK, PLL_CLK)
  * @param  Copy_u8Status: Desired clock state (CLK_ON, CLK_OFF)
- * @return RCC_ErrorState:
- *         - RCC_OK: Operation completed successfully
+ * @return ErrorState_t:
+ *         - OK: Operation completed successfully
  *         - TIMEOUT_STATE: Clock failed to stabilize within timeout period
  *         - BUSY_STATE: RCC driver is busy with another operation
  * @details

@@ -166,13 +166,13 @@ typedef enum
  */
 typedef struct
 {
-  GPIO_Port_t Port;                           /* GPIO Port Selection */
-  GPIO_Pin_t PinNum;                          /* GPIO Pin Number */
-  GPIO_Mode_t Mode;                           /* GPIO Mode */
-  GPIO_OutputType_t Otype;                    /* Output Type (if configured as output) */
-  GPIO_OutputSpeed_t Speed;                   /* Output Speed (if configured as output) */
-  GPIO_PullUpDown_t PullType;                 /* Pull-up/Pull-down Configuration */
-  GPIO_AlternateFunction_t AlternateFunction; /* Alternate Function (if in AF mode) */
+  GPIO_Port_t        Port;                            /* GPIO Port Selection */
+  GPIO_Pin_t         PinNum;                          /* GPIO Pin Number */
+  GPIO_Mode_t        Mode;                            /* GPIO Mode */
+  GPIO_OutputType_t  Otype;                           /* Output Type (if configured as output) */
+  GPIO_OutputSpeed_t Speed;                           /* Output Speed (if configured as output) */
+  GPIO_PullUpDown_t  PullType;                        /* Pull-up/Pull-down Configuration */
+  GPIO_AlternateFunction_t AlternateFunction;         /* Alternate Function (if in AF mode) */
 } GPIO_PinConfig_t;
 
 /************************** Port Half Definitions **************************/
@@ -203,7 +203,7 @@ typedef struct
   GPIO_OutputType_t Otype;    /* GPIO Output Type Selection (PUSH_PULL or OPEN_DRAIN) */
   GPIO_OutputSpeed_t Speed;   /* GPIO Output Speed Selection (LOW_SPEED to VERY_HIGH_SPEED) */
   GPIO_PullUpDown_t PullType; /* GPIO Pull Configuration (NO_PULL, PULL_UP or PULL_DOWN) */
-} GPIO_8BinsConfig_t;
+} GPIO_8PinsConfig_t;
 
 /************************** Port 4-Bits Configuration Structure **************************/
 /********************************
@@ -220,7 +220,7 @@ typedef struct
   GPIO_OutputType_t Otype;    /* GPIO Output Type Selection (PUSH_PULL or OPEN_DRAIN) */
   GPIO_OutputSpeed_t Speed;   /* GPIO Output Speed Selection (LOW_SPEED to VERY_HIGH_SPEED) */
   GPIO_PullUpDown_t PullType; /* GPIO Pull Configuration (NO_PULL, PULL_UP or PULL_DOWN) */
-} GPIO_4BinsConfig_t;
+} GPIO_4PinsConfig_t;
 
 /************************** Function Prototypes **************************/
 /********************************
@@ -237,7 +237,7 @@ ErrorState_t GPIO_enumPinInit(const GPIO_PinConfig_t *PinConfig);
  * @param : GPIO_PortHalfConfig_t[in]: Pointer to port configuration structure
  * @retval GPIO_ErrorState: GPIO_OK if successful, GPIO_NOK if error
  */
-ErrorState_t GPIO_enumPort8BitsInit(const GPIO_8BinsConfig_t *GPIO_8BinsConfig);
+ErrorState_t GPIO_enumPort8PinsInit(const GPIO_8PinsConfig_t *GPIO_8PinsConfig);
 
 /**
  * @fn     GPIO_enumWrite8BitsVal
@@ -247,7 +247,7 @@ ErrorState_t GPIO_enumPort8BitsInit(const GPIO_8BinsConfig_t *GPIO_8BinsConfig);
  * @param : Value: 8-bit value to write (0x00 to 0xFF)
  * @retval ErrorState_t: OK if write successful, NOK if invalid parameters
  */
-ErrorState_t GPIO_enumWrite8BitsVal(GPIO_Port_t Port, GPIO_Pin_t StartPin, uint8_t Value);
+ErrorState_t GPIO_enumWrite8PinsVal(GPIO_Port_t Port, GPIO_Pin_t StartPin, uint8_t Value);
 
 /**
  * @fn     GPIO_enumWrite4BitsVal
@@ -257,7 +257,7 @@ ErrorState_t GPIO_enumWrite8BitsVal(GPIO_Port_t Port, GPIO_Pin_t StartPin, uint8
  * @param : Value: 4-bit value to write (0x0 to 0xF)
  * @retval ErrorState_t: OK if write successful, NOK if invalid parameters
  */
-ErrorState_t GPIO_enumWrite4BitsVal(GPIO_Port_t Port, GPIO_Pin_t StartPin, uint8_t Value);
+ErrorState_t GPIO_enumWrite4PinsVal(GPIO_Port_t Port, GPIO_Pin_t StartPin, uint8_t Value);
 
 
 /**
@@ -295,6 +295,6 @@ ErrorState_t GPIO_enumTogPinVal(GPIO_Port_t Port, GPIO_Pin_t PinNum);
  * @param : GPIO_4BinsConfig[in]: Pointer to port 4-bit configuration structure
  * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
  */
-ErrorState_t GPIO_enumPort4BitsInit(const GPIO_4BinsConfig_t *GPIO_4BinsConfig);
+ErrorState_t GPIO_enumPort4PinsInit(const GPIO_4PinsConfig_t *GPIO_4PinsConfig);
 
 #endif /* GPIO_INTERFACE_H_ */

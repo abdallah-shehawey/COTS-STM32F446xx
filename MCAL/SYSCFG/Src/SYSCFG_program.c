@@ -42,13 +42,13 @@
 void SYSCFG_vSetEXTIConfig(SYSCFG_EXTI_t Copy_u8EXTI, SYSCFG_Port_t Copy_u8Port)
 {
   /* Calculate register number (0-3) based on EXTI line number */
-  uint8_t Local_u8RegNum = Copy_u8EXTI / 4;
+  uint8_t Local_u8RegNum = Copy_u8EXTI / EXTI_CTRL_REG_LINEBITS;
 
   /* Calculate bit position within register (0-12) */
-  uint8_t Local_u8BitNum = (Copy_u8EXTI % 4) * 4;
+  uint8_t Local_u8BitNum = (Copy_u8EXTI % EXTI_CTRL_REG_LINEBITS) * EXTI_CTRL_REG_LINEBITS;
 
   /* Clear current port mapping for this EXTI line */
-  MSYSCFG->EXTICR[Local_u8RegNum] &= ~(0x0F << Local_u8BitNum);
+  MSYSCFG->EXTICR[Local_u8RegNum] &= ~(EXTI_CTRL_REG_MASK << Local_u8BitNum);
 
   /* Set new port mapping for this EXTI line */
   MSYSCFG->EXTICR[Local_u8RegNum] |= (Copy_u8Port << Local_u8BitNum);

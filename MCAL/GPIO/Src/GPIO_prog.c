@@ -114,11 +114,11 @@ ErrorState_t GPIO_enumPort8BitsInit(const GPIO_8BinsConfig_t *GPIO_8BinsConfig)
 
   if (GPIO_8BinsConfig != NULL)
   { /* Check if port and configuration parameters are valid */
-    if ((GPIO_8BinsConfig->Port <= GPIO_PORTH) &&
-        (GPIO_8BinsConfig->StartPin <= GPIO_PIN8) &&
-        (GPIO_8BinsConfig->Mode <= GPIO_OUTPUT) &&
-        (GPIO_8BinsConfig->Otype <= GPIO_OPEN_DRAIN) &&
-        (GPIO_8BinsConfig->Speed <= GPIO_VERY_HIGH_SPEED) &&
+    if ((GPIO_8BinsConfig->Port     <= GPIO_PORTH) &&
+        (GPIO_8BinsConfig->StartPin <= GPIO_PIN15) &&
+        (GPIO_8BinsConfig->Mode     <= GPIO_OUTPUT) &&
+        (GPIO_8BinsConfig->Otype    <= GPIO_OPEN_DRAIN) &&
+        (GPIO_8BinsConfig->Speed    <= GPIO_VERY_HIGH_SPEED) &&
         (GPIO_8BinsConfig->PullType <= GPIO_PULL_DOWN))
     {
       Local_u8EndPin = GPIO_8BinsConfig->StartPin + 7;
@@ -126,25 +126,7 @@ ErrorState_t GPIO_enumPort8BitsInit(const GPIO_8BinsConfig_t *GPIO_8BinsConfig)
       /* Configure the 8 pins */
       for (Local_u8Counter = GPIO_8BinsConfig->StartPin; Local_u8Counter <= Local_u8EndPin; Local_u8Counter++)
       {
-        /* Set pin mode */
-        GPIO_Port[GPIO_8BinsConfig->Port]->MODER &= ~(MODER_MASK << (Local_u8Counter * MODER_PIN_ACCESS));
-        GPIO_Port[GPIO_8BinsConfig->Port]->MODER |= (GPIO_8BinsConfig->Mode << (Local_u8Counter * MODER_PIN_ACCESS));
-
-        /* Set pull type */
-        GPIO_Port[GPIO_8BinsConfig->Port]->PUPDR &= ~(PUPDR_MASK << (Local_u8Counter * PUPDR_PIN_ACCESS));
-        GPIO_Port[GPIO_8BinsConfig->Port]->PUPDR |= (GPIO_8BinsConfig->PullType << (Local_u8Counter * PUPDR_PIN_ACCESS));
-
-        /* Configure output settings if output mode */
-        if (GPIO_8BinsConfig->Mode == GPIO_OUTPUT)
-        {
-          /* Set output type */
-          GPIO_Port[GPIO_8BinsConfig->Port]->OTYPER &= ~(OTYPER_MASK << Local_u8Counter);
-          GPIO_Port[GPIO_8BinsConfig->Port]->OTYPER |= (GPIO_8BinsConfig->Otype << Local_u8Counter);
-
-          /* Set output speed */
-          GPIO_Port[GPIO_8BinsConfig->Port]->OSPEEDR &= ~(OSPEEDR_MASK << (Local_u8Counter * OSPEEDR_PIN_ACCESS));
-          GPIO_Port[GPIO_8BinsConfig->Port]->OSPEEDR |= (GPIO_8BinsConfig->Speed << (Local_u8Counter * OSPEEDR_PIN_ACCESS));
-        }
+        GPIO_8
       }
     }
     else
@@ -165,7 +147,7 @@ ErrorState_t GPIO_enumPort8BitsInit(const GPIO_8BinsConfig_t *GPIO_8BinsConfig)
  * @brief : Initializes GPIO port 4-bit configuration
  * @param : Port4BitsConfig[in]: Pointer to port 4-bit configuration structure containing:
  *                      - Port: Selected GPIO port (PORTA to PORTH)
- *                      - StartPin: Starting pin number (PIN0 to PIN12)
+ *                      - StartPin: Starting pin number (PIN0 to PIN15)
  *                      - Mode: Port mode (INPUT, OUTPUT)
  *                      - Otype: Output type (PUSH_PULL, OPEN_DRAIN)
  *                      - Speed: Output speed (LOW_SPEED, MEDIUM_SPEED, HIGH_SPEED, VERY_HIGH_SPEED)
@@ -181,7 +163,7 @@ ErrorState_t GPIO_enumPort4BitsInit(const GPIO_4BinsConfig_t *GPIO_4BinsConfig)
   if (GPIO_4BinsConfig != NULL)
   { /* Check if port and configuration parameters are valid */
     if ((GPIO_4BinsConfig->Port <= GPIO_PORTH) &&
-        (GPIO_4BinsConfig->StartPin <= GPIO_PIN12) &&
+        (GPIO_4BinsConfig->StartPin <= GPIO_PIN15) &&
         (GPIO_4BinsConfig->Mode <= GPIO_OUTPUT) &&
         (GPIO_4BinsConfig->Otype <= GPIO_OPEN_DRAIN) &&
         (GPIO_4BinsConfig->Speed <= GPIO_VERY_HIGH_SPEED) &&
@@ -238,7 +220,7 @@ ErrorState_t GPIO_enumWrite4BitsVal(GPIO_Port_t Port, GPIO_Pin_t StartPin, uint8
 {
   ErrorState_t Local_u8ErrorState = OK;
 
-  if ((Port <= GPIO_PORTH) && (StartPin <= GPIO_PIN12) && (Value <= 0x0F))
+  if ((Port <= GPIO_PORTH) && (StartPin <= GPIO_PIN15) && (Value <= 0x0F))
   {
     // Clear the 4 bits
     GPIO_Port[Port]->ODR &= ~(0x0F << StartPin);
@@ -257,7 +239,7 @@ ErrorState_t GPIO_enumWrite4BitsVal(GPIO_Port_t Port, GPIO_Pin_t StartPin, uint8
  * @fn     GPIO_enumWrite8BitsVal
  * @brief : Write 8 bits directly to ODR register starting from specified pin
  * @param : Port: GPIO port index (PORTA to PORTH)
- * @param : StartPin: Starting pin number (PIN0 to PIN8)
+ * @param : StartPin: Starting pin number (PIN0 to PIN15)
  * @param : Value: 8-bit value to write (0x00 to 0xFF)
  * @retval ErrorState_t: OK if write successful, NOK if invalid parameters
  */
