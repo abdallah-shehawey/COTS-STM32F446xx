@@ -237,7 +237,7 @@ ErrorState_t GPIO_enumPinInit(const GPIO_PinConfig_t *PinConfig);
  * @param : GPIO_PortHalfConfig_t[in]: Pointer to port configuration structure
  * @retval GPIO_ErrorState: GPIO_OK if successful, GPIO_NOK if error
  */
-ErrorState_t GPIO_enumPort8PinsInit(const GPIO_8PinsConfig_t *GPIO_8PinsConfig);
+ErrorState_t GPIO_enumPort8PinsInit(GPIO_8PinsConfig_t *GPIO_8PinsConfig);
 
 /**
  * @fn     GPIO_enumWrite8BitsVal
@@ -295,6 +295,27 @@ ErrorState_t GPIO_enumTogPinVal(GPIO_Port_t Port, GPIO_Pin_t PinNum);
  * @param : GPIO_4BinsConfig[in]: Pointer to port 4-bit configuration structure
  * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
  */
-ErrorState_t GPIO_enumPort4PinsInit(const GPIO_4PinsConfig_t *GPIO_4PinsConfig);
+ErrorState_t GPIO_enumPort4PinsInit(GPIO_4PinsConfig_t *GPIO_4PinsConfig);
+
+/**
+ * @fn     GPIO_enumRead4PinsVal
+ * @brief : Read the current value of a GPIO port 4-pins
+ * @param : Port: GPIO port (PORTA to PORTH)
+ * @param : StartPin: Starting pin number (PIN0 to PIN12)
+ * @param : PinsValue: Pointer to store the read value
+ * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
+ */
+ErrorState_t GPIO_enumRead4PinsVal(GPIO_Port_t Port, GPIO_Pin_t StartPin, uint8_t *PinsValue);
+
+/*=================================================================================================================*/
+/**
+ * @fn     GPIO_enumRead8PinsVal
+ * @brief : Read the current value of a GPIO port 8-pins
+ * @param : Port: GPIO port (PORTA to PORTH)
+ * @param : StartPin: Starting pin number (PIN0 to PIN15)
+ * @param : PinsValue: Pointer to store the read value
+ * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
+ */
+ ErrorState_t GPIO_enumRead8PinsVal(GPIO_Port_t Port, GPIO_Pin_t StartPin, uint8_t *PinsValue);
 
 #endif /* GPIO_INTERFACE_H_ */

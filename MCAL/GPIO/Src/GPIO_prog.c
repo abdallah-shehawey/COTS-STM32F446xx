@@ -95,9 +95,9 @@ ErrorState_t GPIO_enumPinInit(const GPIO_PinConfig_t *PinConfig)
 
 /*=================================================================================================================*/
 /**
- * @fn     GPIO_enumPort8BitsInit
- * @brief : Initializes GPIO port 8-bit configuration
- * @param : GPIO_8BinsConfig[in]: Pointer to port 8-bit configuration structure containing:
+ * @fn     GPIO_enumPort8PinsInit
+ * @brief : Initializes GPIO port 8-pins configuration
+ * @param : GPIO_8BinsConfig[in]: Pointer to port 8-pins configuration structure containing:
  *                      - Port: Selected GPIO port (PORTA to PORTH)
  *                      - StartPin: Starting pin number (PIN0 to PIN8)
  *                      - Mode: Port mode (INPUT, OUTPUT)
@@ -106,27 +106,28 @@ ErrorState_t GPIO_enumPinInit(const GPIO_PinConfig_t *PinConfig)
  *                      - PullType: Pull-up/Pull-down configuration (NO_PULL, PULL_UP, PULL_DOWN)
  * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
  */
-ErrorState_t GPIO_enumPort8BitsInit(const GPIO_8BinsConfig_t *GPIO_8BinsConfig)
+ErrorState_t GPIO_enumPort8PinsInit(GPIO_8PinsConfig_t *GPIO_8PinsConfig)
 {
   ErrorState_t Local_u8ErrorState = OK;
   uint8_t Local_u8Counter;
   uint8_t Local_u8EndPin;
 
-  if (GPIO_8BinsConfig != NULL)
+  if (GPIO_8PinsConfig != NULL)
   { /* Check if port and configuration parameters are valid */
-    if ((GPIO_8BinsConfig->Port     <= GPIO_PORTH) &&
-        (GPIO_8BinsConfig->StartPin <= GPIO_PIN15) &&
-        (GPIO_8BinsConfig->Mode     <= GPIO_OUTPUT) &&
-        (GPIO_8BinsConfig->Otype    <= GPIO_OPEN_DRAIN) &&
-        (GPIO_8BinsConfig->Speed    <= GPIO_VERY_HIGH_SPEED) &&
-        (GPIO_8BinsConfig->PullType <= GPIO_PULL_DOWN))
+    if ((GPIO_8PinsConfig->Port     <= GPIO_PORTH) &&
+        (GPIO_8PinsConfig->StartPin <= GPIO_PIN15) &&
+        (GPIO_8PinsConfig->Mode     <= GPIO_OUTPUT) &&
+        (GPIO_8PinsConfig->Otype    <= GPIO_OPEN_DRAIN) &&
+        (GPIO_8PinsConfig->Speed    <= GPIO_VERY_HIGH_SPEED) &&
+        (GPIO_8PinsConfig->PullType <= GPIO_PULL_DOWN))
     {
-      Local_u8EndPin = GPIO_8BinsConfig->StartPin + 7;
+      Local_u8EndPin = GPIO_8PinsConfig->StartPin + 7;
 
       /* Configure the 8 pins */
-      for (Local_u8Counter = GPIO_8BinsConfig->StartPin; Local_u8Counter <= Local_u8EndPin; Local_u8Counter++)
+      for (Local_u8Counter = GPIO_8PinsConfig->StartPin; Local_u8Counter <= Local_u8EndPin; Local_u8Counter++)
       {
-        GPIO_8
+        GPIO_8PinsConfig->StartPin = Local_u8Counter;
+        GPIO_enumPinInit((GPIO_PinConfig_t*) GPIO_8PinsConfig); //Error when casting removed
       }
     }
     else
@@ -143,9 +144,9 @@ ErrorState_t GPIO_enumPort8BitsInit(const GPIO_8BinsConfig_t *GPIO_8BinsConfig)
 
 /*=================================================================================================================*/
 /**
- * @fn     GPIO_enumPort4BitsInit
- * @brief : Initializes GPIO port 4-bit configuration
- * @param : Port4BitsConfig[in]: Pointer to port 4-bit configuration structure containing:
+ * @fn     GPIO_enumPort4PinsInit
+ * @brief : Initializes GPIO port 4-pins configuration
+ * @param : Port4PinsConfig[in]: Pointer to port 4-pins configuration structure containing:
  *                      - Port: Selected GPIO port (PORTA to PORTH)
  *                      - StartPin: Starting pin number (PIN0 to PIN15)
  *                      - Mode: Port mode (INPUT, OUTPUT)
@@ -154,45 +155,28 @@ ErrorState_t GPIO_enumPort8BitsInit(const GPIO_8BinsConfig_t *GPIO_8BinsConfig)
  *                      - PullType: Pull-up/Pull-down configuration (NO_PULL, PULL_UP, PULL_DOWN)
  * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
  */
-ErrorState_t GPIO_enumPort4BitsInit(const GPIO_4BinsConfig_t *GPIO_4BinsConfig)
+ErrorState_t GPIO_enumPort4PinsInit(GPIO_4PinsConfig_t *GPIO_4PinsConfig)
 {
   ErrorState_t Local_u8ErrorState = OK;
   uint8_t Local_u8Counter;
   uint8_t Local_u8EndPin;
 
-  if (GPIO_4BinsConfig != NULL)
+  if (GPIO_4PinsConfig != NULL)
   { /* Check if port and configuration parameters are valid */
-    if ((GPIO_4BinsConfig->Port <= GPIO_PORTH) &&
-        (GPIO_4BinsConfig->StartPin <= GPIO_PIN15) &&
-        (GPIO_4BinsConfig->Mode <= GPIO_OUTPUT) &&
-        (GPIO_4BinsConfig->Otype <= GPIO_OPEN_DRAIN) &&
-        (GPIO_4BinsConfig->Speed <= GPIO_VERY_HIGH_SPEED) &&
-        (GPIO_4BinsConfig->PullType <= GPIO_PULL_DOWN))
+    if ((GPIO_4PinsConfig->Port <= GPIO_PORTH) &&
+        (GPIO_4PinsConfig->StartPin <= GPIO_PIN15) &&
+        (GPIO_4PinsConfig->Mode <= GPIO_OUTPUT) &&
+        (GPIO_4PinsConfig->Otype <= GPIO_OPEN_DRAIN) &&
+        (GPIO_4PinsConfig->Speed <= GPIO_VERY_HIGH_SPEED) &&
+        (GPIO_4PinsConfig->PullType <= GPIO_PULL_DOWN))
     {
-      Local_u8EndPin = GPIO_4BinsConfig->StartPin + 3;
+      Local_u8EndPin = GPIO_4PinsConfig->StartPin + 3;
 
       /* Configure the 4 pins */
-      for (Local_u8Counter = GPIO_4BinsConfig->StartPin; Local_u8Counter <= Local_u8EndPin; Local_u8Counter++)
+      for (Local_u8Counter = GPIO_4PinsConfig->StartPin; Local_u8Counter <= Local_u8EndPin; Local_u8Counter++)
       {
-        /* Set pin mode */
-        GPIO_Port[GPIO_4BinsConfig->Port]->MODER &= ~(MODER_MASK << (Local_u8Counter * MODER_PIN_ACCESS));
-        GPIO_Port[GPIO_4BinsConfig->Port]->MODER |= (GPIO_4BinsConfig->Mode << (Local_u8Counter * MODER_PIN_ACCESS));
-
-        /* Set pull type */
-        GPIO_Port[GPIO_4BinsConfig->Port]->PUPDR &= ~(PUPDR_MASK << (Local_u8Counter * PUPDR_PIN_ACCESS));
-        GPIO_Port[GPIO_4BinsConfig->Port]->PUPDR |= (GPIO_4BinsConfig->PullType << (Local_u8Counter * PUPDR_PIN_ACCESS));
-
-        /* Configure output settings if output mode */
-        if (GPIO_4BinsConfig->Mode == GPIO_OUTPUT)
-        {
-          /* Set output type */
-          GPIO_Port[GPIO_4BinsConfig->Port]->OTYPER &= ~(OTYPER_MASK << Local_u8Counter);
-          GPIO_Port[GPIO_4BinsConfig->Port]->OTYPER |= (GPIO_4BinsConfig->Otype << Local_u8Counter);
-
-          /* Set output speed */
-          GPIO_Port[GPIO_4BinsConfig->Port]->OSPEEDR &= ~(OSPEEDR_MASK << (Local_u8Counter * OSPEEDR_PIN_ACCESS));
-          GPIO_Port[GPIO_4BinsConfig->Port]->OSPEEDR |= (GPIO_4BinsConfig->Speed << (Local_u8Counter * OSPEEDR_PIN_ACCESS));
-        }
+        GPIO_4PinsConfig->StartPin = Local_u8Counter;
+        GPIO_enumPinInit((GPIO_PinConfig_t*) GPIO_4PinsConfig);
       }
     }
     else
@@ -216,7 +200,7 @@ ErrorState_t GPIO_enumPort4BitsInit(const GPIO_4BinsConfig_t *GPIO_4BinsConfig)
  * @param : Value: 4-bit value to write (0x0 to 0xF)
  * @retval ErrorState_t: OK if write successful, NOK if invalid parameters
  */
-ErrorState_t GPIO_enumWrite4BitsVal(GPIO_Port_t Port, GPIO_Pin_t StartPin, uint8_t Value)
+ErrorState_t GPIO_enumWrite4PinsVal(GPIO_Port_t Port, GPIO_Pin_t StartPin, uint8_t Value)
 {
   ErrorState_t Local_u8ErrorState = OK;
 
@@ -243,31 +227,14 @@ ErrorState_t GPIO_enumWrite4BitsVal(GPIO_Port_t Port, GPIO_Pin_t StartPin, uint8
  * @param : Value: 8-bit value to write (0x00 to 0xFF)
  * @retval ErrorState_t: OK if write successful, NOK if invalid parameters
  */
-ErrorState_t GPIO_enumWrite8BitsVal(GPIO_Port_t Port, GPIO_Pin_t StartPin, uint8_t Value)
+ErrorState_t GPIO_enumWrite8PinsVal(GPIO_Port_t Port, GPIO_Pin_t StartPin, uint8_t Value)
 {
   ErrorState_t Local_u8ErrorState = OK;
 
   if ((Port <= GPIO_PORTH) && (StartPin <= GPIO_PIN8) && (Value <= 0xFF))
   {
-    /* Use BSRR register for atomic access */
-    uint32_t bsrr_value = 0;
-    
-    /* Set up reset bits (high 16 bits) to clear existing values */
-    for(uint8_t i = 0; i < 8; i++) {
-      if(!(Value & (1 << i))) {
-        bsrr_value |= (1U << (StartPin + i + 16));
-      }
-    }
-    
-    /* Set up set bits (low 16 bits) for new values */
-    for(uint8_t i = 0; i < 8; i++) {
-      if(Value & (1 << i)) {
-        bsrr_value |= (1U << (StartPin + i));
-      }
-    }
-    
-    /* Write to BSRR in one atomic operation */
-    GPIO_Port[Port]->BSRR = bsrr_value;
+    GPIO_Port[Port]->ODR &= ~(0xFF << StartPin);
+    GPIO_Port[Port]->ODR |= ((Value & 0xFF) << StartPin);
   }
   else
   {
@@ -362,11 +329,72 @@ ErrorState_t GPIO_enumTogPinVal(GPIO_Port_t Port, GPIO_Pin_t PinNum)
   /* Check if port and pin numbers are valid */
   if ((Port >= GPIO_PORTA && Port <= GPIO_PORTH) &&(PinNum >= GPIO_PIN0 && PinNum <= GPIO_PIN15))
   {
-    TOG_BIT(GPIO_Port[Port]->ODR, PinNum);
+    GPIO_Port[Port]->ODR ^= (1 << PinNum);
   }
   else
   {
     Local_u8ErrorState = NOK;
+  }
+  return Local_u8ErrorState;
+}
+
+/*=================================================================================================================*/
+/**
+ * @fn     GPIO_enumRead4PinsVal
+ * @brief : Read the current value of a GPIO port 4-pins
+ * @param : Port: GPIO port (PORTA to PORTH)
+ * @param : StartPin: Starting pin number (PIN0 to PIN15)
+ * @param : PinsValue: Pointer to store the read value
+ * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
+ */
+ErrorState_t GPIO_enumRead4PinsVal(GPIO_Port_t Port, GPIO_Pin_t StartPin, uint8_t *PinsValue)
+{
+  ErrorState_t Local_u8ErrorState = OK;
+  if (PinsValue != NULL)
+  {
+    if ((Port <= GPIO_PORTH) && (StartPin <= GPIO_PIN15))
+    {
+      *PinsValue = (GPIO_Port[Port]->IDR & (0x0F << StartPin));
+    }
+    else
+    {
+      Local_u8ErrorState = NOK;
+    }
+  }
+  else
+  {
+    Local_u8ErrorState = NULL_POINTER;
+  }
+  return Local_u8ErrorState;
+}
+
+
+/*=================================================================================================================*/
+/**
+ * @fn     GPIO_enumRead8PinsVal
+ * @brief : Read the current value of a GPIO port 8-pins
+ * @param : Port: GPIO port (PORTA to PORTH)
+ * @param : StartPin: Starting pin number (PIN0 to PIN15)
+ * @param : PinsValue: Pointer to store the read value
+ * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
+ */
+ErrorState_t GPIO_enumRead8PinsVal(GPIO_Port_t Port, GPIO_Pin_t StartPin, uint8_t *PinsValue)
+{
+  ErrorState_t Local_u8ErrorState = OK;
+  if (PinsValue != NULL)
+  {
+    if ((Port <= GPIO_PORTH) && (StartPin <= GPIO_PIN15))
+    {
+      *PinsValue = (GPIO_Port[Port]->IDR & (0xFF << StartPin));
+    }
+    else
+    {
+      Local_u8ErrorState = NOK;
+    }
+  }
+  else
+  {
+    Local_u8ErrorState = NULL_POINTER;
   }
   return Local_u8ErrorState;
 }
