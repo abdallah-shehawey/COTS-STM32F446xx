@@ -174,7 +174,7 @@ ErrorState_t RCC_enumSetClkSts(uint8_t Copy_u8CLK, uint8_t Copy_u8Status)
 
   return Local_u8ErrorState;
 }
-
+/*=================================================================================================================*/
 /**
  * @fn     RCC_enumSetSysClk
  * @brief  This function configures the system clock source
@@ -235,6 +235,7 @@ ErrorState_t RCC_enumSetSysClk(uint8_t Copy_u8CLK)
   return Local_u8ErrorState;
 }
 
+/*=================================================================================================================*/
 /**
  * @fn     RCC_enumPLLConfig
  * @brief  This function configures the PLL clock parameters
@@ -305,6 +306,7 @@ ErrorState_t RCC_enumPLLConfig(const RCC_PLLConfig_t *Copy_PLLConfig)
   return Local_u8ErrorState;
 }
 
+/*=================================================================================================================*/
 /**
  * @fn     RCC_enumAHBConfig
  * @brief  This function configures the AHB bus clock prescaler
@@ -347,6 +349,7 @@ ErrorState_t RCC_enumAHBConfig(uint8_t Copy_u8AHPDiv)
   return Local_u8ErrorState;
 }
 
+/*=================================================================================================================*/
 /**
  * @fn     RCC_enumAPB1Config
  * @brief  This function configures the APB1 bus clock prescaler
@@ -389,6 +392,7 @@ ErrorState_t RCC_enumAPB1Config(uint8_t Copy_u8APB1Div)
   return Local_u8ErrorState;
 }
 
+/*=================================================================================================================*/
 /**
  * @fn     RCC_enumAPB2Config
  * @brief  This function configures the APB2 bus clock prescaler
@@ -430,6 +434,7 @@ ErrorState_t RCC_enumAPB2Config(uint8_t Copy_u8APB2Div)
   return Local_u8ErrorState;
 }
 
+/*=================================================================================================================*/
 /**
  * @fn     RCC_enumAHPPerSts
  * @brief  This function controls the clock enable/disable for peripherals on AHB buses
@@ -498,6 +503,7 @@ ErrorState_t RCC_enumAHPPerSts(uint8_t Copy_u8Bus, uint8_t Copy_u8AHPPer, uint8_
   return Local_u8ErrorState;
 }
 
+/*=================================================================================================================*/
 /**
  * @fn     RCC_enumABPPerSts
  * @brief  This function controls the clock enable/disable for peripherals on APB buses

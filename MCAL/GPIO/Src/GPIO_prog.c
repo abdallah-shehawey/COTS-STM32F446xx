@@ -92,6 +92,226 @@ ErrorState_t GPIO_enumPinInit(const GPIO_PinConfig_t *PinConfig)
   }
   return Local_u8ErrorState;
 }
+/*=================================================================================================================*/
+/*
+ * @fn     GPIO_enumLowNibbleInit
+ * @brief : Initializes GPIO low nibble configuration
+ * @param : LowNibbleConfig[in]: Pointer to low nibble configuration structure
+ * @retval GPIO_ErrorState: GPIO_OK if successful, GPIO_NOK if error
+ */
+ErrorState_t GPIO_enumLowNibbleInit(GPIO_LowNibbleConfig_t *LowNibbleConfig)
+{
+  ErrorState_t Local_u8ErrorState = OK;
+  uint8_t Local_u8Counter;
+  uint8_t Local_u8CopyStartPin;
+
+  if (LowNibbleConfig != NULL)
+  { /* Check if port and configuration parameters are valid */
+    if ((LowNibbleConfig->Port     <= GPIO_PORTH) &&
+        (LowNibbleConfig->StartPin <= GPIO_PIN15) &&
+        (LowNibbleConfig->Mode     <= GPIO_OUTPUT) &&
+        (LowNibbleConfig->Otype    <= GPIO_OPEN_DRAIN) &&
+        (LowNibbleConfig->Speed    <= GPIO_VERY_HIGH_SPEED) &&
+        (LowNibbleConfig->PullType <= GPIO_PULL_DOWN))
+    {
+      Local_u8CopyStartPin = LowNibbleConfig->StartPin;
+      /* Configure the 8 pins */
+      for (Local_u8Counter = GPIO_PIN0; Local_u8Counter <= GPIO_PIN3; Local_u8Counter++)
+      {
+        LowNibbleConfig->StartPin = Local_u8Counter;
+        GPIO_enumPinInit((GPIO_PinConfig_t*) LowNibbleConfig); //Error when casting removed
+      }
+      LowNibbleConfig->StartPin = Local_u8CopyStartPin;
+      UNUSED(Local_u8CopyStartPin);
+      UNUSED(Local_u8Counter);
+    }
+    else
+    {
+      Local_u8ErrorState = NOK;
+    }
+  }
+  else
+  {
+    Local_u8ErrorState = NULL_POINTER;
+  }
+  return Local_u8ErrorState;
+}
+/*=================================================================================================================*/
+/*
+ * @fn     GPIO_enumHighNibbleInit
+ * @brief : Initializes GPIO pin configuration
+ * @param : PinConfig[in]: Pointer to pin configuration structure
+ * @retval GPIO_ErrorState: GPIO_OK if successful, GPIO_NOK if error
+ */
+ErrorState_t GPIO_enumHighNibbleInit(GPIO_HighNibbleConfig_t *HighNibbleConfig)
+{
+  ErrorState_t Local_u8ErrorState = OK;
+  uint8_t Local_u8Counter;
+  uint8_t Local_u8CopyStartPin;
+
+  if (HighNibbleConfig != NULL)
+  { /* Check if port and configuration parameters are valid */
+    if ((HighNibbleConfig->Port     <= GPIO_PORTH) &&
+        (HighNibbleConfig->StartPin <= GPIO_PIN15) &&
+        (HighNibbleConfig->Mode     <= GPIO_OUTPUT) &&
+        (HighNibbleConfig->Otype    <= GPIO_OPEN_DRAIN) &&
+        (HighNibbleConfig->Speed    <= GPIO_VERY_HIGH_SPEED) &&
+        (HighNibbleConfig->PullType <= GPIO_PULL_DOWN))
+    {
+      Local_u8CopyStartPin = HighNibbleConfig->StartPin;
+      /* Configure the 8 pins */
+      for (Local_u8Counter = GPIO_PIN4; Local_u8Counter <= GPIO_PIN7; Local_u8Counter++)
+      {
+        HighNibbleConfig->StartPin = Local_u8Counter;
+        GPIO_enumPinInit((GPIO_PinConfig_t*) HighNibbleConfig); //Error when casting removed
+      }
+      HighNibbleConfig->StartPin = Local_u8CopyStartPin;
+      UNUSED(Local_u8CopyStartPin);
+      UNUSED(Local_u8Counter);
+    }
+    else
+    {
+      Local_u8ErrorState = NOK;
+    }
+  }
+  else
+  {
+    Local_u8ErrorState = NULL_POINTER;
+  }
+  return Local_u8ErrorState;
+}
+/*=================================================================================================================*/
+/*
+ * @fn     GPIO_enumByteInit
+ * @brief : Initializes GPIO pin configuration
+ * @param : PinConfig[in]: Pointer to pin configuration structure
+ * @retval GPIO_ErrorState: GPIO_OK if successful, GPIO_NOK if error
+ */
+ErrorState_t GPIO_enumByteInit(GPIO_ByteConfig_t *ByteConfig)
+{
+  ErrorState_t Local_u8ErrorState = OK;
+  uint8_t Local_u8Counter;
+  uint8_t Local_u8CopyStartPin;
+
+  if (ByteConfig != NULL)
+  { /* Check if port and configuration parameters are valid */
+    if ((ByteConfig->Port     <= GPIO_PORTH) &&
+        (ByteConfig->StartPin <= GPIO_PIN15) &&
+        (ByteConfig->Mode     <= GPIO_OUTPUT) &&
+        (ByteConfig->Otype    <= GPIO_OPEN_DRAIN) &&
+        (ByteConfig->Speed    <= GPIO_VERY_HIGH_SPEED) &&
+        (ByteConfig->PullType <= GPIO_PULL_DOWN))
+    {
+      Local_u8CopyStartPin = ByteConfig->StartPin;
+      /* Configure the 8 pins */
+      for (Local_u8Counter = GPIO_PIN0; Local_u8Counter <= GPIO_PIN7; Local_u8Counter++)
+      {
+        ByteConfig->StartPin = Local_u8Counter;
+        GPIO_enumPinInit((GPIO_PinConfig_t*) ByteConfig); //Error when casting removed
+      }
+      ByteConfig->StartPin = Local_u8CopyStartPin;
+      UNUSED(Local_u8CopyStartPin);
+      UNUSED(Local_u8Counter);
+    }
+    else
+    {
+      Local_u8ErrorState = NOK;
+    }
+  }
+  else
+  {
+    Local_u8ErrorState = NULL_POINTER;
+  }
+  return Local_u8ErrorState;
+}
+/*=================================================================================================================*/
+/*
+ * @fn     GPIO_enumHalfPortInit
+ * @brief : Initializes GPIO pin configuration
+ * @param : PinConfig[in]: Pointer to pin configuration structure
+ * @retval GPIO_ErrorState: GPIO_OK if successful, GPIO_NOK if error
+ */
+ErrorState_t GPIO_enumHalfPortInit(GPIO_HalfPortConfig_t *HalfPortConfig)
+{
+  ErrorState_t Local_u8ErrorState = OK;
+  uint8_t Local_u8Counter;
+  uint8_t Local_u8CopyStartPin;
+
+  if (HalfPortConfig != NULL)
+  { /* Check if port and configuration parameters are valid */
+    if ((HalfPortConfig->Port     <= GPIO_PORTH) &&
+        (HalfPortConfig->StartPin <= GPIO_PIN15) &&
+        (HalfPortConfig->Mode     <= GPIO_OUTPUT) &&
+        (HalfPortConfig->Otype    <= GPIO_OPEN_DRAIN) &&
+        (HalfPortConfig->Speed    <= GPIO_VERY_HIGH_SPEED) &&
+        (HalfPortConfig->PullType <= GPIO_PULL_DOWN))
+    {
+      Local_u8CopyStartPin = HalfPortConfig->StartPin;
+      /* Configure the 8 pins */
+      for (Local_u8Counter = GPIO_PIN0; Local_u8Counter <= GPIO_PIN7; Local_u8Counter++)
+      {
+        HalfPortConfig->StartPin = Local_u8Counter;
+        GPIO_enumPinInit((GPIO_PinConfig_t*) HalfPortConfig); //Error when casting removed
+      }
+      HalfPortConfig->StartPin = Local_u8CopyStartPin;
+      UNUSED(Local_u8CopyStartPin);
+      UNUSED(Local_u8Counter);
+    }
+    else
+    {
+      Local_u8ErrorState = NOK;
+    }
+  }
+  else
+  {
+    Local_u8ErrorState = NULL_POINTER;
+  }
+  return Local_u8ErrorState;
+}
+/*=================================================================================================================*/
+/*
+ * @fn     GPIO_enumPortInit
+ * @brief : Initializes GPIO pin configuration
+ * @param : PinConfig[in]: Pointer to pin configuration structure
+ * @retval GPIO_ErrorState: GPIO_OK if successful, GPIO_NOK if error
+ */
+ErrorState_t GPIO_enumPortInit(GPIO_PortConfig_t *PortConfig)
+{
+  ErrorState_t Local_u8ErrorState = OK;
+  uint8_t Local_u8Counter;
+  uint8_t Local_u8CopyStartPin;
+
+  if (PortConfig != NULL)
+  { /* Check if port and configuration parameters are valid */
+    if ((PortConfig->Port     <= GPIO_PORTH) &&
+        (PortConfig->StartPin <= GPIO_PIN15) &&
+        (PortConfig->Mode     <= GPIO_OUTPUT) &&
+        (PortConfig->Otype    <= GPIO_OPEN_DRAIN) &&
+        (PortConfig->Speed    <= GPIO_VERY_HIGH_SPEED) &&
+        (PortConfig->PullType <= GPIO_PULL_DOWN))
+    {
+      Local_u8CopyStartPin = PortConfig->StartPin;
+      /* Configure the 8 pins */
+      for (Local_u8Counter = GPIO_PIN0; Local_u8Counter <= GPIO_PIN15; Local_u8Counter++)
+      {
+        PortConfig->StartPin = Local_u8Counter;
+        GPIO_enumPinInit((GPIO_PinConfig_t*) PortConfig); //Error when casting removed
+      }
+      PortConfig->StartPin = Local_u8CopyStartPin;
+      UNUSED(Local_u8CopyStartPin);
+      UNUSED(Local_u8Counter);
+    }
+    else
+    {
+      Local_u8ErrorState = NOK;
+    }
+  }
+  else
+  {
+    Local_u8ErrorState = NULL_POINTER;
+  }
+  return Local_u8ErrorState;
+}
 
 /*=================================================================================================================*/
 /**
@@ -111,6 +331,7 @@ ErrorState_t GPIO_enumPort8PinsInit(GPIO_8PinsConfig_t *GPIO_8PinsConfig)
   ErrorState_t Local_u8ErrorState = OK;
   uint8_t Local_u8Counter;
   uint8_t Local_u8EndPin;
+  uint8_t Local_u8CopyStartPin;
 
   if (GPIO_8PinsConfig != NULL)
   { /* Check if port and configuration parameters are valid */
@@ -122,13 +343,17 @@ ErrorState_t GPIO_enumPort8PinsInit(GPIO_8PinsConfig_t *GPIO_8PinsConfig)
         (GPIO_8PinsConfig->PullType <= GPIO_PULL_DOWN))
     {
       Local_u8EndPin = GPIO_8PinsConfig->StartPin + 7;
-
+      Local_u8CopyStartPin = GPIO_8PinsConfig->StartPin;
       /* Configure the 8 pins */
-      for (Local_u8Counter = GPIO_8PinsConfig->StartPin; Local_u8Counter <= Local_u8EndPin; Local_u8Counter++)
+      for (Local_u8Counter = Local_u8CopyStartPin; Local_u8Counter <= Local_u8EndPin; Local_u8Counter++)
       {
         GPIO_8PinsConfig->StartPin = Local_u8Counter;
         GPIO_enumPinInit((GPIO_PinConfig_t*) GPIO_8PinsConfig); //Error when casting removed
       }
+      GPIO_8PinsConfig->StartPin = Local_u8CopyStartPin;
+      UNUSED(Local_u8CopyStartPin);
+      UNUSED(Local_u8EndPin);
+      UNUSED(Local_u8Counter);
     }
     else
     {
@@ -160,6 +385,7 @@ ErrorState_t GPIO_enumPort4PinsInit(GPIO_4PinsConfig_t *GPIO_4PinsConfig)
   ErrorState_t Local_u8ErrorState = OK;
   uint8_t Local_u8Counter;
   uint8_t Local_u8EndPin;
+  uint8_t Local_u8CopyStartPin;
 
   if (GPIO_4PinsConfig != NULL)
   { /* Check if port and configuration parameters are valid */
@@ -171,13 +397,17 @@ ErrorState_t GPIO_enumPort4PinsInit(GPIO_4PinsConfig_t *GPIO_4PinsConfig)
         (GPIO_4PinsConfig->PullType <= GPIO_PULL_DOWN))
     {
       Local_u8EndPin = GPIO_4PinsConfig->StartPin + 3;
-
+      Local_u8CopyStartPin = GPIO_4PinsConfig->StartPin;
       /* Configure the 4 pins */
-      for (Local_u8Counter = GPIO_4PinsConfig->StartPin; Local_u8Counter <= Local_u8EndPin; Local_u8Counter++)
+      for (Local_u8Counter = Local_u8CopyStartPin; Local_u8Counter <= Local_u8EndPin; Local_u8Counter++)
       {
         GPIO_4PinsConfig->StartPin = Local_u8Counter;
         GPIO_enumPinInit((GPIO_PinConfig_t*) GPIO_4PinsConfig);
       }
+      GPIO_4PinsConfig->StartPin = Local_u8CopyStartPin;
+      UNUSED(Local_u8CopyStartPin);
+      UNUSED(Local_u8EndPin);
+      UNUSED(Local_u8Counter);
     }
     else
     {
@@ -398,3 +628,320 @@ ErrorState_t GPIO_enumRead8PinsVal(GPIO_Port_t Port, GPIO_Pin_t StartPin, uint8_
   }
   return Local_u8ErrorState;
 }
+/*=================================================================================================================*/
+/**
+ * @fn     GPIO_enumWriteLowNibbleVal
+ * @brief : Write the current value of a GPIO port low nibble
+ * @param : port: GPIO port (PORTA to PORTH)
+ * @param : Copy_u8Val: Value to write
+ * @param : PinsVal: Value to write
+ * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
+ */
+ErrorState_t GPIO_enumWriteLowNibbleVal(GPIO_Port_t port, uint8_t Copy_u8Val, GPIO_PinValue_t PinsVal)
+{
+  ErrorState_t Local_u8ErrorState = OK;
+  if (PinsVal > GPIO_PIN_HIGH || PinsVal < GPIO_PIN_LOW)
+  {
+    Local_u8ErrorState = NOK;
+  }
+  else
+  {
+    if (PinsVal == GPIO_PIN_HIGH)
+    {
+      Copy_u8Val &= 0x0F;
+      GPIO_Port[port]->BSRR = Copy_u8Val;
+    }
+    else if (PinsVal == GPIO_PIN_LOW)
+    {
+      Copy_u8Val &= 0x0F;
+      GPIO_Port[port]->BSRR = Copy_u8Val << 16;
+    }
+    else
+    {
+      Local_u8ErrorState = NOK;
+    }
+  }
+  return Local_u8ErrorState;
+}
+/*=================================================================================================================*/
+/**
+ * @fn     GPIO_enumWriteHighNibbleVal
+ * @brief : Write the current value of a GPIO port high nibble
+ * @param : port: GPIO port (PORTA to PORTH)
+ * @param : Copy_u8Val: Value to write
+ * @param : PinsVal: Value to write
+ * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
+ */
+ErrorState_t GPIO_enumWriteHighNibbleVal(GPIO_Port_t port, uint8_t Copy_u8Val, GPIO_PinValue_t PinsVal)
+{
+  ErrorState_t Local_u8ErrorState = OK;
+  if (PinsVal > GPIO_PIN_HIGH || PinsVal < GPIO_PIN_LOW)
+  {
+    Local_u8ErrorState = NOK;
+  }
+  else
+  {
+    if (PinsVal == GPIO_PIN_HIGH)
+    {
+      Copy_u8Val &= 0xF0;
+      GPIO_Port[port]->BSRR = Copy_u8Val;
+    }
+    else if (PinsVal == GPIO_PIN_LOW)
+    {
+      Copy_u8Val &= 0xF0;
+      GPIO_Port[port]->BSRR = Copy_u8Val << 16;
+    }
+    else
+    {
+      Local_u8ErrorState = NOK;
+    }
+  }
+  return Local_u8ErrorState;
+}
+/*=================================================================================================================*/
+/**
+ * @fn     GPIO_enumWriteByteVal
+ * @brief : Write the current value of a GPIO port byte
+ * @param : port: GPIO port (PORTA to PORTH)
+ * @param : Copy_u8Val: Value to write
+ * @param : PinsVal: Value to write
+ * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
+ */
+ErrorState_t GPIO_enumWriteByteVal(GPIO_Port_t port, uint8_t Copy_u8Val, GPIO_PinValue_t PinsVal)
+{
+  ErrorState_t Local_u8ErrorState = OK;
+  if (PinsVal > GPIO_PIN_HIGH || PinsVal < GPIO_PIN_LOW)
+  {
+    Local_u8ErrorState = NOK;
+  }
+  else
+  {
+    if (PinsVal == GPIO_PIN_HIGH)
+    {
+      Copy_u8Val &= 0xFF;
+      GPIO_Port[port]->BSRR = Copy_u8Val;
+    }
+    else if (PinsVal == GPIO_PIN_LOW)
+    {
+      Copy_u8Val &= 0xFF;
+      GPIO_Port[port]->BSRR = Copy_u8Val << 16;
+    }
+    else
+    {
+      Local_u8ErrorState = NOK;
+    }
+  }
+  return Local_u8ErrorState;
+}
+/*=================================================================================================================*/
+/**
+ * @fn     GPIO_enumWriteHalfWordVal
+ * @brief : Write the current value of a GPIO port half word
+ * @param : port: GPIO port (PORTA to PORTH)
+ * @param : Copy_u8Val: Value to write
+ * @param : PinsVal: Value to write
+ * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
+ */
+ErrorState_t GPIO_enumWriteHalfWordVal(GPIO_Port_t port, uint8_t Copy_u8Val, GPIO_PinValue_t PinsVal)
+{
+  ErrorState_t Local_u8ErrorState = OK;
+  if (PinsVal > GPIO_PIN_HIGH || PinsVal < GPIO_PIN_LOW)
+  {
+    Local_u8ErrorState = NOK;
+  }
+  else
+  {
+    if (PinsVal == GPIO_PIN_HIGH)
+    {
+      Copy_u8Val &= 0xFFFF;
+      GPIO_Port[port]->BSRR = Copy_u8Val;
+    }
+    else if (PinsVal == GPIO_PIN_LOW)
+    {
+      Copy_u8Val &= 0xFFFF;
+      GPIO_Port[port]->BSRR = Copy_u8Val << 16;
+    }
+    else
+    {
+      Local_u8ErrorState = NOK;
+    }
+  }
+  return Local_u8ErrorState;
+}
+/*=================================================================================================================*/
+/**
+ * @fn     GPIO_enumWritePortVal
+ * @brief : Write the current value of a GPIO port word
+ * @param : port: GPIO port (PORTA to PORTH)
+ * @param : Copy_u8Val: Value to write
+ * @param : PinsVal: Value to write
+ * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
+ */
+ErrorState_t GPIO_enumWritePortVal(GPIO_Port_t port, uint8_t Copy_u8Val, GPIO_PinValue_t PinsVal)
+{
+  ErrorState_t Local_u8ErrorState = OK;
+  if (PinsVal > GPIO_PIN_HIGH || PinsVal < GPIO_PIN_LOW)
+  {
+    Local_u8ErrorState = NOK;
+  }
+  else
+  {
+    if (PinsVal == GPIO_PIN_HIGH)
+    {
+      Copy_u8Val &= 0xFFFFFFFF;
+      GPIO_Port[port]->BSRR = Copy_u8Val;
+    }
+    else if (PinsVal == GPIO_PIN_LOW)
+    {
+      Copy_u8Val &= 0xFFFFFFFF;
+      GPIO_Port[port]->BSRR = Copy_u8Val << 16;
+    }
+    else
+    {
+      Local_u8ErrorState = NOK;
+    }
+  }
+  return Local_u8ErrorState;
+}
+/*=================================================================================================================*/
+/**
+ * @fn     GPIO_enumReadLowNibbleVal
+ * @brief : Read the current value of a GPIO port low nibble
+ * @param : port: GPIO port (PORTA to PORTH)
+ * @param : Copy_u8Val: Value to write
+ * @param : PinsVal: Value to write
+ * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
+ */
+ErrorState_t GPIO_enumReadLowNibbleVal(GPIO_Port_t port,uint8_t *LowNibbleVal)
+{
+  ErrorState_t Local_u8ErrorState = OK;
+  if (LowNibbleVal != NULL)
+  {
+    if (port <= GPIO_PORTH)
+    {
+      *LowNibbleVal = (GPIO_Port[port]->IDR & 0x0F);
+    }
+    else
+    {
+      Local_u8ErrorState = NOK;
+    }
+  }
+  else
+  {
+    Local_u8ErrorState = NULL_POINTER;
+  }
+  return Local_u8ErrorState;
+}
+/*=================================================================================================================*/
+/**
+ * @fn     GPIO_enumReadHighNibbleVal
+ * @brief : Read the current value of a GPIO port high nibble
+ * @param : port: GPIO port (PORTA to PORTH)
+ * @param : HighNibbleVal: Pointer to store the read value
+ * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
+ */
+ErrorState_t GPIO_enumReadHighNibbleVal(GPIO_Port_t port,uint8_t *HighNibbleVal)
+{
+  ErrorState_t Local_u8ErrorState = OK;
+  if (HighNibbleVal != NULL)
+  {
+    if (port <= GPIO_PORTH)
+    {
+      *HighNibbleVal = (GPIO_Port[port]->IDR & 0xF0);
+    }
+    else
+    {
+      Local_u8ErrorState = NOK;
+    }
+  }
+  else
+  {
+    Local_u8ErrorState = NULL_POINTER;
+  }
+  return Local_u8ErrorState;
+}
+/*=================================================================================================================*/
+/**
+ * @fn     GPIO_enumReadByteVal
+ * @brief : Read the current value of a GPIO port byte
+ * @param : port: GPIO port (PORTA to PORTH)
+ * @param : ByteVal: Pointer to store the read value
+ * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
+ */
+ErrorState_t GPIO_enumReadByteVal(GPIO_Port_t port,uint8_t *ByteVal)
+{
+  ErrorState_t Local_u8ErrorState = OK;
+  if (ByteVal != NULL)
+  {
+    if (port <= GPIO_PORTH)
+    {
+      *ByteVal = (GPIO_Port[port]->IDR & 0xFF);
+    }
+    else
+    {
+      Local_u8ErrorState = NOK;
+    }
+  }
+  else
+  {
+    Local_u8ErrorState = NULL_POINTER;
+  }
+  return Local_u8ErrorState;
+}
+/*=================================================================================================================*/
+/**
+ * @fn     GPIO_enumReadHalfPortVal
+ * @brief : Read the current value of a GPIO port half word
+ * @param : port: GPIO port (PORTA to PORTH)
+ * @param : HalfPortVal: Pointer to store the read value
+ * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
+ */
+ErrorState_t GPIO_enumReadHalfPortVal(GPIO_Port_t port,uint16_t *HalfPortVal)
+{
+  ErrorState_t Local_u8ErrorState = OK;
+  if (HalfPortVal != NULL)
+  {
+    if (port <= GPIO_PORTH)
+    {
+      *HalfPortVal = (GPIO_Port[port]->IDR & 0xFFFF);
+    }
+    else
+    {
+      Local_u8ErrorState = NOK;
+    }
+  }
+  else
+  {
+    Local_u8ErrorState = NULL_POINTER;
+  }
+  return Local_u8ErrorState;
+}
+/*=================================================================================================================*/
+/**
+ * @fn     GPIO_enumReadPortVal
+ * @brief : Read the current value of a GPIO port word
+ * @param : port: GPIO port (PORTA to PORTH)
+ * @param : PortVal: Pointer to store the read value
+ * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
+ */
+ErrorState_t GPIO_enumReadPortVal(GPIO_Port_t port,uint32_t *PortVal)
+{
+  ErrorState_t Local_u8ErrorState = OK;
+  if (PortVal != NULL)
+  {
+    if (port <= GPIO_PORTH)
+    {
+      *PortVal = (GPIO_Port[port]->IDR & 0xFFFFFFFF);
+    }
+    else
+    {
+      Local_u8ErrorState = NOK;
+    }
+  }
+  else
+  {
+    Local_u8ErrorState = NULL_POINTER;
+  }
+  return Local_u8ErrorState;
+}
+/*=================================================================================================================*/

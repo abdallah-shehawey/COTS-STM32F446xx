@@ -88,6 +88,19 @@ typedef enum
   GPIO_OPEN_DRAIN     /* Open-Drain Output Type */
 } GPIO_OutputType_t;
 
+/************************** Nibble Type Definitions **************************/
+/********************************
+ * @NibbleType_t enum:
+ * @brief: GPIO nibble type selection
+ * @param: LOW_NIBBLE, HIGH_NIBBLE
+ * @return: GPIO nibble type selection
+ */
+typedef enum
+{
+  GPIO_LOW_NIBBLE,     /* Low Nibble */
+  GPIO_HIGH_NIBBLE     /* High Nibble */
+} GPIO_NibbleType_t;
+
 /************************** Output Speed Definitions **************************/
 /********************************
  * @OutputSpeed_t enum:
@@ -222,14 +235,139 @@ typedef struct
   GPIO_PullUpDown_t PullType; /* GPIO Pull Configuration (NO_PULL, PULL_UP or PULL_DOWN) */
 } GPIO_4PinsConfig_t;
 
-/************************** Function Prototypes **************************/
+/************************** Low Nibble Configuration Structure **************************/
 /********************************
+ * @GPIO_LowNibbleConfig_t struct:
+ * @brief: GPIO port low nibble configuration structure
+ * @param: Port, Mode, Otype, Speed, PullType
+ * @return: GPIO port low nibble configuration structure
+ */
+typedef struct
+{
+  GPIO_Port_t Port;           /* GPIO Port Selection (PORTA to PORTH) */
+  GPIO_Pin_t StartPin;        /* Make it Zero*/
+  GPIO_Mode_t Mode;           /* GPIO Mode Selection (INPUT, OUTPUT) */
+  GPIO_OutputType_t Otype;    /* GPIO Output Type Selection (PUSH_PULL or OPEN_DRAIN) */
+  GPIO_OutputSpeed_t Speed;   /* GPIO Output Speed Selection (LOW_SPEED to VERY_HIGH_SPEED) */
+  GPIO_PullUpDown_t PullType; /* GPIO Pull Configuration (NO_PULL, PULL_UP or PULL_DOWN) */
+} GPIO_LowNibbleConfig_t;
+
+/************************** High Nibble Configuration Structure **************************/
+/********************************
+ * @GPIO_HighNibbleConfig_t struct:
+ * @brief: GPIO port high nibble configuration structure
+ * @param: Port, Mode, Otype, Speed, PullType
+ * @return: GPIO port high nibble configuration structure
+ */
+typedef struct
+{
+  GPIO_Port_t Port;           /* GPIO Port Selection (PORTA to PORTH) */
+  GPIO_Pin_t StartPin;        /* Make it 4*/
+  GPIO_Mode_t Mode;           /* GPIO Mode Selection (INPUT, OUTPUT) */
+  GPIO_OutputType_t Otype;    /* GPIO Output Type Selection (PUSH_PULL or OPEN_DRAIN) */
+  GPIO_OutputSpeed_t Speed;   /* GPIO Output Speed Selection (LOW_SPEED to VERY_HIGH_SPEED) */
+  GPIO_PullUpDown_t PullType; /* GPIO Pull Configuration (NO_PULL, PULL_UP or PULL_DOWN) */
+} GPIO_HighNibbleConfig_t;
+
+/************************** Byte Configuration Structure **************************/
+/********************************
+ * @GPIO_ByteConfig_t struct:
+ * @brief: GPIO port byte configuration structure
+ * @param: Port, Mode, Otype, Speed, PullType
+ * @return: GPIO port byte configuration structure
+ */
+typedef struct
+{
+  GPIO_Port_t Port;           /* GPIO Port Selection (PORTA to PORTH) */
+  GPIO_Pin_t StartPin;        /* Make it Zero*/
+  GPIO_Mode_t Mode;           /* GPIO Mode Selection (INPUT, OUTPUT) */
+  GPIO_OutputType_t Otype;    /* GPIO Output Type Selection (PUSH_PULL or OPEN_DRAIN) */
+  GPIO_OutputSpeed_t Speed;   /* GPIO Output Speed Selection (LOW_SPEED to VERY_HIGH_SPEED) */
+  GPIO_PullUpDown_t PullType; /* GPIO Pull Configuration (NO_PULL, PULL_UP or PULL_DOWN) */
+} GPIO_ByteConfig_t;
+
+/************************** Half Port Configuration Structure **************************/
+/********************************
+ * @GPIO_PortConfig_t struct:
+ * @brief: GPIO port configuration structure
+ * @param: Port, Mode, Otype, Speed, PullType
+ * @return: GPIO port configuration structure
+ */
+typedef struct
+{
+  GPIO_Port_t Port;           /* GPIO Port Selection (PORTA to PORTH) */
+  GPIO_Pin_t StartPin;        /* Make it Zero*/
+  GPIO_Mode_t Mode;           /* GPIO Mode Selection (INPUT, OUTPUT) */
+  GPIO_OutputType_t Otype;    /* GPIO Output Type Selection (PUSH_PULL or OPEN_DRAIN) */
+  GPIO_OutputSpeed_t Speed;   /* GPIO Output Speed Selection (LOW_SPEED to VERY_HIGH_SPEED) */
+  GPIO_PullUpDown_t PullType; /* GPIO Pull Configuration (NO_PULL, PULL_UP or PULL_DOWN) */
+} GPIO_HalfPortConfig_t;
+
+/************************** Port Configuration Structure **************************/
+/********************************
+ * @GPIO_PortConfig_t struct:
+ * @brief: GPIO port configuration structure
+ * @param: Port, Mode, Otype, Speed, PullType
+ * @return: GPIO port configuration structure
+ */
+typedef struct
+{
+  GPIO_Port_t Port;           /* GPIO Port Selection (PORTA to PORTH) */
+  GPIO_Pin_t StartPin;    /* NOTE : Don't Change it */
+  GPIO_Mode_t Mode;           /* GPIO Mode Selection (INPUT, OUTPUT) */
+  GPIO_OutputType_t Otype;    /* GPIO Output Type Selection (PUSH_PULL or OPEN_DRAIN) */
+  GPIO_OutputSpeed_t Speed;   /* GPIO Output Speed Selection (LOW_SPEED to VERY_HIGH_SPEED) */
+  GPIO_PullUpDown_t PullType; /* GPIO Pull Configuration (NO_PULL, PULL_UP or PULL_DOWN) */
+} GPIO_PortConfig_t;
+
+/************************** Function Prototypes **************************/
+/*
  * @fn     GPIO_enumPinInit
  * @brief : Initializes GPIO pin configuration
  * @param : PinConfig[in]: Pointer to pin configuration structure
  * @retval GPIO_ErrorState: GPIO_OK if successful, GPIO_NOK if error
  */
 ErrorState_t GPIO_enumPinInit(const GPIO_PinConfig_t *PinConfig);
+
+/*
+ * @fn     GPIO_enumLowNibbleInit
+ * @brief : Initializes GPIO pin configuration
+ * @param : PinConfig[in]: Pointer to pin configuration structure
+ * @retval GPIO_ErrorState: GPIO_OK if successful, GPIO_NOK if error
+ */
+ErrorState_t GPIO_enumLowNibbleInit(GPIO_LowNibbleConfig_t *LowNibbleConfig);
+
+/*
+ * @fn     GPIO_enumHighNibbleInit
+ * @brief : Initializes GPIO pin configuration
+ * @param : PinConfig[in]: Pointer to pin configuration structure
+ * @retval GPIO_ErrorState: GPIO_OK if successful, GPIO_NOK if error
+ */
+ErrorState_t GPIO_enumHighNibbleInit(GPIO_HighNibbleConfig_t *HighNibbleConfig);
+
+/*
+ * @fn     GPIO_enumByteInit
+ * @brief : Initializes GPIO pin configuration
+ * @param : PinConfig[in]: Pointer to pin configuration structure
+ * @retval GPIO_ErrorState: GPIO_OK if successful, GPIO_NOK if error
+ */
+ErrorState_t GPIO_enumByteInit(GPIO_ByteConfig_t *ByteConfig);
+
+/*
+ * @fn     GPIO_enumHalfPortInit
+ * @brief : Initializes GPIO pin configuration
+ * @param : PinConfig[in]: Pointer to pin configuration structure
+ * @retval GPIO_ErrorState: GPIO_OK if successful, GPIO_NOK if error
+ */
+ErrorState_t GPIO_enumHalfPortInit(GPIO_HalfPortConfig_t *HalfPortConfig);
+
+/*
+ * @fn     GPIO_enumPortInit
+ * @brief : Initializes GPIO pin configuration
+ * @param : PinConfig[in]: Pointer to pin configuration structure
+ * @retval GPIO_ErrorState: GPIO_OK if successful, GPIO_NOK if error
+ */
+ErrorState_t GPIO_enumPortInit(GPIO_PortConfig_t *PortConfig);
 
 /**
  * @fn     GPIO_enumPortHalfInit
@@ -258,7 +396,6 @@ ErrorState_t GPIO_enumWrite8PinsVal(GPIO_Port_t Port, GPIO_Pin_t StartPin, uint8
  * @retval ErrorState_t: OK if write successful, NOK if invalid parameters
  */
 ErrorState_t GPIO_enumWrite4PinsVal(GPIO_Port_t Port, GPIO_Pin_t StartPin, uint8_t Value);
-
 
 /**
  * @fn     GPIO_enumWritePinVal
@@ -316,6 +453,102 @@ ErrorState_t GPIO_enumRead4PinsVal(GPIO_Port_t Port, GPIO_Pin_t StartPin, uint8_
  * @param : PinsValue: Pointer to store the read value
  * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
  */
- ErrorState_t GPIO_enumRead8PinsVal(GPIO_Port_t Port, GPIO_Pin_t StartPin, uint8_t *PinsValue);
+ErrorState_t GPIO_enumRead8PinsVal(GPIO_Port_t Port, GPIO_Pin_t StartPin, uint8_t *PinsValue);
+
+/*=================================================================================================================*/
+/**
+ * @fn     GPIO_enumWriteLowNibble
+ * @brief : Write the current value of a GPIO port low nibble
+ * @param : port: GPIO port (PORTA to PORTH)
+ * @param : Copy_u8Val: Value to write
+ * @param : PinsVal: Value to write
+ * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
+ */
+ErrorState_t GPIO_enumWriteLowNibble(GPIO_Port_t port, uint8_t Copy_u8Val, GPIO_PinValue_t PinsVal);
+/*=================================================================================================================*/
+/**
+ * @fn     GPIO_enumWriteHighNibble
+ * @brief : Write the current value of a GPIO port high nibble
+ * @param : port: GPIO port (PORTA to PORTH)
+ * @param : Copy_u8Val: Value to write
+ * @param : PinsVal: Value to write
+ * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
+ */
+ErrorState_t GPIO_enumWriteHighNibble(GPIO_Port_t port, uint8_t Copy_u8Val, GPIO_PinValue_t PinsVal);
+/*=================================================================================================================*/
+/**
+ * @fn     GPIO_enumWriteByte
+ * @brief : Write the current value of a GPIO port byte
+ * @param : port: GPIO port (PORTA to PORTH)
+ * @param : Copy_u8Val: Value to write
+ * @param : PinsVal: Value to write
+ * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
+ */
+ErrorState_t GPIO_enumWriteByte(GPIO_Port_t port, uint8_t Copy_u8Val, GPIO_PinValue_t PinsVal);
+/*=================================================================================================================*/
+/**
+ * @fn     GPIO_enumWriteHalfPort
+ * @brief : Write the current value of a GPIO port half word
+ * @param : port: GPIO port (PORTA to PORTH)
+ * @param : Copy_u8Val: Value to write
+ * @param : PinsVal: Value to write
+ * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
+ */
+ErrorState_t GPIO_enumWriteHalfPort(GPIO_Port_t port, uint8_t Copy_u8Val, GPIO_PinValue_t PinsVal);
+/*=================================================================================================================*/
+/**
+ * @fn     GPIO_enumWritePort
+ * @brief : Write the current value of a GPIO port word
+ * @param : port: GPIO port (PORTA to PORTH)
+ * @param : Copy_u8Val: Value to write
+ * @param : PinsVal: Value to write
+ * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
+ */
+ErrorState_t GPIO_enumWritePort(GPIO_Port_t port, uint8_t Copy_u8Val, GPIO_PinValue_t PinsVal);
+/*=================================================================================================================*/
+/**
+ * @fn     GPIO_enumReadLowNibbleVal
+ * @brief : Read the current value of a GPIO port low nibble
+ * @param : port: GPIO port (PORTA to PORTH)
+ * @param : LowNibbleVal: Pointer to store the read value
+ * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
+ */
+ErrorState_t GPIO_enumReadLowNibbleVal(GPIO_Port_t port,uint8_t *LowNibbleVal);
+/*=================================================================================================================*/
+/**
+ * @fn     GPIO_enumReadHighNibbleVal
+ * @brief : Read the current value of a GPIO port high nibble
+ * @param : port: GPIO port (PORTA to PORTH)
+ * @param : HighNibbleVal: Pointer to store the read value
+ * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
+ */
+ErrorState_t GPIO_enumReadHighNibbleVal(GPIO_Port_t port,uint8_t *HighNibbleVal);
+/*=================================================================================================================*/
+/**
+ * @fn     GPIO_enumReadByteVal
+ * @brief : Read the current value of a GPIO port byte
+ * @param : port: GPIO port (PORTA to PORTH)
+ * @param : ByteVal: Pointer to store the read value
+ * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
+ */
+ErrorState_t GPIO_enumReadByteVal(GPIO_Port_t port,uint8_t *ByteVal);
+/*=================================================================================================================*/
+/**
+ * @fn     GPIO_enumReadHalfPortVal
+ * @brief : Read the current value of a GPIO port half word
+ * @param : port: GPIO port (PORTA to PORTH)
+ * @param : HalfPortVal: Pointer to store the read value
+ * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
+ */
+ErrorState_t GPIO_enumReadHalfPortVal(GPIO_Port_t port,uint16_t *HalfPortVal);
+/*=================================================================================================================*/
+/**
+ * @fn     GPIO_enumReadPortVal
+ * @brief : Read the current value of a GPIO port word
+ * @param : port: GPIO port (PORTA to PORTH)
+ * @param : PortVal: Pointer to store the read value
+ * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
+ */
+ErrorState_t GPIO_enumReadPortVal(GPIO_Port_t port,uint32_t *PortVal);
 
 #endif /* GPIO_INTERFACE_H_ */

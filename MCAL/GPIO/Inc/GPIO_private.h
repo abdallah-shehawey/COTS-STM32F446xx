@@ -14,6 +14,8 @@
 #ifndef GPIO_PRIVATE_H_
 #define GPIO_PRIVATE_H_
 
+#define UNUSED(X) (void)X
+
 /************************** GPIO PORT COUNT **************************/
 #define GPIO_PORT_COUNT 8u
 
