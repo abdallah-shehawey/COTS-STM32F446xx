@@ -39,6 +39,10 @@
 
 #define SYSTIC_BASEADDR 0XE000E010UL
 
+/*Internal DMA Base Adresses */
+#define DMA1_BASEADDR 0X40026000UL
+#define DMA2_BASEADDR 0X40026400UL
+
 /**************************************         AHB2 Peripheral Base Adresses          ******************************************/
 /**************************************         AHB3 Peripheral Base Adresses          ******************************************/
 /**************************************         APB1 Peripheral Base Adresses          ******************************************/
@@ -74,6 +78,28 @@ typedef struct
   volatile uint32_t LCKR;    /* GPIO PORT configuration lock register*/
   volatile uint32_t AFR[2];  /* GPIO alternate function low register */
 } GPIO_REGDEF_t;
+
+
+/**************************************       DMA Regster Definitions Structure       ******************************************/
+typedef struct
+{
+  uint32_t LISR;      // Low interrupt status register (DMA_LISR)
+  uint32_t HISR;      // High interrupt status register (DMA_HISR)
+  uint32_t LIFCR;     // Low interrupt flag clear register (DMA_LIFCR)
+  uint32_t HIFCR;     // High interrupt flag clear register (DMA_HIFCR)
+  DMA_STREAMx_REGDEF_t Stream[8];
+}DMA_REGDEF_t;
+
+typedef struct
+{
+  uint32_t SxCR;       // Stream x configuration register (DMA_SxCR)
+  uint32_t SxNDTR;     // Stream x number of data register (DMA_SxNDTR)
+  uint32_t SxPAR;      // Stream x peripheral address register (DMA_SxPAR)
+  uint32_t SxMAR[2];   // Stream x memory address register (DMA_SxMAR)
+  uint32_t SxFCR;      // Stream x FIFO control register (DMA_SxFCR)
+}DMA_STREAMx_REGDEF_t;
+
+#define MDMA ((DMA_REGDEF_t *)DMA_BASEADDR)
 
 /**************************************       RCC Register Definitions Structure       ******************************************/
 typedef struct
@@ -153,24 +179,24 @@ typedef struct
 
 typedef struct
 {
-  uint32_t CPUID;
-  uint32_t ICSR;
-  uint32_t VTOR;
-  uint32_t AIRCR;
-  uint32_t SCR;
-  uint32_t CCR;
-  uint32_t SHPR1;
-  uint32_t SHPR2;
-  uint32_t SHPR3;
-  uint32_t SHCSR;
-  uint8_t  CFSR;
-  uint8_t  BFSR;
-  uint16_t UFSR;
-  uint32_t HFSR;
-  uint32_t DFSR;
-  uint32_t MMAR;
-  uint32_t BFAR;
-  uint32_t AFSR;
+  uint32_t CPUID;     // CPU Identification Register
+  uint32_t ICSR;      // Interrupt Control and State Register
+  uint32_t VTOR;      // Vector Table Offset Register
+  uint32_t AIRCR;     // Application Interrupt and Reset Control Register
+  uint32_t SCR;       // System Control Register
+  uint32_t CCR;       // Configuration and Control Register
+  uint32_t SHPR1;     // System Handler Priority Register 1 (Priority of SVCall)
+  uint32_t SHPR2;     // System Handler Priority Register 2 (Priority of Debug Monitor)
+  uint32_t SHPR3;     // System Handler Priority Register 3 (Priority of PendSV and SysTick)
+  uint32_t SHCSR;     // System Handler Control and State Register
+  uint8_t  CFSR;      // Configurable Fault Status Register (lower 8 bits)
+  uint8_t  BFSR;      // BusFault Status Register (lower 8 bits)
+  uint16_t UFSR;      // UsageFault Status Register (lower 16 bits)
+  uint32_t HFSR;      // HardFault Status Register
+  uint32_t DFSR;      // Debug Fault Status Register
+  uint32_t MMAR;      // MemManage Fault Address Register
+  uint32_t BFAR;      // BusFault Address Register
+  uint32_t AFSR;      // Auxiliary Fault Status Register
 } SCB_RegDef_t;
 
 #define MSCB ((SCB_RegDef_t *)SCB_BASEADDR)
@@ -180,11 +206,11 @@ typedef struct
 
 typedef struct
 {
-  uint32_t MEMRMP;
-  uint32_t PMC;
-  uint32_t EXTICR[4];
+  uint32_t MEMRMP;    // Memory Remap Register
+  uint32_t PMC;       // PMC Register
+  uint32_t EXTICR[4]; // External Interrupt Configuration Register
   uint32_t Reserved1[2];
-  uint32_t CMPCR;
+  uint32_t CMPCR;     // Compensation Cell Control Register
   uint32_t Reserved2[2];
   uint32_t CFGR;
 } SYSCFG_RegDef_t;
@@ -194,12 +220,12 @@ typedef struct
 /**************************************         EXTI Peripheral Definitions       *********************************************/
 typedef struct
 {
-  uint32_t IMR;
-  uint32_t EMR;
-  uint32_t RTSR;
-  uint32_t FTSR;
-  uint32_t SWIER;
-  uint32_t PR;
+  uint32_t IMR;       // Interrupt Mask Register
+  uint32_t EMR;       // Event Mask Register
+  uint32_t RTSR;      // Rising Trigger Selection Register
+  uint32_t FTSR;      // Falling Trigger Selection Register
+  uint32_t SWIER;     // Software Interrupt Event Register
+  uint32_t PR;        // Pending Register
 } EXTI_RegDef_t;
 
 #define MEXTI ((EXTI_RegDef_t *)EXTI_BASEADDR)

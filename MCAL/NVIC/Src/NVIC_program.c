@@ -21,11 +21,9 @@
 ErrorState_t NVIC_vEnableIRQ(uint8_t Copy_u8IRQNumber)
 {
   uint8_t local_u8ErrorState = OK;
-  uint8_t Local_u8RegNum = Copy_u8IRQNumber / 32;
-  uint8_t Local_u8BitNum = Copy_u8IRQNumber % 32;
   if (Copy_u8IRQNumber <= NVIC_FMPI2C1_ER)
   {
-    MNVIC->ISER[Local_u8RegNum] = (1 << Local_u8BitNum);
+    MNVIC->ISER[(((uint32_t)Copy_u8IRQNumber) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)Copy_u8IRQNumber) & 0x1FUL));
   }
   else
   {
@@ -37,11 +35,9 @@ ErrorState_t NVIC_vEnableIRQ(uint8_t Copy_u8IRQNumber)
 ErrorState_t NVIC_vDisableIRQ(uint8_t Copy_u8IRQNumber)
 {
   uint8_t local_u8ErrorState = OK;
-  uint8_t Local_u8RegNum = Copy_u8IRQNumber / 32;
-  uint8_t Local_u8BitNum = Copy_u8IRQNumber % 32;
   if (Copy_u8IRQNumber <= NVIC_FMPI2C1_ER)
   {
-    MNVIC->ICER[Local_u8RegNum] = (1 << Local_u8BitNum);
+    MNVIC->ICER[(((uint32_t)Copy_u8IRQNumber) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)Copy_u8IRQNumber) & 0x1FUL));
   }
   else
   {
@@ -53,11 +49,9 @@ ErrorState_t NVIC_vDisableIRQ(uint8_t Copy_u8IRQNumber)
 ErrorState_t NVIC_vSetPendingFlag(uint8_t Copy_u8IRQNumber)
 {
   uint8_t local_u8ErrorState = OK;
-  uint8_t Local_u8RegNum = Copy_u8IRQNumber / 32;
-  uint8_t Local_u8BitNum = Copy_u8IRQNumber % 32;
   if (Copy_u8IRQNumber <= NVIC_FMPI2C1_ER)
   {
-    MNVIC->ISPR[Local_u8RegNum] = (1 << Local_u8BitNum);
+    MNVIC->ISPR[(((uint32_t)Copy_u8IRQNumber) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)Copy_u8IRQNumber) & 0x1FUL));
   }
   else
   {
@@ -69,11 +63,9 @@ ErrorState_t NVIC_vSetPendingFlag(uint8_t Copy_u8IRQNumber)
 ErrorState_t NVIC_vClearPendingFlag(uint8_t Copy_u8IRQNumber)
 {
   uint8_t local_u8ErrorState = OK;
-  uint8_t Local_u8RegNum = Copy_u8IRQNumber / 32;
-  uint8_t Local_u8BitNum = Copy_u8IRQNumber % 32;
   if (Copy_u8IRQNumber <= NVIC_FMPI2C1_ER)
   {
-    MNVIC->ICPR[Local_u8RegNum] = (1 << Local_u8BitNum);
+    MNVIC->ICPR[(((uint32_t)Copy_u8IRQNumber) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)Copy_u8IRQNumber) & 0x1FUL));
   }
   else
   {
@@ -85,8 +77,6 @@ ErrorState_t NVIC_vClearPendingFlag(uint8_t Copy_u8IRQNumber)
 ErrorState_t NVIC_vGetActiveFlag(uint8_t Copy_u8IRQNumber, uint8_t *Copy_pu8Flag)
 {
   uint8_t local_u8ErrorState = OK;
-  uint8_t Local_u8RegNum = Copy_u8IRQNumber / 32;
-  uint8_t Local_u8BitNum = Copy_u8IRQNumber % 32;
   if (Copy_pu8Flag == NULL)
   {
     local_u8ErrorState = NULL_POINTER;
@@ -95,7 +85,7 @@ ErrorState_t NVIC_vGetActiveFlag(uint8_t Copy_u8IRQNumber, uint8_t *Copy_pu8Flag
   {
     if (Copy_u8IRQNumber <= NVIC_FMPI2C1_ER)
     {
-      *Copy_pu8Flag = (MNVIC->IABR[Local_u8RegNum] >> Local_u8BitNum) & 1;
+      *Copy_pu8Flag = (MNVIC->IABR[(((uint32_t)Copy_u8IRQNumber) >> 5UL)] >> (((uint32_t)Copy_u8IRQNumber) & 0x1FUL)) & 1;
     }
     else
     {

@@ -550,5 +550,6 @@ ErrorState_t GPIO_enumReadHalfPortVal(GPIO_Port_t port,uint16_t *HalfPortVal);
  * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
  */
 ErrorState_t GPIO_enumReadPortVal(GPIO_Port_t port,uint32_t *PortVal);
+/*=================================================================================================================*/
 
 #endif /* GPIO_INTERFACE_H_ */

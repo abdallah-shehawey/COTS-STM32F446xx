@@ -17,7 +17,7 @@
 
 #include <stdint.h>
 
-#include "stm32f446xx.h"
+#include "STM32F446xx.h"
 #include "ErrTypes.h"
 #include "STD_MACROS.h"
 
