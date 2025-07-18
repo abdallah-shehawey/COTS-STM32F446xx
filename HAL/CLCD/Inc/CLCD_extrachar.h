@@ -21,9 +21,9 @@ We draw each char on website ===>> https://maxpromer.github.io/LCD-Character-Cre
         *take the hex value or add 000 on the left
 */
 
-// عبده عدوي
+
 uint8_t CLCD_u8ExtraChar[] = {
-	0x00, 0x01, 0x01, 0x01, 0x09, 0x1F, 0x08, 0x00
+	
 };
 
 #endif /* CLCD_EXTRACHAR_H_ */
