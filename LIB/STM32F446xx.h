@@ -15,33 +15,33 @@
 #define STM32F446xx_H
 
 /**************************************         Various Memories Base Adresses          ******************************************/
-#define FLASH_BASEADDR 0x08000000UL
-#define SRAM_BASEADDR 0x20000000UL
-#define ROM_BASEADDR 0x1FFF0000UL
+#define FLASH_BASEADDR  0x08000000UL
+#define SRAM_BASEADDR   0x20000000UL
+#define ROM_BASEADDR    0x1FFF0000UL
 
 /**************************************         NVIC Base Adresses          ******************************************/
-#define NVIC_BASEADDR 0XE000E100UL
+#define NVIC_BASEADDR   0XE000E100UL
 
 /**************************************         SCB Base Adresses          ******************************************/
-#define SCB_BASEADDR 0XE000ED00UL
+#define SCB_BASEADDR    0XE000ED00UL
 
 /**************************************         AHB1 Peripheral Base Adresses          ******************************************/
-#define GPIOA_BASEADDR 0X40020000UL
-#define GPIOB_BASEADDR 0X40020400UL
-#define GPIOC_BASEADDR 0X40020800UL
-#define GPIOD_BASEADDR 0X40020C00UL
-#define GPIOE_BASEADDR 0X40021000UL
-#define GPIOF_BASEADDR 0X40021400UL
-#define GPIOG_BASEADDR 0X40021800UL
-#define GPIOH_BASEADDR 0X40021C00UL
+#define GPIOA_BASEADDR  0X40020000UL
+#define GPIOB_BASEADDR  0X40020400UL
+#define GPIOC_BASEADDR  0X40020800UL
+#define GPIOD_BASEADDR  0X40020C00UL
+#define GPIOE_BASEADDR  0X40021000UL
+#define GPIOF_BASEADDR  0X40021400UL
+#define GPIOG_BASEADDR  0X40021800UL
+#define GPIOH_BASEADDR  0X40021C00UL
 
-#define RCC_BASEADDR 0x40023800UL
+#define RCC_BASEADDR    0x40023800UL
 
 #define SYSTIC_BASEADDR 0XE000E010UL
 
 /*Internal DMA Base Adresses */
-#define DMA1_BASEADDR 0X40026000UL
-#define DMA2_BASEADDR 0X40026400UL
+#define DMA1_BASEADDR   0X40026000UL
+#define DMA2_BASEADDR   0X40026400UL
 
 /**************************************         AHB2 Peripheral Base Adresses          ******************************************/
 /**************************************         AHB3 Peripheral Base Adresses          ******************************************/
@@ -83,23 +83,25 @@ typedef struct
 /**************************************       DMA Regster Definitions Structure       ******************************************/
 typedef struct
 {
+  uint32_t CR;       // Stream x configuration register (DMA_SxCR)
+  uint32_t NDTR;     // Stream x number of data register (DMA_SxNDTR)
+  uint32_t PAR;      // Stream x peripheral address register (DMA_SxPAR)
+  uint32_t M0AR;     // Stream x memory 0 address register (DMA_SxM0AR)
+  uint32_t M1AR;     // Stream x memory 1 address register (DMA_SxM1AR)
+  uint32_t FCR;      // Stream x FIFO control register (DMA_SxFCR)
+}DMA_STREAM_REGDEF_t;
+
+typedef struct
+{
   uint32_t LISR;      // Low interrupt status register (DMA_LISR)
   uint32_t HISR;      // High interrupt status register (DMA_HISR)
   uint32_t LIFCR;     // Low interrupt flag clear register (DMA_LIFCR)
   uint32_t HIFCR;     // High interrupt flag clear register (DMA_HIFCR)
-  DMA_STREAMx_REGDEF_t Stream[8];
+  DMA_STREAM_REGDEF_t Stream[8];
 }DMA_REGDEF_t;
 
-typedef struct
-{
-  uint32_t SxCR;       // Stream x configuration register (DMA_SxCR)
-  uint32_t SxNDTR;     // Stream x number of data register (DMA_SxNDTR)
-  uint32_t SxPAR;      // Stream x peripheral address register (DMA_SxPAR)
-  uint32_t SxMAR[2];   // Stream x memory address register (DMA_SxMAR)
-  uint32_t SxFCR;      // Stream x FIFO control register (DMA_SxFCR)
-}DMA_STREAMx_REGDEF_t;
-
-#define MDMA ((DMA_REGDEF_t *)DMA_BASEADDR)
+#define MDMA1 ((DMA_REGDEF_t *)DMA1_BASEADDR)
+#define MDMA2 ((DMA_REGDEF_t *)DMA2_BASEADDR)
 
 /**************************************       RCC Register Definitions Structure       ******************************************/
 typedef struct
