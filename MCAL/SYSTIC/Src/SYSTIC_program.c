@@ -15,9 +15,10 @@
 #include "STM32F446xx.h"
 #include "ErrTypes.h"
 
-#include "../Inc/SYSTIC_interface.h"
-#include "../Inc/SYSTIC_private.h"
-#include "../Inc/SYSTIC_config.h"
+#include "SYSTIC_config.h"
+#include "SYSTIC_private.h"
+#include "SYSTIC_interface.h"
+
 
 /*=================================================================================================================*/
 /**
@@ -96,8 +97,7 @@ static void SYSTIC_vEnable(void)
  */
 static void SYSTIC_vWait(void)
 {
-  while ((MSYSTIC->CTRL & (1u << SYSTIC_CTRL_COUNTFLAG)) == 0)
-    ;
+  while ((MSYSTIC->CTRL & (1u << SYSTIC_CTRL_COUNTFLAG)) == 0);
 }
 
 /*=================================================================================================================*/
@@ -126,7 +126,7 @@ void SYSTIC_vDelayMs(uint32_t Copy_u32MsTime)
 #if SYSTIC_CLKSOURCE == CLK_SOURCE_AHB_DIV8
   float Local_f32TickTimeInMs = 1.0 / (SYSTEM_CLOCK_IN_KHZ / 8.0);
 #elif SYSTIC_CLKSOURCE == CLK_SOURCE_AHB
-  float Local_f32TickTimeInMs = 1.0 / SYSTEM_CLOCK_IN_KHZ;
+  double Local_f32TickTimeInMs = 1.0 / SYSTEM_CLOCK_IN_KHZ;
 #endif
 
   /* Calculate required number of ticks */
@@ -196,9 +196,9 @@ void SYSTIC_vDelayUs(uint32_t Copy_u32UsTime)
 {
   /* Calculate tick time based on clock source */
 #if SYSTIC_CLKSOURCE == CLK_SOURCE_AHB_DIV8
-  float Local_f32TickTimeInUs = 1.0 / (SYSTEM_CLOCK_IN_MHZ / 8.0);
+  double Local_f32TickTimeInUs = 1.0 / (SYSTEM_CLOCK_IN_MHZ / 8.0);
 #elif SYSTIC_CLKSOURCE == CLK_SOURCE_AHB
-  float Local_f32TickTimeInUs = 1.0 / SYSTEM_CLOCK_IN_MHZ;
+  double Local_f32TickTimeInUs = 1.0 / SYSTEM_CLOCK_IN_MHZ;
 #endif
 
   /* Calculate required number of ticks */

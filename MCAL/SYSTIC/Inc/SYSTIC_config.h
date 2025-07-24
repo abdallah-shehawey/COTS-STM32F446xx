@@ -34,6 +34,8 @@
  * @warning Do not modify this value directly
  */
 #define SYSTEM_CLOCK_IN_KHZ (SYSTEM_CLOCK_IN_MHZ * 1000U)
+
+#define SYSTEM_CLOCK_IN_HZ  (SYSTEM_CLOCK_IN_KHZ * 1000U)
 /** @} */
 
 /**
@@ -52,7 +54,7 @@
  * - CLK_SOURCE_AHB_DIV8: Use processor clock divided by 8 (power efficient)
  *   Suitable for: General purpose timing with lower power consumption
  */
-#define SYSTIC_CLKSOURCE CLK_SOURCE_AHB_DIV8
+#define SYSTIC_CLKSOURCE CLK_SOURCE_AHB
 
 /**
  * @brief SysTick Exception Configuration
