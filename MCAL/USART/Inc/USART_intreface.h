@@ -131,11 +131,76 @@ typedef struct
   USART_PEIE_t PEIE;
   void (*pfnCallback)(void);
 } USART_Handle_t;
-
+/*==================================================================================================*/
+/**
+ * @fn USART_Init
+ * @brief Initialize the USART peripheral with the provided configuration.
+ *
+ * This function configures all USART parameters including clock phase, polarity,
+ * master/slave mode, baud rate, data frame format, and other settings.
+ *
+ * @param ChannelConfig Pointer to the USART configuration structure
+ * @return ErrorState_t OK if successful, error code otherwise
+ *
+ * @warning NULL pointer check is performed on input parameter
+ */
 ErrorState_t USART_Init(USART_Config_t *ChannelConfig);
+/*==================================================================================================*/
+/**
+ * @fn USART_InitIT
+ * @brief Initialize the USART peripheral with the provided configuration.
+ *
+ * This function configures all USART parameters including clock phase, polarity,
+ * master/slave mode, baud rate, data frame format, and other settings.
+ *
+ * @param ChannelConfig Pointer to the USART configuration structure
+ * @return ErrorState_t OK if successful, error code otherwise
+ *
+ * @warning NULL pointer check is performed on input parameter
+ */
 ErrorState_t USART_InitIT(USART_Handle_t *ChannelHandle);
+/*==================================================================================================*/
+/**
+ * @fn USART_enumTransmit
+ * @brief Initialize the USART peripheral with the provided configuration.
+ *
+ * This function configures all USART parameters including clock phase, polarity,
+ * master/slave mode, baud rate, data frame format, and other settings.
+ *
+ * @param ChannelConfig Pointer to the USART configuration structure
+ * @return ErrorState_t OK if successful, error code otherwise
+ *
+ * @warning NULL pointer check is performed on input parameter
+ */
 ErrorState_t USART_enumTransmit(USART_Config_t *ChannelConfig, uint8_t TX_Data);
+/*==================================================================================================*/
+/**
+ * @fn USART_enumReceive
+ * @brief Initialize the USART peripheral with the provided configuration.
+ *
+ * This function configures all USART parameters including clock phase, polarity,
+ * master/slave mode, baud rate, data frame format, and other settings.
+ *
+ * @param ChannelConfig Pointer to the USART configuration structure
+ * @return ErrorState_t OK if successful, error code otherwise
+ *
+ * @warning NULL pointer check is performed on input parameter
+ */
 ErrorState_t USART_enumReceive(USART_Config_t *ChannelConfig, uint8_t *RX_Data);
+/*==================================================================================================*/
+/**
+ * @fn USART_enumTransmitString
+ * @brief Initialize the USART peripheral with the provided configuration.
+ *
+ * This function configures all USART parameters including clock phase, polarity,
+ * master/slave mode, baud rate, data frame format, and other settings.
+ *
+ * @param ChannelConfig Pointer to the USART configuration structure
+ * @return ErrorState_t OK if successful, error code otherwise
+ *
+ * @warning NULL pointer check is performed on input parameter
+ */
 ErrorState_t USART_enumTransmitString(USART_Config_t *ChannelConfig, uint8_t *TX_Data);
+/*==================================================================================================*/
 
 #endif /* _USART_INTERFACE_H_ */

@@ -26,8 +26,19 @@ static USART_RegDef_t *USART_Channel[USART_CHANNEL_COUNT] = {MUSART1, MUSART2, M
 /*Global flag for the USART Busy State*/
 static uint8_t USART_u8State[USART_CHANNEL_COUNT] = {IDLE};
 static void (*USART_CallBack[USART_CHANNEL_COUNT])(void) = {NULL};
-
-
+/*==================================================================================================*/
+/**
+ * @fn USART_Init
+ * @brief Initialize the USART peripheral with the provided configuration.
+ *
+ * This function configures all USART parameters including clock phase, polarity,
+ * master/slave mode, baud rate, data frame format, and other settings.
+ *
+ * @param ChannelConfig Pointer to the USART configuration structure
+ * @return ErrorState_t OK if successful, error code otherwise
+ *
+ * @warning NULL pointer check is performed on input parameter
+ */
 ErrorState_t USART_Init(USART_Config_t *ChannelConfig)
 {
   ErrorState_t Local_u8ErrorState = OK;
@@ -113,7 +124,19 @@ ErrorState_t USART_Init(USART_Config_t *ChannelConfig)
 
   return Local_u8ErrorState;
 }
-
+/*==================================================================================================*/
+/**
+ * @fn USART_InitIT
+ * @brief Initialize the USART peripheral with the provided configuration and interrupt mode.
+ *
+ * This function configures all USART parameters including clock phase, polarity,
+ * master/slave mode, baud rate, data frame format, and other settings.
+ *
+ * @param ChannelHandle Pointer to the USART handle structure
+ * @return ErrorState_t OK if successful, error code otherwise
+ *
+ * @warning NULL pointer check is performed on input parameter
+ */
 ErrorState_t USART_InitIT(USART_Handle_t *ChannelHandle)
 {
   ErrorState_t Local_u8ErrorState = OK;
@@ -211,7 +234,19 @@ ErrorState_t USART_InitIT(USART_Handle_t *ChannelHandle)
   return Local_u8ErrorState;
 
 }
-
+/*==================================================================================================*/
+/**
+ * @fn USART_enumTransmit
+ * @brief Transmit data through the USART interface.
+ *
+ * This function transmits data through the USART interface.
+ *
+ * @param ChannelConfig Pointer to the USART configuration structure
+ * @param TX_Data Data to be transmitted
+ * @return ErrorState_t OK if successful, error code otherwise
+ *
+ * @warning NULL pointer check is performed on input parameter
+ */
 ErrorState_t USART_enumTransmit(USART_Config_t *ChannelConfig, uint8_t TX_Data)
 {
   ErrorState_t Local_u8ErrorState = OK;
@@ -251,7 +286,19 @@ ErrorState_t USART_enumTransmit(USART_Config_t *ChannelConfig, uint8_t TX_Data)
   }
   return Local_u8ErrorState;
 }
-
+/*==================================================================================================*/
+/**
+ * @fn USART_enumTransmitString
+ * @brief Transmit a string of data through the USART interface.
+ *
+ * This function transmits a string of data through the USART interface.
+ *
+ * @param ChannelConfig Pointer to the USART configuration structure
+ * @param TX_Data Pointer to the string of data to be transmitted
+ * @return ErrorState_t OK if successful, error code otherwise
+ *
+ * @warning NULL pointer check is performed on input parameter
+ */
 ErrorState_t USART_enumTransmitString(USART_Config_t *ChannelConfig, uint8_t *TX_Data)
 {
   ErrorState_t Local_u8ErrorState = OK;
@@ -282,8 +329,19 @@ ErrorState_t USART_enumTransmitString(USART_Config_t *ChannelConfig, uint8_t *TX
   }
   return Local_u8ErrorState;
 }
-
-
+/*==================================================================================================*/
+/**
+ * @fn USART_enumReceive
+ * @brief Receive data through the USART interface.
+ *
+ * This function receives data through the USART interface.
+ *
+ * @param ChannelConfig Pointer to the USART configuration structure
+ * @param RX_Data Pointer to store the received data
+ * @return ErrorState_t OK if successful, error code otherwise
+ *
+ * @warning NULL pointer check is performed on input parameter
+ */
 ErrorState_t USART_enumReceive(USART_Config_t *ChannelConfig, uint8_t *RX_Data)
 {
 
@@ -324,7 +382,13 @@ ErrorState_t USART_enumReceive(USART_Config_t *ChannelConfig, uint8_t *RX_Data)
   }
   return Local_u8ErrorState;
 }
-
+/*==================================================================================================*/
+/**
+ * @fn USART1_IRQHandler
+ * @brief USART1 interrupt handler.
+ *
+ * This function handles the USART1 interrupt.
+ */
 void USART1_IRQHandler(void)
 {
   if (USART_CallBack[USART_CHANNEL1] != NULL)
@@ -332,7 +396,13 @@ void USART1_IRQHandler(void)
     USART_CallBack[USART_CHANNEL1]();
   }
 }
-
+/*==================================================================================================*/
+/**
+ * @fn USART2_IRQHandler
+ * @brief USART2 interrupt handler.
+ *
+ * This function handles the USART2 interrupt.
+ */
 void USART2_IRQHandler(void)
 {
   if (USART_CallBack[USART_CHANNEL2] != NULL)
@@ -340,7 +410,13 @@ void USART2_IRQHandler(void)
     USART_CallBack[USART_CHANNEL2]();
   }
 }
-
+/*==================================================================================================*/
+/**
+ * @fn USART3_IRQHandler
+ * @brief USART3 interrupt handler.
+ *
+ * This function handles the USART3 interrupt.
+ */
 void USART3_IRQHandler(void)
 {
   if (USART_CallBack[USART_CHANNEL3] != NULL)
@@ -348,7 +424,13 @@ void USART3_IRQHandler(void)
     USART_CallBack[USART_CHANNEL3]();
   }
 }
-
+/*==================================================================================================*/
+/**
+ * @fn USART4_IRQHandler
+ * @brief USART4 interrupt handler.
+ *
+ * This function handles the USART4 interrupt.
+ */
 void USART4_IRQHandler(void)
 {
   if (USART_CallBack[USART_CHANNEL4] != NULL)
@@ -356,7 +438,13 @@ void USART4_IRQHandler(void)
     USART_CallBack[USART_CHANNEL4]();
   }
 }
-
+/*==================================================================================================*/
+/**
+ * @fn USART5_IRQHandler
+ * @brief USART5 interrupt handler.
+ *
+ * This function handles the USART5 interrupt.
+ */
 void USART5_IRQHandler(void)
 {
   if (USART_CallBack[USART_CHANNEL5] != NULL)
@@ -364,7 +452,13 @@ void USART5_IRQHandler(void)
     USART_CallBack[USART_CHANNEL5]();
   }
 }
-
+/*==================================================================================================*/
+/**
+ * @fn USART6_IRQHandler
+ * @brief USART6 interrupt handler.
+ *
+ * This function handles the USART6 interrupt.
+ */
 void USART6_IRQHandler(void)
 {
   if (USART_CallBack[USART_CHANNEL6] != NULL)
