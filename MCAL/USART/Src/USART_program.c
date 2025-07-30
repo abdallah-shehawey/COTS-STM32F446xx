@@ -21,11 +21,12 @@
 #include "USART_private.h"
 #include "USART_intreface.h"
 
-/* Array of GPIO port register definitions for easy access */
+/* Array of USART port register definitions for easy access */
 static USART_RegDef_t *USART_Channel[USART_CHANNEL_COUNT] = {MUSART1, MUSART2, MUSART3, MUSART4, MUSART5, MUSART6};
 /*Global flag for the USART Busy State*/
 static uint8_t USART_u8State[USART_CHANNEL_COUNT] = {IDLE};
 static void (*USART_CallBack[USART_CHANNEL_COUNT])(void) = {NULL};
+
 
 ErrorState_t USART_Init(USART_Config_t *ChannelConfig)
 {

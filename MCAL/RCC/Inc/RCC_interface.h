@@ -50,12 +50,12 @@ typedef enum
   RCC_GPIOFEN,     /* GPIO Port F Enable */
   RCC_GPIOGEN,     /* GPIO Port G Enable */
   RCC_GPIOHEN,     /* GPIO Port H Enable */
-  RCC_CRCEN,  /* CRC Enable */
-  RCC_BKPSRAMEN, /* Backup SRAM Enable */
-  RCC_DMA1EN, /* DMA1 Enable */
-  RCC_DMA2EN, /* DMA2 Enable */
-  RCC_OTGHSEN,/* USB OTG HS Enable */
-  RCC_OTGHSULPIEN, /* USB OTG ULPI Enable */
+  RCC_CRCEN =12 ,  /* CRC Enable */
+  RCC_BKPSRAMEN = 18, /* Backup SRAM Enable */
+  RCC_DMA1EN = 21, /* DMA1 Enable */
+  RCC_DMA2EN = 22, /* DMA2 Enable */
+  RCC_OTGHSEN = 29,/* USB OTG HS Enable */
+  RCC_OTGHSULPIEN = 30, /* USB OTG ULPI Enable */
 } RCC_AHB1_BUS_t;
 
 /********************************
@@ -65,8 +65,8 @@ typedef enum
  */
 typedef enum
 {
-  RCC_DCMIEN,      /* Digital Camera Interface Enable */
-  RCC_OTGFSEN, /* USB OTG FS Enable */
+  RCC_DCMIEN = 0,      /* Digital Camera Interface Enable */
+  RCC_OTGFSEN = 7, /* USB OTG FS Enable */
 } RCC_AHB2_BUS_t;
 
 /********************************
@@ -76,8 +76,8 @@ typedef enum
  */
 typedef enum
 {
-  RCC_FMCEN,   /* Flexible Memory Controller Enable */
-  RCC_QSPIEN,  /* Quad SPI Enable */
+  RCC_FMCEN = 0,   /* Flexible Memory Controller Enable */
+  RCC_QSPIEN = 1,  /* Quad SPI Enable */
 } RCC_AHB3_BUS_t;
 
 /********************************
@@ -123,8 +123,8 @@ typedef enum
   RCC_TIM12EN,     /* Timer 12 Enable */
   RCC_TIM13EN,     /* Timer 13 Enable */
   RCC_TIM14EN,     /* Timer 14 Enable */
-  RCC_WWDGEN, /* Window Watchdog Enable */
-  RCC_SPI2EN, /* SPI2 Enable */
+  RCC_WWDGEN = 11, /* Window Watchdog Enable */
+  RCC_SPI2EN = 14, /* SPI2 Enable */
   RCC_SPI3EN,      /* SPI3 Enable */
   RCC_SPDIFRX,     /* SPDIF-RX Enable */
   RCC_USART2EN,    /* USART2 Enable */
