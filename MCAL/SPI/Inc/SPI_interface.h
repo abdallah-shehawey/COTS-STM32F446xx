@@ -13,6 +13,8 @@
 #ifndef _SPI_INTERFACE_H_
 #define _SPI_INTERFACE_H_
 
+#include "stdint.h"
+
 typedef enum
 {
   SPI_CHANNEL1,
@@ -205,4 +207,6 @@ ErrorState_t SPI_enumTransmit(SPI_Config_t *ChannelConfig, uint16_t TX_Data);
  * @warning NULL pointer check is performed on the input parameter.
  */
 ErrorState_t SPI_enumReceive(SPI_Config_t *ChannelConfig, uint16_t *RX_Data);
+
+
 #endif /* _SPI_INTERFACE_H_ */

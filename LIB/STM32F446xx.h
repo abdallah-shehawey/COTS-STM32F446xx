@@ -46,10 +46,23 @@
 /**************************************         AHB2 Peripheral Base Adresses          ******************************************/
 /**************************************         AHB3 Peripheral Base Adresses          ******************************************/
 /**************************************         APB1 Peripheral Base Adresses          ******************************************/
+
+#define USART2_BASEADDR 0x40004400UL
+#define USART3_BASEADDR 0x40004800UL
+#define USART4_BASEADDR 0x40004C00UL
+#define USART5_BASEADDR 0x40005000UL
+#define SPI2_BASEADDR   0X40003800UL
+#define SPI3_BASEADDR   0X40003C00UL
+
+
 /**************************************         APB2 Peripheral Base Adresses          ******************************************/
 
 #define SYSCFG_BASEADDR 0X40013800UL
 #define EXTI_BASEADDR   0X40013C00UL
+#define USART1_BASEADDR 0X40011000UL
+#define USART6_BASEADDR 0X40011400UL
+#define SPI1_BASEADDR   0X40013000UL
+#define SPI4_BASEADDR   0X40013400UL
 
 /**************************************         APB3 Peripheral Base Adresses          ******************************************/
 
@@ -142,6 +155,26 @@ typedef struct
   volatile uint32_t DCKCFGR2;     /* RCC dedicated clocks configuration register 2 (DCKCFGR2)                   */
 } RCC_RegDef_t;
 
+/**************************************       SPI Register Definitions Structure       ******************************************/
+typedef struct
+{
+  volatile uint32_t CR1;                /* SPI Control Register 1 */
+  volatile uint32_t CR2;                /* SPI Control Register 2 */
+  volatile uint32_t SR;                 /* SPI Status Register */
+  volatile uint32_t DR;                 /* SPI Data Register */
+  volatile uint32_t CRCPR;              /* SPI CRC Polynomial Register */
+  volatile uint32_t RXCRCR;             /* SPI Rx CRC Register */
+  volatile uint32_t TXCRCR;             /* SPI Tx CRC Register */
+  volatile uint32_t I2SCFGR;            /* SPI I2S Configuration Register */
+  volatile uint32_t I2SPR;              /* SPI I2S Prescaler Register */
+} SPI_RegDef_t;
+
+/**************************************         SPI Peripheral Definitions       *********************************************/
+#define MSPI1 ((SPI_RegDef_t *)SPI1_BASEADDR)
+#define MSPI2 ((SPI_RegDef_t *)SPI2_BASEADDR)
+#define MSPI3 ((SPI_RegDef_t *)SPI3_BASEADDR)
+#define MSPI4 ((SPI_RegDef_t *)SPI4_BASEADDR)
+
 /**************************************         NVIC Peripheral Definitions       *********************************************/
 typedef struct
 {
@@ -231,5 +264,27 @@ typedef struct
 } EXTI_RegDef_t;
 
 #define MEXTI ((EXTI_RegDef_t *)EXTI_BASEADDR)
+
+/**************************************      USART Register Definitions Structure   ******************************************/
+
+typedef struct
+{
+  uint32_t SR;
+  uint32_t DR;
+  uint32_t BRR;
+  uint32_t CR1;
+  uint32_t CR2;
+  uint32_t CR3;
+  uint32_t GTPR;
+} USART_RegDef_t;
+
+/**************************************         USART Peripheral Definitions       *********************************************/
+
+#define MUSART1 ((USART_RegDef_t *)USART1_BASEADDR)
+#define MUSART2 ((USART_RegDef_t *)USART2_BASEADDR)
+#define MUSART3 ((USART_RegDef_t *)USART3_BASEADDR)
+#define MUSART4 ((USART_RegDef_t *)USART4_BASEADDR)
+#define MUSART5 ((USART_RegDef_t *)USART5_BASEADDR)
+#define MUSART6 ((USART_RegDef_t *)USART6_BASEADDR)
 
 #endif /* STM32F446xx_H */
