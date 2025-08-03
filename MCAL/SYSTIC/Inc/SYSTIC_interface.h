@@ -58,4 +58,86 @@ void SYSTIC_vDelayMs(uint32_t Copy_u32MsTime);
  */
 void SYSTIC_vDelayUs(uint32_t Copy_u32UsTime);
 
+/**
+ * @fn SYSTIC_enumGetElapsedTickSingleShot
+ * @brief Generate a precise microsecond delay using polling method
+ *
+ * @param[in] Copy_pu32Tick Pointer to store the elapsed tick count
+ *
+ * @details This function:
+ *          1. Calculates the number of ticks needed based on clock configuration
+ *          2. Handles delays longer than maximum counter value (24-bit) by
+ *             breaking them into multiple shorter delays
+ *          3. Uses polling method to wait for completion
+ *
+ * @note The actual delay might be slightly longer than requested due to:
+ *       - Function call overhead
+ *       - Context switching (if interrupts are enabled)
+ *       - Clock frequency rounding
+ *
+ * @warning For very short delays (<10µs), the actual elapsed tick count may be longer
+ *          than requested due to function call overhead
+ */
+ErrorState_t SYSTIC_enumGetElapsedTickSingleShot(uint32_t * Copy_pu32Tick);
+/**
+ * @fn SYSTIC_enumRemainingTickSingleShot
+ * @brief Get the remaining tick count for a single-shot SysTick timer
+ *
+ * @param[in] Copy_pu32Tick Pointer to store the remaining tick count
+ *
+ * @details This function:
+ *          1. Calculates the number of ticks remaining for a single-shot SysTick timer
+ *
+ * @note The actual remaining tick count might be slightly longer than requested due to:
+ *       - Function call overhead
+ *       - Context switching (if interrupts are enabled)
+ *       - Clock frequency rounding
+ *
+ * @warning For very short delays (<10µs), the actual remaining tick count may be longer
+ *          than requested due to function call overhead
+ */
+ErrorState_t SYSTIC_enumRemainingTickSingleShot(uint32_t * Copy_pu32Tick);
+/**
+ * @fn SYSTIC_enumCallback
+ * @brief Generate a precise microsecond delay using polling method
+ *
+ * @param[in] Copy_pu32Tick Pointer to store the elapsed tick count
+ *
+ * @details This function:
+ *          1. Calculates the number of ticks needed based on clock configuration
+ *          2. Handles delays longer than maximum counter value (24-bit) by
+ *             breaking them into multiple shorter delays
+ *          3. Uses polling method to wait for completion
+ *
+ * @note The actual delay might be slightly longer than requested due to:
+ *       - Function call overhead
+ *       - Context switching (if interrupts are enabled)
+ *       - Clock frequency rounding
+ *
+ * @warning For very short delays (<10µs), the actual delay may be longer
+ *          than requested due to function call overhead
+ */
+ErrorState_t SYSTIC_enumCallback(void(*Copy_pvCallBack)(void), uint32_t Copy_u32Tick);
+/**
+ * @fn SYSTIC_enumCallbackSingleShot
+ * @brief Generate a precise microsecond delay using polling method
+ *
+ * @param[in] Copy_pu32Tick Pointer to store the elapsed tick count
+ *
+ * @details This function:
+ *          1. Calculates the number of ticks needed based on clock configuration
+ *          2. Handles delays longer than maximum counter value (24-bit) by
+ *             breaking them into multiple shorter delays
+ *          3. Uses polling method to wait for completion
+ *
+ * @note The actual delay might be slightly longer than requested due to:
+ *       - Function call overhead
+ *       - Context switching (if interrupts are enabled)
+ *       - Clock frequency rounding
+ *
+ * @warning For very short delays (<10µs), the actual delay may be longer
+ *          than requested due to function call overhead
+ */
+ErrorState_t SYSTIC_enumCallbackSingleShot(void(*Copy_pvCallBack)(void), uint32_t Copy_u32Tick);
+
 #endif /* MCAL_SYSTIC_INTERFACE_H_ */
