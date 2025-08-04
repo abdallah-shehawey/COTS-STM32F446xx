@@ -85,11 +85,43 @@ typedef enum
   NVIC_FMPI2C1_ER
 } NVIC_IRQNumber_t;
 
+/**
+ * @brief Enable an IRQ number in the NVIC.
+ * @param Copy_u8IRQNumber IRQ number to enable.
+ * @return ErrorState_t Returns OK if successful, NOK if IRQ number is invalid.
+ */
 ErrorState_t NVIC_vEnableIRQ(uint8_t Copy_u8IRQNumber);
+/**
+ * @brief Disable an IRQ number in the NVIC.
+ * @param Copy_u8IRQNumber IRQ number to disable.
+ * @return ErrorState_t Returns OK if successful, NOK if IRQ number is invalid.
+ */
 ErrorState_t NVIC_vDisableIRQ(uint8_t Copy_u8IRQNumber);
+/**
+ * @brief Set pending flag for an IRQ number in the NVIC.
+ * @param Copy_u8IRQNumber IRQ number to set pending flag.
+ * @return ErrorState_t Returns OK if successful, NOK if IRQ number is invalid.
+ */
 ErrorState_t NVIC_vSetPendingFlag(uint8_t Copy_u8IRQNumber);
+/**
+ * @brief Clear pending flag for an IRQ number in the NVIC.
+ * @param Copy_u8IRQNumber IRQ number to clear pending flag.
+ * @return ErrorState_t Returns OK if successful, NOK if IRQ number is invalid.
+ */
 ErrorState_t NVIC_vClearPendingFlag(uint8_t Copy_u8IRQNumber);
-ErrorState_t NVIC_vGetActiveFlag(uint8_t Copy_u8IRQNumber,   uint8_t *Copy_pu8Flag);
+/**
+ * @brief Get active flag status for an IRQ number in the NVIC.
+ * @param Copy_u8IRQNumber IRQ number to check active flag.
+ * @param Copy_pu8Flag Pointer to store active flag status (0 or 1).
+ * @return ErrorState_t Returns OK if successful, NOK if IRQ number invalid, or NULL_POINTER if pointer is NULL.
+ */
+ErrorState_t NVIC_vGetActiveFlag(uint8_t Copy_u8IRQNumber, uint8_t *Copy_pu8Flag);
+/**
+ * @brief Set priority for an IRQ number in the NVIC.
+ * @param Copy_u8IRQNumber IRQ number to set priority.
+ * @param Copy_u8Priority Priority value (0 to 15).
+ * @return ErrorState_t Returns OK if successful, NOK if IRQ number or priority is invalid.
+ */
 ErrorState_t NVIC_vSetPriority(uint8_t Copy_u8IRQNumber, uint8_t Copy_u8Priority);
 
 #endif /* NVIC_INTERFACE_H_ */
