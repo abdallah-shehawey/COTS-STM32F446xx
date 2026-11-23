@@ -27,6 +27,7 @@
  *          - Row pins as input pull-up
  *          - Column pins as output push-pull
  *          - Sets initial column states to HIGH
+ * @example KPD_vInit();
  */
 void KPD_vInit(void);
 
@@ -37,6 +38,9 @@ void KPD_vInit(void);
  *         - Key value from the keypad matrix if pressed
  *         - NOTPRESSED (0xFF) if no key is pressed
  * @note  This function includes debouncing and waits for key release
+ * @example
+ * uint8_t key = KPD_u8GetPressed();
+ * if (key != NOTPRESSED) { ... }
  */
 uint8_t KPD_u8GetPressed(void);
 

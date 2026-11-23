@@ -71,6 +71,7 @@ typedef enum
  *         Copy_u8Port - GPIO port identifier (A-H)
  * @return: void
  * @note: Must be called before configuring EXTI line
+ * @example SYSCFG_vSetEXTIConfig(SYSCFG_EXTI0, SYSCFG_PORTA);
  */
 void SYSCFG_vSetEXTIConfig(SYSCFG_EXTI_t Copy_u8EXTI, SYSCFG_Port_t Copy_u8Port);
 

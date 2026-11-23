@@ -100,6 +100,9 @@ typedef struct
  * @param: Copy_pEXTI_LineConfig - Pointer to EXTI configuration structure
  * @return: ErrorState_t - Error state of the operation
  * @note: Must be called after SYSCFG configuration
+ * @example
+ * EXTI_LineConfig_t cfg = {EXTI_LINE0, EXTI_RISING_EDGE, EXTI_EN, MyCallback};
+ * EXTI_vLineInit(&cfg);
  */
 ErrorState_t EXTI_vLineInit(const EXTI_LineConfig_t *Copy_pEXTI_LineConfig);
 
@@ -109,6 +112,7 @@ ErrorState_t EXTI_vLineInit(const EXTI_LineConfig_t *Copy_pEXTI_LineConfig);
  * @details: Enables the specified EXTI line interrupt
  * @param: Copy_pEXTI_LineConfig - Pointer to EXTI configuration structure
  * @return: ErrorState_t - Error state of the operation
+ * @example EXTI_vEnableInterrupt(&cfg);
  */
 ErrorState_t EXTI_vEnableInterrupt(const EXTI_LineConfig_t *Copy_pEXTI_LineConfig);
 
@@ -119,6 +123,7 @@ ErrorState_t EXTI_vEnableInterrupt(const EXTI_LineConfig_t *Copy_pEXTI_LineConfi
  * @param: Copy_pEXTI_LineConfig - Pointer to EXTI configuration structure
  *         Copy_u8Trigger - New trigger source configuration
  * @return: ErrorState_t - Error state of the operation
+ * @example EXTI_vSetTrigSrc(&cfg, EXTI_FALLING_EDGE);
  */
 ErrorState_t EXTI_vSetTrigSrc(const EXTI_LineConfig_t *Copy_pEXTI_LineConfig, EXTI_TriggerSrc_t Copy_u8Trigger);
 
@@ -128,6 +133,7 @@ ErrorState_t EXTI_vSetTrigSrc(const EXTI_LineConfig_t *Copy_pEXTI_LineConfig, EX
  * @details: Sets the pending flag for the specified EXTI line
  * @param: Copy_pEXTI_LineConfig - Pointer to EXTI configuration structure
  * @return: ErrorState_t - Error state of the operation
+ * @example EXTI_vSetPendFlag(&cfg);
  */
 ErrorState_t EXTI_vSetPendFlag(const EXTI_LineConfig_t *Copy_pEXTI_LineConfig);
 
@@ -137,6 +143,7 @@ ErrorState_t EXTI_vSetPendFlag(const EXTI_LineConfig_t *Copy_pEXTI_LineConfig);
  * @details: Disables the specified EXTI line interrupt
  * @param: Copy_pEXTI_LineConfig - Pointer to EXTI configuration structure
  * @return: ErrorState_t - Error state of the operation
+ * @example EXTI_vDisableInterrupt(&cfg);
  */
 ErrorState_t EXTI_vDisableInterrupt(const EXTI_LineConfig_t *Copy_pEXTI_LineConfig);
 
@@ -146,6 +153,7 @@ ErrorState_t EXTI_vDisableInterrupt(const EXTI_LineConfig_t *Copy_pEXTI_LineConf
  * @details: Clears the pending flag for the specified EXTI line
  * @param: Copy_u8Line - EXTI line number
  * @return: void
+ * @example EXTI_vClearPendFlag(EXTI_LINE0);
  */
 void EXTI_vClearPendFlag(EXTI_Line_t Copy_u8Line);
 
@@ -155,6 +163,8 @@ void EXTI_vClearPendFlag(EXTI_Line_t Copy_u8Line);
  * @details: Reads the status of the pending flag for specified EXTI line
  * @param: Copy_u8Line - EXTI line number
  * @return: uint8_t - Status of the pending flag (0: not pending, 1: pending)
+ * @example
+ * uint8_t status = EXTI_u8ReadPendFlag(EXTI_LINE0);
  */
 uint8_t EXTI_u8ReadPendFlag(EXTI_Line_t Copy_u8Line);
 

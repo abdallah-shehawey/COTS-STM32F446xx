@@ -742,7 +742,7 @@ ErrorState_t GPIO_enumWriteByteVal(GPIO_Port_t port, uint8_t Copy_u8Val, GPIO_Pi
  * @param : PinsVal: Value to write
  * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
  */
-ErrorState_t GPIO_enumWriteHalfWordVal(GPIO_Port_t port, uint8_t Copy_u8Val, GPIO_PinValue_t PinsVal)
+ErrorState_t GPIO_enumWriteHalfWordVal(GPIO_Port_t port, uint16_t Copy_u16Val, GPIO_PinValue_t PinsVal)
 {
   ErrorState_t Local_u8ErrorState = OK;
   if (PinsVal > GPIO_PIN_HIGH || PinsVal < GPIO_PIN_LOW)
@@ -753,13 +753,13 @@ ErrorState_t GPIO_enumWriteHalfWordVal(GPIO_Port_t port, uint8_t Copy_u8Val, GPI
   {
     if (PinsVal == GPIO_PIN_HIGH)
     {
-      Copy_u8Val &= 0xFFFF;
-      GPIO_Port[port]->BSRR = Copy_u8Val;
+      Copy_u16Val &= 0xFFFF;
+      GPIO_Port[port]->BSRR = Copy_u16Val;
     }
     else if (PinsVal == GPIO_PIN_LOW)
     {
-      Copy_u8Val &= 0xFFFF;
-      GPIO_Port[port]->BSRR = Copy_u8Val << 16;
+      Copy_u16Val &= 0xFFFF;
+      GPIO_Port[port]->BSRR = Copy_u16Val << 16;
     }
     else
     {
@@ -777,7 +777,7 @@ ErrorState_t GPIO_enumWriteHalfWordVal(GPIO_Port_t port, uint8_t Copy_u8Val, GPI
  * @param : PinsVal: Value to write
  * @retval ErrorState_t: OK if configuration successful, NOK if invalid parameters, NULL_POINTER if invalid pointer
  */
-ErrorState_t GPIO_enumWritePortVal(GPIO_Port_t port, uint8_t Copy_u8Val, GPIO_PinValue_t PinsVal)
+ErrorState_t GPIO_enumWritePortVal(GPIO_Port_t port, uint16_t Copy_u16Val, GPIO_PinValue_t PinsVal)
 {
   ErrorState_t Local_u8ErrorState = OK;
   if (PinsVal > GPIO_PIN_HIGH || PinsVal < GPIO_PIN_LOW)
@@ -788,13 +788,13 @@ ErrorState_t GPIO_enumWritePortVal(GPIO_Port_t port, uint8_t Copy_u8Val, GPIO_Pi
   {
     if (PinsVal == GPIO_PIN_HIGH)
     {
-      Copy_u8Val &= 0xFFFFFFFF;
-      GPIO_Port[port]->BSRR = Copy_u8Val;
+      Copy_u16Val &= 0xFFFF;
+      GPIO_Port[port]->BSRR = Copy_u16Val;
     }
     else if (PinsVal == GPIO_PIN_LOW)
     {
-      Copy_u8Val &= 0xFFFFFFFF;
-      GPIO_Port[port]->BSRR = Copy_u8Val << 16;
+      Copy_u16Val &= 0xFFFF;
+      GPIO_Port[port]->BSRR = Copy_u16Val << 16;
     }
     else
     {

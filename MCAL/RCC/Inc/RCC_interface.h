@@ -14,8 +14,10 @@
 #ifndef MCAL_RCC_INTERFACE_H_
 #define MCAL_RCC_INTERFACE_H_
 
+#include "../../../LIB/ErrTypes.h"
+#include "../../../LIB/STM32F446xx.h"
 #include <stdint.h>
-#include "ErrTypes.h"
+
 
 /************************** Bus Definitions **************************/
 /********************************
@@ -25,8 +27,7 @@
  *         APB1, APB2 - Advanced Peripheral Bus
  * @return: Selected bus type
  */
-typedef enum
-{
+typedef enum {
   RCC_AHB1, /* Advanced High-performance Bus 1 */
   RCC_AHB2, /* Advanced High-performance Bus 2 */
   RCC_AHB3, /* Advanced High-performance Bus 3 */
@@ -40,21 +41,20 @@ typedef enum
  * @details: Contains GPIO ports A-H, CRC, Backup SRAM,
  *          DMA1/2, USB OTG HS and ULPI
  */
-typedef enum
-{
-  RCC_GPIOAEN,     /* GPIO Port A Enable */
-  RCC_GPIOBEN,     /* GPIO Port B Enable */
-  RCC_GPIOCEN,     /* GPIO Port C Enable */
-  RCC_GPIODEN,     /* GPIO Port D Enable */
-  RCC_GPIOEEN,     /* GPIO Port E Enable */
-  RCC_GPIOFEN,     /* GPIO Port F Enable */
-  RCC_GPIOGEN,     /* GPIO Port G Enable */
-  RCC_GPIOHEN,     /* GPIO Port H Enable */
-  RCC_CRCEN =12 ,  /* CRC Enable */
-  RCC_BKPSRAMEN = 18, /* Backup SRAM Enable */
-  RCC_DMA1EN = 21, /* DMA1 Enable */
-  RCC_DMA2EN = 22, /* DMA2 Enable */
-  RCC_OTGHSEN = 29,/* USB OTG HS Enable */
+typedef enum {
+  RCC_GPIOAEN,          /* GPIO Port A Enable */
+  RCC_GPIOBEN,          /* GPIO Port B Enable */
+  RCC_GPIOCEN,          /* GPIO Port C Enable */
+  RCC_GPIODEN,          /* GPIO Port D Enable */
+  RCC_GPIOEEN,          /* GPIO Port E Enable */
+  RCC_GPIOFEN,          /* GPIO Port F Enable */
+  RCC_GPIOGEN,          /* GPIO Port G Enable */
+  RCC_GPIOHEN,          /* GPIO Port H Enable */
+  RCC_CRCEN = 12,       /* CRC Enable */
+  RCC_BKPSRAMEN = 18,   /* Backup SRAM Enable */
+  RCC_DMA1EN = 21,      /* DMA1 Enable */
+  RCC_DMA2EN = 22,      /* DMA2 Enable */
+  RCC_OTGHSEN = 29,     /* USB OTG HS Enable */
   RCC_OTGHSULPIEN = 30, /* USB OTG ULPI Enable */
 } RCC_AHB1_BUS_t;
 
@@ -63,9 +63,8 @@ typedef enum
  * @brief: Peripherals connected to AHB2 bus
  * @details: Contains DCMI and USB OTG FS
  */
-typedef enum
-{
-  RCC_DCMIEN = 0,      /* Digital Camera Interface Enable */
+typedef enum {
+  RCC_DCMIEN = 0,  /* Digital Camera Interface Enable */
   RCC_OTGFSEN = 7, /* USB OTG FS Enable */
 } RCC_AHB2_BUS_t;
 
@@ -74,10 +73,9 @@ typedef enum
  * @brief: Peripherals connected to AHB3 bus
  * @details: Contains FMC and QSPI
  */
-typedef enum
-{
-  RCC_FMCEN = 0,   /* Flexible Memory Controller Enable */
-  RCC_QSPIEN = 1,  /* Quad SPI Enable */
+typedef enum {
+  RCC_FMCEN = 0,  /* Flexible Memory Controller Enable */
+  RCC_QSPIEN = 1, /* Quad SPI Enable */
 } RCC_AHB3_BUS_t;
 
 /********************************
@@ -86,8 +84,7 @@ typedef enum
  * @details: Contains timers, USART1/6, ADCs, SDIO,
  *          SPI1/4, SYSCFG, and SAI1/2
  */
-typedef enum
-{
+typedef enum {
   RCC_TIM1EN = 0,  /* Timer 1 Enable */
   RCC_TIM8EN,      /* Timer 8 Enable */
   RCC_USART1 = 4,  /* USART1 Enable */
@@ -112,8 +109,7 @@ typedef enum
  * @details: Contains timers, watchdog, SPI2/3, USART2-5,
  *          I2C, CAN, CEC, PWR and DAC
  */
-typedef enum
-{
+typedef enum {
   RCC_TIM2EN,      /* Timer 2 Enable */
   RCC_TIM3EN,      /* Timer 3 Enable */
   RCC_TIM4EN,      /* Timer 4 Enable */
@@ -147,8 +143,7 @@ typedef enum
  * @brief: AHB bus clock division factors
  * @details: Defines division ratios from 1 to 512
  */
-typedef enum
-{
+typedef enum {
   RCC_AHB_NOT_DIV = 7, /* No Division */
   RCC_AHB_DIV_2,       /* Divide by 2 */
   RCC_AHB_DIV_4,       /* Divide by 4 */
@@ -165,8 +160,7 @@ typedef enum
  * @brief: APB bus clock division factors
  * @details: Defines division ratios from 1 to 16
  */
-typedef enum
-{
+typedef enum {
   RCC_APB_NOT_DIV = 3, /* No Division */
   RCC_APB_DIV_2,       /* Divide by 2 */
   RCC_APB_DIV_4,       /* Divide by 4 */
@@ -178,27 +172,26 @@ typedef enum
  * @brief: Main PLL division factors
  * @details: Defines minimum and maximum division values
  */
-#define RCC_MPLL_DIV_2 2      /* Minimum PLL division */
-#define RCC_MPLL_DIV_63 63    /* Maximum PLL division */
+#define RCC_MPLL_DIV_2 2   /* Minimum PLL division */
+#define RCC_MPLL_DIV_63 63 /* Maximum PLL division */
 
 /********************************
  * @brief: NPLL multiplication factors
  * @details: Defines minimum and maximum multiplication values
  */
-#define RCC_NPLL_CLK_MULT_50 50    /* Minimum PLL multiplication */
-#define RCC_NPLL_CLK_MULT_432 432  /* Maximum PLL multiplication */
+#define RCC_NPLL_CLK_MULT_50 50   /* Minimum PLL multiplication */
+#define RCC_NPLL_CLK_MULT_432 432 /* Maximum PLL multiplication */
 
 /********************************
  * @PPLL_CLK_DIV enum:
  * @brief: PLLP clock division factors
  * @details: Defines even division ratios from 2 to 8
  */
-typedef enum
-{
-  RCC_PPLL_DIV_2,    /* Divide by 2 */
-  RCC_PPLL_DIV_4,    /* Divide by 4 */
-  RCC_PPLL_DIV_6,    /* Divide by 6 */
-  RCC_PPLL_DIV_8,    /* Divide by 8 */
+typedef enum {
+  RCC_PPLL_DIV_2, /* Divide by 2 */
+  RCC_PPLL_DIV_4, /* Divide by 4 */
+  RCC_PPLL_DIV_6, /* Divide by 6 */
+  RCC_PPLL_DIV_8, /* Divide by 8 */
 } RCC_PPLL_CLK_DIV_t;
 
 /********************************
@@ -206,10 +199,9 @@ typedef enum
  * @brief: PLL clock source selection
  * @details: Selects between HSI and HSE as PLL input
  */
-typedef enum
-{
-  RCC_PLL_HSI,    /* High Speed Internal Clock Source */
-  RCC_PLL_HSE,    /* High Speed External Clock Source */
+typedef enum {
+  RCC_PLL_HSI, /* High Speed Internal Clock Source */
+  RCC_PLL_HSE, /* High Speed External Clock Source */
 } RCC_PLL_CLK_SRC_t;
 
 /************************** Clock Source Definitions **************************/
@@ -223,16 +215,17 @@ typedef enum
  *         PLL_CLK - Phase Locked Loop Clock
  * @return: Selected clock source
  */
-typedef enum
-{
-  RCC_HSI_CLK,  /* High Speed Internal Clock (16 MHz RC oscillator) */
-  RCC_HSE_CLK,  /* High Speed External Clock (4-26 MHz crystal/ceramic resonator) */
+typedef enum {
+  RCC_HSI_CLK, /* High Speed Internal Clock (16 MHz RC oscillator) */
+  RCC_HSE_CLK, /* High Speed External Clock (4-26 MHz crystal/ceramic resonator)
+                */
   RCC_PLLP_CLK, /* Main PLL P output Clock */
   RCC_PLLR_CLK, /* Main PLL R output Clock */
   RCC_PLL_CLK   /* Phase Locked Loop Clock */
 } RCC_CLK_SRC_t;
 
-/************************** Clock Enable/Disable Definitions **************************/
+/************************** Clock Enable/Disable Definitions
+ * **************************/
 /********************************
  * @CLK_EN_t enum:
  * @brief: Clock enable/disable selection
@@ -240,13 +233,13 @@ typedef enum
  *         CLK_OFF - Disable selected clock
  * @return: Clock state selection
  */
-typedef enum
-{
+typedef enum {
   RCC_CLK_ON, /* Enable the selected clock */
   RCC_CLK_OFF /* Disable the selected clock */
 } RCC_CLK_EN_t;
 
-/************************** Peripheral Enable/Disable Definitions **************************/
+/************************** Peripheral Enable/Disable Definitions
+ * **************************/
 /********************************
  * @PER_EN_t enum:
  * @brief: Peripheral enable/disable selection
@@ -254,14 +247,13 @@ typedef enum
  *         PER_OFF - Disable selected peripheral
  * @return: Peripheral state selection
  */
-typedef enum
-{
+typedef enum {
   RCC_PER_ON, /* Enable the selected peripheral */
   RCC_PER_OFF /* Disable the selected peripheral */
 } RCC_PER_EN_t;
 
-
-/************************** PLL Configuration Structure **************************/
+/************************** PLL Configuration Structure
+ * **************************/
 /********************************
  * @RCC_PLLConfig_t struct:
  * @brief: PLL configuration parameters structure
@@ -271,11 +263,11 @@ typedef enum
  *         PLLP_Div - PLL output division factor (2,4,6,8)
  * @return: None
  */
-typedef struct
-{
+typedef struct {
   RCC_PLL_CLK_SRC_t PLLSource; /* PLL clock source (PLL_HSI, PLL_HSE) */
-  uint8_t PLLM_Div;  /* PLL M divider (MPLL_DIV_2 to MPLL_DIV_63) */
-  uint8_t PLLN_Mult; /* PLL N multiplier (NPLL_CLK_MULT_50 to NPLL_CLK_MULT_432) */
+  uint8_t PLLM_Div;            /* PLL M divider (MPLL_DIV_2 to MPLL_DIV_63) */
+  uint8_t
+      PLLN_Mult; /* PLL N multiplier (NPLL_CLK_MULT_50 to NPLL_CLK_MULT_432) */
   RCC_PPLL_CLK_DIV_t PLLP_Div; /* PLL P divider (PPLL_DIV_2 to PPLL_DIV_8) */
 } RCC_PLLConfig_t;
 
@@ -286,6 +278,7 @@ typedef struct
  * @param  Copy_u8CLK: Clock source (HSI_CLK, HSE_CLK, PLL_CLK)
  * @param  Copy_u8Status: Clock status (CLK_ON, CLK_OFF)
  * @return ErrorState_t: Error status (RCC_OK, TIMEOUT_STATE, BUSY_STATE)
+ * @example RCC_enumSetClkSts(RCC_HSE_CLK, RCC_CLK_ON);
  */
 ErrorState_t RCC_enumSetClkSts(uint8_t Copy_u8CLK, uint8_t Copy_u8Status);
 
@@ -294,6 +287,7 @@ ErrorState_t RCC_enumSetClkSts(uint8_t Copy_u8CLK, uint8_t Copy_u8Status);
  * @brief  Set the system clock source
  * @param  Copy_u8CLK: Clock source (HSI_CLK, HSE_CLK, PLLP_CLK, PLLR_CLK)
  * @return ErrorState_t: Error status (RCC_OK, BUSY_STATE)
+ * @example RCC_enumSetSysClk(RCC_HSE_CLK);
  */
 ErrorState_t RCC_enumSetSysClk(uint8_t Copy_u8CLK);
 
@@ -302,6 +296,9 @@ ErrorState_t RCC_enumSetSysClk(uint8_t Copy_u8CLK);
  * @brief  Configure PLL parameters
  * @param  Copy_PLLConfig: Pointer to PLL configuration structure
  * @return ErrorState_t: Error status (RCC_OK, NOK, BUSY_STATE)
+ * @example 
+ * RCC_PLLConfig_t MyPLL = {RCC_PLL_HSE, 8, 336, RCC_PPLL_DIV_2};
+ * RCC_enumPLLConfig(&MyPLL);
  */
 ErrorState_t RCC_enumPLLConfig(const RCC_PLLConfig_t *Copy_PLLConfig);
 
@@ -310,6 +307,7 @@ ErrorState_t RCC_enumPLLConfig(const RCC_PLLConfig_t *Copy_PLLConfig);
  * @brief  Configure AHB bus clock prescaler
  * @param  Copy_u8AHPDiv: AHB prescaler value (AHB_NOT_DIV to AHB_DIV_512)
  * @return ErrorState_t: Error status (RCC_OK, NOK, BUSY_STATE)
+ * @example RCC_enumAHBConfig(RCC_AHB_NOT_DIV);
  */
 ErrorState_t RCC_enumAHBConfig(uint8_t Copy_u8AHPDiv);
 
@@ -318,6 +316,7 @@ ErrorState_t RCC_enumAHBConfig(uint8_t Copy_u8AHPDiv);
  * @brief  Configure APB1 bus clock prescaler
  * @param  Copy_u8APB1Div: APB1 prescaler value (APB_NOT_DIV to APB_DIV_16)
  * @return ErrorState_t: Error status (RCC_OK, NOK, BUSY_STATE)
+ * @example RCC_enumAPB1Config(RCC_APB_DIV_2);
  */
 ErrorState_t RCC_enumAPB1Config(uint8_t Copy_u8APB1Div);
 
@@ -326,27 +325,32 @@ ErrorState_t RCC_enumAPB1Config(uint8_t Copy_u8APB1Div);
  * @brief  Configure APB2 bus clock prescaler
  * @param  Copy_u8APB2Div: APB2 prescaler value (APB_NOT_DIV to APB_DIV_16)
  * @return ErrorState_t: Error status (RCC_OK, NOK, BUSY_STATE)
+ * @example RCC_enumAPB2Config(RCC_APB_NOT_DIV);
  */
 ErrorState_t RCC_enumAPB2Config(uint8_t Copy_u8APB2Div);
 
 /**
  * @fn     RCC_enumAHPPerSts
  * @brief  Enable or disable peripheral clock on AHB buses
- * @param  Copy_u8Bus: AHB bus number (AHB1, AHB2, AHB3)
- * @param  Copy_u8AHPPer: Peripheral number on the selected bus
- * @param  Copy_u8Status: Peripheral clock status (PER_ON, PER_OFF)
+ * @param  Copy_u8Bus: AHB bus number (RCC_AHB1, RCC_AHB2, RCC_AHB3)
+ * @param  Copy_u8AHPPer: Peripheral number on the selected bus (e.g., RCC_GPIOAEN)
+ * @param  Copy_u8Status: Peripheral clock status (RCC_PER_ON, RCC_PER_OFF)
  * @return ErrorState_t: Error status (RCC_OK, BUSY_STATE)
+ * @example RCC_enumAHPPerSts(RCC_AHB1, RCC_GPIOAEN, RCC_PER_ON);
  */
-ErrorState_t RCC_enumAHPPerSts(uint8_t Copy_u8Bus, uint8_t Copy_u8AHPPer, uint8_t Copy_u8Status);
+ErrorState_t RCC_enumAHPPerSts(uint8_t Copy_u8Bus, uint8_t Copy_u8AHPPer,
+                               uint8_t Copy_u8Status);
 
 /**
  * @fn     RCC_enumABPPerSts
  * @brief  Enable or disable peripheral clock on APB buses
- * @param  Copy_u8Bus: APB bus number (APB1, APB2)
- * @param  Copy_u8AHPPer: Peripheral number on the selected bus
- * @param  Copy_u8Status: Peripheral clock status (PER_ON, PER_OFF)
+ * @param  Copy_u8Bus: APB bus number (RCC_APB1, RCC_APB2)
+ * @param  Copy_u8AHPPer: Peripheral number on the selected bus (e.g., RCC_USART2EN)
+ * @param  Copy_u8Status: Peripheral clock status (RCC_PER_ON, RCC_PER_OFF)
  * @return ErrorState_t: Error status (RCC_OK, BUSY_STATE)
+ * @example RCC_enumABPPerSts(RCC_APB1, RCC_USART2EN, RCC_PER_ON);
  */
-ErrorState_t RCC_enumABPPerSts(uint8_t Copy_u8Bus, uint8_t Copy_u8AHPPer, uint8_t Copy_u8Status);
+ErrorState_t RCC_enumABPPerSts(uint8_t Copy_u8Bus, uint8_t Copy_u8AHPPer,
+                               uint8_t Copy_u8Status);
 
 #endif /* MCAL_RCC_INTERFACE_H_ */

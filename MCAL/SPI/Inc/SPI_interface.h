@@ -159,6 +159,12 @@ typedef struct
  * @return ErrorState_t OK if initialization successful, error code otherwise
  *
  * @warning NULL pointer check is performed on the input parameter.
+ * @example
+ * SPI_Config_t MySPI = {SPI_CHANNEL1, SPI_CPHA_1EDGE, SPI_CPOL_LOW, SPI_MODE_MASTER,
+ *                       SPI_BAUDRATEPRESCALER_2, SPI_SPE_EN, SPI_MSBFIRST, SPI_NSS_SOFTWARE,
+ *                       SPI_NSSI_NOT_SELECT, SPI_RXONLY_DISABLE, SPI_DFF_8BIT, SPI_CRCDIS,
+ *                       SPI_CRCNEXT_DISABLE, SPI_UNIDIMODE, SPI_OUTPUT_EN};
+ * SPI_enumInit(&MySPI);
  */
 ErrorState_t SPI_enumInit(SPI_Config_t *ChannelConfig);
 /*==================================================================================================*/
@@ -175,6 +181,9 @@ ErrorState_t SPI_enumInit(SPI_Config_t *ChannelConfig);
  * @return ErrorState_t OK if initialization successful, error code otherwise
  *
  * @warning NULL pointer check is performed on the input parameter.
+ * @example
+ * uint16_t rx_data;
+ * SPI_enumTrancieve(&MySPI, 0x55, &rx_data);
  */
 ErrorState_t SPI_enumTrancieve(SPI_Config_t *ChannelConfig, uint16_t TX_Data, uint16_t *RX_Data);
 /*==================================================================================================*/
@@ -190,6 +199,7 @@ ErrorState_t SPI_enumTrancieve(SPI_Config_t *ChannelConfig, uint16_t TX_Data, ui
  * @return ErrorState_t OK if initialization successful, error code otherwise
  *
  * @warning NULL pointer check is performed on the input parameter.
+ * @example SPI_enumTransmit(&MySPI, 0x55);
  */
 ErrorState_t SPI_enumTransmit(SPI_Config_t *ChannelConfig, uint16_t TX_Data);
 /*==================================================================================================*/
@@ -205,6 +215,9 @@ ErrorState_t SPI_enumTransmit(SPI_Config_t *ChannelConfig, uint16_t TX_Data);
  * @return ErrorState_t OK if initialization successful, error code otherwise
  *
  * @warning NULL pointer check is performed on the input parameter.
+ * @example
+ * uint16_t data;
+ * SPI_enumReceive(&MySPI, &data);
  */
 ErrorState_t SPI_enumReceive(SPI_Config_t *ChannelConfig, uint16_t *RX_Data);
 

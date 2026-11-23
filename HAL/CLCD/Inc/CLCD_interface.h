@@ -91,6 +91,7 @@
  * @fn    CLCD_vInit
  * @brief Initialize LCD with configured settings
  * @note  Must be called before using any other LCD functions
+ * @example CLCD_vInit();
  */
 void CLCD_vInit(void);
 
@@ -98,6 +99,7 @@ void CLCD_vInit(void);
  * @fn    CLCD_vSendData
  * @brief Send data byte to LCD
  * @param Copy_u8Data: Character or custom pattern to display
+ * @example CLCD_vSendData('A');
  */
 void CLCD_vSendData(uint8_t Copy_u8Data);
 
@@ -105,12 +107,14 @@ void CLCD_vSendData(uint8_t Copy_u8Data);
  * @fn    CLCD_vSendCommand
  * @brief Send command byte to LCD
  * @param Copy_u8Command: Command code to execute
+ * @example CLCD_vSendCommand(CLCD_ClEAR);
  */
 void CLCD_vSendCommand(uint8_t Copy_u8Command);
 
 /**
  * @fn    CLCD_vClearScreen
  * @brief Clear LCD display and return cursor home
+ * @example CLCD_vClearScreen();
  */
 void CLCD_vClearScreen(void);
 
@@ -119,20 +123,23 @@ void CLCD_vClearScreen(void);
  * @brief Set cursor to specific position
  * @param Copy_u8ROW: Row number (1-4)
  * @param Copy_u8Col: Column number (1-20)
+ * @example CLCD_vSetPosition(CLCD_ROW_1, CLCD_COL_5);
  */
 void CLCD_vSetPosition(uint8_t Copy_u8ROW, uint8_t Copy_u8Col);
 
 /**
  * @fn    CLCD_vSendString
  * @brief Display string on LCD
- * @param Copy_u8PrtStrign: Pointer to null-terminated string
+ * @param Copy_u8PrtString: Pointer to null-terminated string
+ * @example CLCD_vSendString("Hello");
  */
-void CLCD_vSendString(const uint8_t *Copy_u8PrtStrign);
+void CLCD_vSendString(const uint8_t *Copy_u8PrtString);
 
 /**
  * @fn    CLCD_vSendIntNumber
  * @brief Display integer number on LCD
  * @param Copy_s32Number: Integer number to display
+ * @example CLCD_vSendIntNumber(1234);
  */
 void CLCD_vSendIntNumber(int32_t Copy_s32Number);
 
@@ -140,6 +147,7 @@ void CLCD_vSendIntNumber(int32_t Copy_s32Number);
  * @fn    CLCD_vSendFloatNumber
  * @brief Display floating point number on LCD
  * @param Copy_f64Number: Float number to display
+ * @example CLCD_vSendFloatNumber(3.14);
  */
 void CLCD_vSendFloatNumber(double Copy_f64Number);
 

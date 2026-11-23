@@ -79,21 +79,21 @@ void CLCD_vInit(void)
   /* Initialize data port */
   CLCD_InitPort8Bits(CLCD_DATA_PORT, CLCD_DATA_START_PIN);
 
-  SYSTIC_vDelay_ms(50); // Must wait more than 30 ms before any action (VDD rises to 4.5v)
+  SYSTIC_vDelayMs(50); // Must wait more than 30 ms before any action (VDD rises to 4.5v)
 
   CLCD_vSendCommand(CLCD_HOME);
-  SYSTIC_vDelay_ms(10);
+  SYSTIC_vDelayMs(10);
 
   CLCD_vSendCommand(EIGHT_BITS);
-  SYSTIC_vDelay_ms(1);
+  SYSTIC_vDelayMs(1);
 
   CLCD_vSendCommand(CLCD_DISPLAY_CURSOR);
-  SYSTIC_vDelay_ms(1);
+  SYSTIC_vDelayMs(1);
 
   CLCD_vClearScreen();
 
   CLCD_vSendCommand(CLCD_ENTRY_MODE);
-  SYSTIC_vDelay_ms(1);
+  SYSTIC_vDelayMs(1);
 
 #elif CLCD_MODE == CLCD_FOUR_BITS_MODE
   /* Initialize control pins */
@@ -116,19 +116,19 @@ void CLCD_vInit(void)
 #error "Wrong CLCD_DATA_NIBBLE Config"
 #endif
 
-  SYSTIC_vDelay_ms(50); // Must wait more than 30 ms before any action (VDD rises to 4.5v)
+  SYSTIC_vDelayMs(50); // Must wait more than 30 ms before any action (VDD rises to 4.5v)
 
   CLCD_vSendCommand(CLCD_HOME);
-  SYSTIC_vDelay_ms(10);
+  SYSTIC_vDelayMs(10);
 
   CLCD_vSendCommand(FOUR_BITS);
-  SYSTIC_vDelay_ms(1);
+  SYSTIC_vDelayMs(1);
 
   CLCD_vSendCommand(CLCD_DISPLAY_CURSOR);
-  SYSTIC_vDelay_ms(1);
+  SYSTIC_vDelayMs(1);
 
   CLCD_vSendCommand(CLCD_ENTRY_MODE);
-  SYSTIC_vDelay_ms(1);
+  SYSTIC_vDelayMs(1);
 
 #else
 #error "Wrong CLCD_MODE Config"
@@ -167,7 +167,7 @@ static ErrorState_t CLCD_InitPin(GPIO_Port_t Port, GPIO_Pin_t Pin)
  */
 static ErrorState_t CLCD_InitPort8Bits(GPIO_Port_t Port, GPIO_Pin_t StartPin)
 {
-  GPIO_8BinsConfig_t PortConfig = {
+  GPIO_8PinsConfig_t PortConfig = {
       .Port = Port,
       .StartPin = StartPin,
       .Mode = CLCD_GPIO_MODE,
@@ -175,7 +175,7 @@ static ErrorState_t CLCD_InitPort8Bits(GPIO_Port_t Port, GPIO_Pin_t StartPin)
       .Speed = CLCD_GPIO_SPEED,
       .PullType = CLCD_GPIO_PULL};
 
-  return GPIO_enumPort8BitsInit(&PortConfig);
+  return GPIO_enumPort8PinsInit(&PortConfig);
 }
 /*___________________________________________________________________________________________________________________*/
 
@@ -201,9 +201,9 @@ void CLCD_vSendData(uint8_t Copy_u8Data)
   GPIO_enumWritePinVal(CLCD_CONTROL_PORT, CLCD_RS, GPIO_PIN_HIGH);
   GPIO_enumWritePinVal(CLCD_CONTROL_PORT, CLCD_RW, GPIO_PIN_LOW);
 
-  GPIO_enumWrite4BitsVal(CLCD_DATA_PORT, CLCD_DATA_START_PIN, (Copy_u8Data >> 4));
+  GPIO_enumWrite4PinsVal(CLCD_DATA_PORT, CLCD_DATA_START_PIN, (Copy_u8Data >> 4));
   CLCD_vSendFallingEdge();
-  GPIO_enumWrite4BitsVal(CLCD_DATA_PORT, CLCD_DATA_START_PIN, Copy_u8Data);
+  GPIO_enumWrite4PinsVal(CLCD_DATA_PORT, CLCD_DATA_START_PIN, Copy_u8Data);
   CLCD_vSendFallingEdge();
 
 #else
@@ -235,9 +235,9 @@ void CLCD_vSendCommand(uint8_t Copy_u8Command)
   GPIO_enumWritePinVal(CLCD_CONTROL_PORT, CLCD_RS, GPIO_PIN_LOW);
   GPIO_enumWritePinVal(CLCD_CONTROL_PORT, CLCD_RW, GPIO_PIN_LOW);
 
-  GPIO_enumWrite4BitsVal(CLCD_DATA_PORT, CLCD_DATA_START_PIN, (Copy_u8Command >> 4));
+  GPIO_enumWrite4PinsVal(CLCD_DATA_PORT, CLCD_DATA_START_PIN, (Copy_u8Command >> 4));
   CLCD_vSendFallingEdge();
-  GPIO_enumWrite4BitsVal(CLCD_DATA_PORT, CLCD_DATA_START_PIN, Copy_u8Command);
+  GPIO_enumWrite4PinsVal(CLCD_DATA_PORT, CLCD_DATA_START_PIN, Copy_u8Command);
   CLCD_vSendFallingEdge();
 
 #else
